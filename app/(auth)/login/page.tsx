@@ -1,0 +1,83 @@
+"use client";
+import { useState, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
+import Button from "../../../component/Button/page";
+
+const page = () => {
+  const router = useRouter();
+
+  type loginType = {
+    email: string;
+    password: string;
+  };
+
+  const initloginData: loginType = {
+    email: "",
+    password: "",
+  };
+
+  const [loginData, setLoginData] = useState(initloginData);
+
+  const handleLogin = () => {
+    console.log(loginData);
+    // for now we use it to go to guide dashboard side
+    router.push("/dashboard");
+  };
+
+  const handleInputDataChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  return (
+    <>
+      <div className=" flex justify-center items-center p-8">
+        <div className="comp-bg rounded-2xl max-w-xl p-8 ">
+          <h3 className="text-center">Welcome back</h3>
+
+          <div className="my-4">
+            <label className="">Email</label>
+            <input
+              className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
+              placeholder=" youremail@gmail.com"
+              name="email"
+              onChange={handleInputDataChange}
+              value={loginData.email}
+              type="email"
+              required
+            />
+
+            <label className="">Password</label>
+            <input
+              className="border rounded-xl w-full px-4 py-2  mt-2 mb-8"
+              placeholder="Enter Your Password"
+              name="password"
+              onChange={handleInputDataChange}
+              value={loginData.password}
+              type="password"
+              required
+            />
+
+            <Button onClick={handleLogin} size="full">
+              Log in
+            </Button>
+          </div>
+
+          <p>
+            Don't have an account?{" "}
+            <span
+              className="text-blue-700 cursor-pointer "
+              onClick={() => router.push("/signup")}
+            >
+              Sign up
+            </span>
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default page;
