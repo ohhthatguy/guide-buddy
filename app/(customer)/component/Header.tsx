@@ -15,6 +15,20 @@ import ThemeToggle from "@/component/ThemeToggle/ThemeToggle";
 const Header = () => {
   const router = useRouter();
 
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/user/logout", {
+        method: "GET",
+      });
+      console.log(res);
+      const data = await res.json();
+      console.log("Succesfuly logout: ", data);
+      window.location.href = "/login";
+    } catch (error) {
+      console.log("Error while logging out: ", error);
+    }
+  };
+
   return (
     <div className="w-full flex justify-between px-12 py-4 items-center comp-bg">
       <div
@@ -29,7 +43,10 @@ const Header = () => {
         <ThemeToggle />
         <Settings className="h-12 w-12 p-2 rounded-full ele-bg" />
         <UserRound className="h-12 w-12 p-2 rounded-full ele-bg" />
-        <LogOut className="h-12 w-12 p-2 rounded-full ele-bg" />
+        <LogOut
+          onClick={handleLogout}
+          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+        />
       </div>
     </div>
   );

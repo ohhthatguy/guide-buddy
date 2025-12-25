@@ -26,6 +26,14 @@ const MapMarker = ({
       profile: "https://randomuser.me/api/portraits/men/32.jpg",
       position: [lat + 0.1, lon + 0.1],
     },
+
+    // {
+    //   id: 4,
+    //   name: "First Name",
+    //   profile: "https://randomuser.me/api/portraits/men/32.jpg",
+    //   position: [lat + 0.0001, lon + 0.0001],
+    // },
+
     {
       id: 2,
       name: "Second Name",

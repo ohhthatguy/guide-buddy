@@ -3,28 +3,33 @@
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 // import Button from "../../component/Button/page";
+import type { AccountType } from "../type/type";
 import Button from "../../../component/Button/page";
 const page = () => {
   const router = useRouter();
 
-  type signupType = {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    role: "guide" | "customer";
-  };
-
-  const initSignupData: signupType = {
+  const initSignupData: AccountType = {
     email: "",
     password: "",
     name: "",
     confirmPassword: "",
     role: "customer",
+    isFirstTime: true,
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     console.log(signupData);
+
+    try {
+      const res = await fetch("/api/user/signup", {
+        method: "POST",
+        body: JSON.stringify(signupData),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log("error at signup: ", error);
+    }
   };
 
   const handleInputDataChange = (

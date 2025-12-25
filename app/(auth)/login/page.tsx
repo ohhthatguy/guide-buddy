@@ -18,10 +18,33 @@ const page = () => {
 
   const [loginData, setLoginData] = useState(initloginData);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     console.log(loginData);
-    // for now we use it to go to guide dashboard side
-    router.push("/dashboard");
+    try {
+      const res = await fetch("/api/user/login", {
+        method: "POST",
+        body: JSON.stringify(loginData),
+      });
+
+      console.log(res);
+
+      const data = await res.json();
+
+      console.log("data at login frontend: ", data);
+
+      if (data.role == "customer") {
+        router.push("/home");
+      } else if (data.role == "guide") {
+        if (data.isFirstTime) {
+          router.push("/dashboard"); //for now
+          // the extra thigns to choose on guide if first time
+        } else {
+          router.push("/dashboard"); //with the id
+        }
+      }
+    } catch (error) {
+      console.log("Error in loggin at frontend: ", error);
+    }
   };
 
   const handleInputDataChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +86,12 @@ const page = () => {
             <Button onClick={handleLogin} size="full">
               Log in
             </Button>
+
+            <div className="mt-4">
+              <Button onClick={() => router.push("/dashboard")} size="full">
+                GUIDE DASHBOARD
+              </Button>
+            </div>
           </div>
 
           <p>
