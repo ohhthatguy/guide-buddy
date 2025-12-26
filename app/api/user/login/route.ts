@@ -40,7 +40,8 @@ export async function POST(req: NextRequest) {
     const tokenData = {
       id: newAccount._id,
       email: newAccount.email,
-      //   isFirstTime: newAccount.isFirstTime,
+      name: newAccount.name,
+      // isFirstTime: newAccount.isFirstTime,
       role: newAccount.role,
     };
     const token = await jwt.sign(tokenData, process.env.JWT_SECRET!, {
@@ -52,6 +53,7 @@ export async function POST(req: NextRequest) {
         message: "Login successful!",
         isFirstTime: newAccount.isFirstTime,
         role: newAccount.role,
+        id: newAccount._id,
       },
       { status: 200 }
     );

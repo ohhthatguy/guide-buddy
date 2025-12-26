@@ -33,13 +33,13 @@ const page = () => {
       console.log("data at login frontend: ", data);
 
       if (data.role == "customer") {
-        router.push("/home");
+        router.push(`/home?id=${data.id}`);
       } else if (data.role == "guide") {
         if (data.isFirstTime) {
-          router.push("/dashboard"); //for now
+          router.push(`/first-time`); //for now
           // the extra thigns to choose on guide if first time
         } else {
-          router.push("/dashboard"); //with the id
+          router.push(`/dashboard?id=${data.id}`); //with the id
         }
       }
     } catch (error) {

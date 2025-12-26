@@ -5,9 +5,10 @@ import UpcomingTours from "./upcoming-tours";
 import RecentActivityComp from "./recent-activity";
 
 import type { Guide } from "./type/type";
+import { useEffect, useState } from "react";
 
 const page = () => {
-  const guideData: Guide = {
+  const demoGuideData: Guide = {
     id: "guide-1",
     name: "Sarah Martinez",
     avatar:
@@ -18,12 +19,56 @@ const page = () => {
     memberSince: "2022",
     specialties: ["Cultural Tours", "Food & Wine", "Photography"],
     languages: ["English", "Spanish", "French"],
-    isOnline: true,
+    isOnline: false,
   };
 
-  const handleGuideVisibility = () => {
-    //change the visibility to !guideData.isOnline
+  const [guideData, setGuideData] = useState(demoGuideData);
+
+  const handleGuideVisibility = async (currentStatus: boolean) => {
+    try {
+      const res = await fetch("/api/guide/dashboard", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isOnline: currentStatus }),
+      });
+      if (!res.ok) {
+        throw new Error("Patch response didnt came");
+      }
+      const data = await res.json();
+
+      console.log(data);
+
+      setGuideData((prev) => ({
+        ...prev,
+        isOnline: data.data.available,
+      }));
+
+      console.log("Succesfully changed visibility");
+    } catch (error) {
+      console.log("Error in handleGuideVisibility frontned: ", error);
+    }
   };
+
+  useEffect(() => {
+    const initialDataFetch = async () => {
+      try {
+        const res = await fetch("/api/guide/dashboard");
+        const data = await res.json();
+
+        console.log(data);
+
+        setGuideData((prev) => ({
+          ...prev,
+          isOnline: data.data.GuideData.available,
+          name: data.data.name,
+        }));
+      } catch (error) {
+        console.log("Error in dashboard guide frontned: ", error);
+      }
+    };
+
+    initialDataFetch();
+  }, []);
 
   return (
     <div className="mx-8">
@@ -35,7 +80,7 @@ const page = () => {
 
         <div>
           <button
-            onClick={handleGuideVisibility}
+            onClick={() => handleGuideVisibility(guideData.isOnline)}
             className={` flex items-center justify-between ${
               guideData.isOnline
                 ? "text-white bg-green-700"
