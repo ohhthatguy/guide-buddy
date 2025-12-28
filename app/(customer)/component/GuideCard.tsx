@@ -2,10 +2,17 @@
 
 import Button from "@/component/Button/page";
 import { Star, MapPin, ClipboardList } from "lucide-react";
-
+import type {
+  PopulatedGuideNameFromDB,
+  MongoId,
+} from "@/app/(guide)/guide-profile/type/type";
 import { useRouter } from "next/navigation";
 
-const GuideCard = () => {
+const GuideCard = ({
+  activeGuides,
+}: {
+  activeGuides: PopulatedGuideNameFromDB[];
+}) => {
   type guideCardType = {
     name: string;
     image: string;
@@ -15,7 +22,7 @@ const GuideCard = () => {
     review: number;
     talksAbout: string;
     available: boolean;
-    id: string;
+    id: string | MongoId;
   };
 
   const dummyguide: guideCardType[] = [
@@ -81,10 +88,34 @@ const GuideCard = () => {
     },
   ];
 
+  console.log(activeGuides);
+
+  const guidesForCards: guideCardType[] = activeGuides?.map(
+    (guide: PopulatedGuideNameFromDB) => ({
+      id: guide._id,
+      name: guide.guideId.name,
+      image:
+        guide.profileURL ||
+        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      rating: guide.rating,
+      rate: guide.hourlyRate,
+      available: guide.available,
+      // Join the speciality array into a single string for 'talksAbout'
+      talksAbout: guide.speciality.join(", "),
+      // Placeholder values for data not in your snippet
+      distance: 0, // This usually requires a calculation function
+      review: 0, // You might need a count() query for this later
+    })
+  );
+
+  console.log(guidesForCards);
+
+  const realGuides: guideCardType[] = [...dummyguide, ...guidesForCards];
+
   const router = useRouter();
   return (
     <div className="grid grid-cols-3 gap-8">
-      {dummyguide?.map((e, index) => (
+      {realGuides?.map((e, index) => (
         <div
           className="h-fit rounded-2xl p-4 comp-bg hover:cursor-pointer hover:scale-105 scale-100 duration-300 transition-all "
           key={index}

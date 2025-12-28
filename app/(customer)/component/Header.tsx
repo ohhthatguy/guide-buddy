@@ -15,6 +15,19 @@ import ThemeToggle from "@/component/ThemeToggle/ThemeToggle";
 const Header = () => {
   const router = useRouter();
 
+  const handleLogoClick = async () => {
+    try {
+      const res = await fetch("/api/redirect");
+      const data = await res.json();
+
+      console.log(data);
+
+      router.push(data.data);
+    } catch (error) {
+      console.log("Error in clicking logo route (frontend): ", error);
+    }
+  };
+
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/user/logout", {
@@ -32,7 +45,7 @@ const Header = () => {
   return (
     <div className="w-full flex justify-between px-12 py-4 items-center comp-bg">
       <div
-        onClick={() => router.push("/")}
+        onClick={handleLogoClick}
         className="flex justify-center items-center gap-4"
       >
         <MapIcon className="h-8 w-8" />

@@ -40,7 +40,7 @@ export default function leafletMap() {
       className="map"
       center={position}
       zoom={10}
-      scrollWheelZoom={false} //true
+      scrollWheelZoom={true} //true
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

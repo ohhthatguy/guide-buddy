@@ -6,4 +6,6 @@ const LeafletMap = dynamic(() => import("./Map"), {
   ssr: false,
 });
 
-export default LeafletMap;
+export default function MapWrapper(props: any) {
+  return <LeafletMap {...props} />;
+}

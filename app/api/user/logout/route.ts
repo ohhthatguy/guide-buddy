@@ -7,7 +7,7 @@ await connectDB();
 
 export async function GET() {
   try {
-    const isOnline = false;
+    const isOnline = true; //set this to false. I have set it to true for testing!!!
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
