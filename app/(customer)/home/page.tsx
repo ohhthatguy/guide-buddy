@@ -4,10 +4,7 @@ import SearchBox from "../component/SearchBox";
 import Map from "@/component/Map/MapWrapper";
 import GuideCard from "../component/GuideCard";
 import { useState, useEffect } from "react";
-import {
-  PopulatedGuideNameFromDB,
-  GuideType,
-} from "@/app/(guide)/guide-profile/type/type";
+import { PopulatedGuideNameFromDB } from "@/app/(guide)/guide-profile/type/type";
 
 const page = () => {
   type viewtype = "list" | "map";
@@ -43,7 +40,7 @@ const page = () => {
       {selectedView == "list" ? (
         <GuideCard activeGuides={activeGuides} />
       ) : (
-        <Map />
+        <Map activeGuides={activeGuides} />
       )}
     </div>
   );

@@ -1,7 +1,9 @@
-import mongoose, { Model, Schema, Document } from "mongoose";
+import mongoose, { Model, Schema, Document, Types } from "mongoose";
 import { GuideType } from "@/app/(guide)/guide-profile/type/type";
 
-export interface IGuide extends Document, GuideType {}
+export interface IGuide extends Document, GuideType {
+  guideId: Types.ObjectId | any;
+}
 
 const GuideSchema: Schema = new Schema({
   guideId: {

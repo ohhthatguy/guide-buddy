@@ -1,10 +1,102 @@
 "use client";
-
+import { useState } from "react";
 import { Shield } from "lucide-react";
 import Button from "../../../../component/Button/page";
 import { useTheme } from "next-themes";
-const PaymentSection = ({ rate }: { rate: number }) => {
+import type { TourDataType } from "../type/type";
+import { useSearchParams } from "next/navigation";
+
+const PaymentSection = ({
+  guideName,
+  guideId,
+  rate,
+}: {
+  guideName: string;
+  guideId: string;
+  rate: number;
+}) => {
   const { theme } = useTheme();
+  const searchParams = useSearchParams();
+
+  const initPaymentSectionData: TourDataType = {
+    id: "",
+    date: searchParams ? (searchParams.get("date") as string) : "",
+    duration: searchParams ? (searchParams.get("duration") as string) : "",
+    location: searchParams ? (searchParams.get("location") as string) : "",
+    time: {
+      startTime: searchParams ? (searchParams.get("startTime") as string) : "",
+      endTime: searchParams ? (searchParams.get("endTime") as string) : "",
+    },
+    price: 0,
+    status: "PENDING",
+    guide: { id: guideId, name: guideName },
+    client: { id: "", name: "" },
+  };
+  const [paymentSectionData, setPaymentSectionData] = useState<TourDataType>(
+    initPaymentSectionData
+  );
+
+  const handleInputDataChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    console.log(e);
+    setPaymentSectionData((prev) => ({
+      ...prev,
+      [e.target.name]:
+        e.target.name === "time"
+          ? { startTime: e.target.value, endTime: "" }
+          : e.target.value,
+    }));
+  };
+
+  const handlePaymentSection = async () => {
+    const durationNum = Number(paymentSectionData.duration);
+
+    const totalPrice = durationNum * rate;
+
+    const [hours, minutes] = paymentSectionData.time.startTime
+      .split(":")
+      .map(Number);
+    const endHour = (hours + durationNum) % 24;
+
+    const formattedEndTime = `${String(endHour).padStart(2, "0")}:${String(
+      minutes - 1
+    ).padStart(2, "0")}`;
+
+    const finalData: TourDataType = {
+      ...paymentSectionData,
+      price: totalPrice,
+      time: {
+        ...paymentSectionData.time,
+        endTime: formattedEndTime,
+      },
+    };
+
+    console.log("Final Booking Data, POST:", finalData);
+
+    const tourId = searchParams.get("tourId");
+
+    try {
+      const res = await fetch("/api/user/activity/bookGuide", {
+        method: tourId ? "PUT" : "POST",
+        body: tourId
+          ? JSON.stringify({
+              finalData: finalData,
+              ...(tourId && { tourId }),
+            })
+          : JSON.stringify(finalData),
+      });
+
+      const data = await res.json();
+      console.log("data after succesful bbooking: ", data);
+    } catch (error) {
+      console.log("Error in booking tour frontend: ", error);
+    }
+  };
+
+  console.log(paymentSectionData);
   return (
     <div>
       <div className=" p-8 comp-bg rounded-2xl sticky top-8">
@@ -31,8 +123,8 @@ const PaymentSection = ({ rate }: { rate: number }) => {
             className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
             name="date"
             type="date"
-            // onChange={handleInputDataChange}
-            // value={signupData.name}
+            onChange={handleInputDataChange}
+            value={paymentSectionData.date}
             required
           />
 
@@ -40,10 +132,23 @@ const PaymentSection = ({ rate }: { rate: number }) => {
             <label className="">Time</label>
             <input
               className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
-              name="email"
+              name="time"
               type="time"
-              // onChange={handleInputDataChange}
-              // value={signupData.email}
+              onChange={handleInputDataChange}
+              value={paymentSectionData.time.startTime}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="">Location</label>
+            <textarea
+              className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
+              name="location"
+              rows={5}
+              placeholder="Describe the Area where you want to visit..."
+              onChange={handleInputDataChange}
+              value={paymentSectionData.location}
               required
             />
           </div>
@@ -53,8 +158,8 @@ const PaymentSection = ({ rate }: { rate: number }) => {
 
           <select
             name="duration"
-            // onChange={handleInputDataChange}
-            // value={signupData.role}
+            onChange={handleInputDataChange}
+            value={paymentSectionData.duration}
             className="border rounded-xl w-full p-4 mt-2 mb-8"
           >
             <option value="1">1 Hour</option>
@@ -68,7 +173,9 @@ const PaymentSection = ({ rate }: { rate: number }) => {
             <option value="24">full Day</option>
           </select>
 
-          <Button size="full">Book Now</Button>
+          <Button size="full" onClick={handlePaymentSection}>
+            {searchParams ? "Update" : "Book Now"}
+          </Button>
         </div>
 
         <hr className="my-6" />

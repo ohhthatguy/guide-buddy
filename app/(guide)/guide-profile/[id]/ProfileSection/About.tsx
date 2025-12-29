@@ -1,6 +1,5 @@
 "use client";
 import { useTheme } from "next-themes";
-import React from "react";
 
 const About = ({ aboutData }: { aboutData: any }) => {
   const { theme } = useTheme();

@@ -15,7 +15,7 @@ const GuideCard = ({
 }) => {
   type guideCardType = {
     name: string;
-    image: string;
+    profileURL: string;
     rating: number;
     distance: number;
     rate: number;
@@ -28,7 +28,7 @@ const GuideCard = ({
   const dummyguide: guideCardType[] = [
     {
       name: "Aarav Sharma",
-      image:
+      profileURL:
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 4.8,
       distance: 2.3,
@@ -40,7 +40,7 @@ const GuideCard = ({
     },
     {
       name: "Ritika Mehta",
-      image:
+      profileURL:
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 4.5,
       distance: 5.1,
@@ -52,7 +52,7 @@ const GuideCard = ({
     },
     {
       name: "Sanjay Karki",
-      image:
+      profileURL:
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 4.9,
       distance: 1.2,
@@ -64,7 +64,7 @@ const GuideCard = ({
     },
     {
       name: "Priya Singh",
-      image:
+      profileURL:
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 4.3,
       distance: 7.8,
@@ -76,7 +76,7 @@ const GuideCard = ({
     },
     {
       name: "Nabin Thapa",
-      image:
+      profileURL:
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 4.7,
       distance: 3.6,
@@ -94,7 +94,7 @@ const GuideCard = ({
     (guide: PopulatedGuideNameFromDB) => ({
       id: guide._id,
       name: guide.guideId.name,
-      image:
+      profileURL:
         guide.profileURL ||
         "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: guide.rating,
@@ -122,7 +122,7 @@ const GuideCard = ({
         >
           <div className="h-52 relative">
             <img
-              src={e.image}
+              src={e.profileURL}
               className="w-full h-full object-cover object-center"
             />
             <span className="absolute text-white top-2 right-2 rounded-2xl bg-green-700 px-2">

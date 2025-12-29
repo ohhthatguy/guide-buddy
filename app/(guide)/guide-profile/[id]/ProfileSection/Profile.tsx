@@ -9,7 +9,7 @@ const Profile = ({ profileData }: { profileData: any }) => {
     <div className="flex justify-center  h-52 comp-bg p-2 rounded-2xl ">
       <div className=" flex justify-center items-center  flex-1">
         <img
-          src={profileData.avatar}
+          src={profileData.profileURL}
           className="object-cover object-top rounded-full h-48 w-48"
         />
       </div>
@@ -57,7 +57,7 @@ const Profile = ({ profileData }: { profileData: any }) => {
                   : "text-gray-800 font-semibold"
               }`}
             >
-              {profileData.specialty}
+              {profileData.speciality}
             </span>
           </p>
         </div>

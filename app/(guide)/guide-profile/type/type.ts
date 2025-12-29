@@ -3,9 +3,9 @@ export type GuideType = {
   name: string;
   rating: number;
   reviews: number;
-  specialty: string;
+  speciality: string;
   hourlyRate: number;
-  avatar: string;
+  profileURL: string;
   available: boolean;
   distance: string;
   bio: string; //
@@ -66,4 +66,17 @@ export type ReviewType = {
   rating: number;
   comment: string;
   date: string;
+};
+
+//upcoming tour
+export type TourDataType = {
+  id: MongoId | string;
+  guide: { id: string | MongoId; name: string };
+  client: { id: string | MongoId; name: string };
+  date: string;
+  time: { startTime: string; endTime: string };
+  duration: string;
+  price: number | 0;
+  location: string;
+  status: "PENDING" | "REJECTED" | "ACCEPTED";
 };

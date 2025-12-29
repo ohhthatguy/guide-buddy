@@ -1,4 +1,4 @@
-import type { GuideType, PopulatedGuideNameFromDB } from "../type/type";
+import type { GuideType } from "../type/type";
 import GuideModel from "@/lib/database/Model/Guide";
 import connectDB from "@/lib/database/database";
 import { notFound } from "next/navigation";
@@ -107,16 +107,16 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     return notFound();
   }
 
-  // const rawGuide:PopulatedGuideNameFromDB = rawGuidedata
-
   const selectedData: GuideType = {
     id: rawGuide._id.toString(),
     name: rawGuide.guideId?.name || "Unknown Guide",
     rating: rawGuide.rating || 0,
     reviews: rawGuide.reviews || 0, // Ensure this exists in your DB or default to 0
-    specialty: rawGuide.speciality?.[0] || "General Guide", // Extracts first item from array
+    speciality: rawGuide.speciality?.[0] || "General Guide", // Extracts first item from array
     hourlyRate: rawGuide.hourlyRate,
-    avatar: rawGuide.profileURL || "https://via.placeholder.com/150",
+    profileURL:
+      rawGuide.profileURL ||
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
     available: rawGuide.available,
     distance: "Calculating...", // This is usually dynamic based on user location
     bio: rawGuide.bio || "",
@@ -132,7 +132,11 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <div className="grid grid-cols-[2fr_1fr] mx-8 gap-8">
       <ProfileSection data={selectedData} id={id} />
-      <PaymentSection rate={selectedData.hourlyRate ?? 10} />
+      <PaymentSection
+        guideName={selectedData.name}
+        guideId={id}
+        rate={selectedData.hourlyRate ?? 10}
+      />
     </div>
   );
 };
