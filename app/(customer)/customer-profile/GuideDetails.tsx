@@ -1,20 +1,38 @@
 "use client";
 import { useRouter } from "next/navigation";
-import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
-
-export const GuideDetails = ({ tour }: { tour: TourDataType }) => {
+import type { MongoId } from "@/app/(guide)/guide-profile/type/type";
+export const GuideDetails = ({
+  guideid,
+  tourid,
+  date,
+  startTime,
+  endTime,
+  location,
+  duration,
+  guideName,
+}: {
+  guideid: string | MongoId;
+  tourid: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  duration: string;
+  guideName: string;
+}) => {
   const router = useRouter();
 
   return (
     <div
       onClick={() =>
         router.push(
-          `/guide-profile/${tour.guide.id}?tourId=${tour._id}&date=${tour.date}&startTime=${tour.time.startTime}&endTime=${tour.time.endTime}&location=${tour.location}&duration=${tour.duration}`
+          `/guide-profile/${guideid}?tourId=${tourid}&date=${date}
+          &startTime=${startTime}&endTime=${endTime}&location=${location}&duration=${duration}`
         )
       }
       className="hover:cursor-pointer"
     >
-      Guide: {tour.guide.name}
+      Guide: {guideName}
     </div>
   );
 };

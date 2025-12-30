@@ -65,11 +65,12 @@ const PaymentSection = ({
       minutes - 1
     ).padStart(2, "0")}`;
 
-    const finalData: TourDataType = {
-      ...paymentSectionData,
+    const { id, ...rest } = paymentSectionData;
+    const finalData: Omit<TourDataType, "id"> = {
+      ...rest,
       price: totalPrice,
       time: {
-        ...paymentSectionData.time,
+        ...rest.time,
         endTime: formattedEndTime,
       },
     };
@@ -97,6 +98,7 @@ const PaymentSection = ({
   };
 
   console.log(paymentSectionData);
+
   return (
     <div>
       <div className=" p-8 comp-bg rounded-2xl sticky top-8">
@@ -124,7 +126,7 @@ const PaymentSection = ({
             name="date"
             type="date"
             onChange={handleInputDataChange}
-            value={paymentSectionData.date}
+            value={paymentSectionData.date ?? ""}
             required
           />
 
@@ -135,7 +137,7 @@ const PaymentSection = ({
               name="time"
               type="time"
               onChange={handleInputDataChange}
-              value={paymentSectionData.time.startTime}
+              value={paymentSectionData.time.startTime ?? ""}
               required
             />
           </div>
@@ -148,7 +150,7 @@ const PaymentSection = ({
               rows={5}
               placeholder="Describe the Area where you want to visit..."
               onChange={handleInputDataChange}
-              value={paymentSectionData.location}
+              value={paymentSectionData.location ?? ""}
               required
             />
           </div>
@@ -159,7 +161,7 @@ const PaymentSection = ({
           <select
             name="duration"
             onChange={handleInputDataChange}
-            value={paymentSectionData.duration}
+            value={paymentSectionData.duration ?? `1`}
             className="border rounded-xl w-full p-4 mt-2 mb-8"
           >
             <option value="1">1 Hour</option>
@@ -174,7 +176,7 @@ const PaymentSection = ({
           </select>
 
           <Button size="full" onClick={handlePaymentSection}>
-            {searchParams ? "Update" : "Book Now"}
+            {searchParams.size ? "Update" : "Book Now"}
           </Button>
         </div>
 

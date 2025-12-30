@@ -19,7 +19,7 @@ export default async function TourPage() {
     const { id, name, role } = tokenData;
 
     // Explicitly select only what you need for safety
-    const tour = await TourModel.findOne({ "client.id": id }).lean();
+    const tour = await TourModel.find({ "client.id": id }).lean();
 
     if (!tour) {
       notFound(); // This triggers your not-found.tsx file
@@ -29,7 +29,7 @@ export default async function TourPage() {
     console.log(serializedTour);
     return (
       <main className="p-8">
-        <Profile tour={serializedTour} />
+        <Profile tour={serializedTour[0]} />
         <Tours tour={serializedTour} />
       </main>
     );

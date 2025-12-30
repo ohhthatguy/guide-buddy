@@ -1,8 +1,9 @@
 import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import { GuideDetails } from "./GuideDetails";
+import BookingStatus from "./BookingStatus";
 
-const Tours = ({ tour }: { tour: TourDataType }) => {
+const Tours = ({ tour }: { tour: TourDataType[] }) => {
   const upcomingTours: TourDataType[] = [
     {
       id: "asdasd1",
@@ -18,7 +19,15 @@ const Tours = ({ tour }: { tour: TourDataType }) => {
     },
   ];
   console.log(tour);
-  const tourData: TourDataType[] = [...upcomingTours, tour];
+  // const tourData: TourDataType[] = [...upcomingTours, tour];
+
+  // const handleBookingStatusChange = (
+  //   ele: ChangeEvent<HTMLSelectElement>,
+  //   e: TourDataType
+  // ) => {
+  //   console.log("Changed Staus TO: ", ele.target.value);
+  //   console.log("OF tour DATA: ", e);
+  // };
 
   return (
     <div className=" p-4 comp-bg rounded-2xl">
@@ -27,8 +36,8 @@ const Tours = ({ tour }: { tour: TourDataType }) => {
         <p>Your scheduled tours for the next few days: </p>
       </div>
 
-      {tourData?.length > 0 ? (
-        tourData.map((e: TourDataType, index: number) => (
+      {tour?.length > 0 ? (
+        tour.map((e: TourDataType, index: number) => (
           <div
             key={index}
             className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg"
@@ -47,7 +56,16 @@ const Tours = ({ tour }: { tour: TourDataType }) => {
                 <div>
                   <div>
                     <div>{e.client.name}</div>
-                    <GuideDetails tour={tour} />
+                    <GuideDetails
+                      guideid={e.guide.id}
+                      tourid={e._id}
+                      date={e.date}
+                      startTime={e.time.startTime}
+                      endTime={e.time.endTime}
+                      location={e.location}
+                      duration={e.duration}
+                      guideName={e.guide.name}
+                    />
                   </div>
                   <div className="flex gap-4">
                     <div className="flex gap-1 items-center">
@@ -70,17 +88,7 @@ const Tours = ({ tour }: { tour: TourDataType }) => {
                   </div>
                 </div>
 
-                <div
-                  className={`rounded-md px-2 ${
-                    e.status == "ACCEPTED"
-                      ? "bg-green-700"
-                      : e.status == "PENDING"
-                      ? "bg-amber-400"
-                      : "bg-red-500"
-                  }`}
-                >
-                  {e.status}
-                </div>
+                <BookingStatus e={e} />
               </div>
             </div>
           </div>

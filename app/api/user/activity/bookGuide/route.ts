@@ -70,17 +70,20 @@ export async function PUT(req: NextRequest) {
       );
 
     const finalDataForDb = {
-      ...reqBody,
+      ...reqBody.finalData,
       client: {
         id: verifiedDataFromToken.id,
         name: verifiedDataFromToken.name,
       },
     };
+
+    console.log("GUIDE BOOKING PUT: ");
+    console.log(reqBody);
     console.log(finalDataForDb);
 
     const result = await TourModel.findOneAndUpdate(
-      { _id: finalDataForDb.tourId }, // The "Filter" (What to look for)
-      { $set: finalDataForDb.finalData } // The "Update" (What to change)
+      { _id: reqBody.tourId }, // The "Filter" (What to look for)
+      { $set: finalDataForDb } // The "Update" (What to change)
     );
 
     return NextResponse.json(
