@@ -1,3 +1,4 @@
+"use client";
 import type { StatCard } from "./type/type";
 import { DollarSign, Users, Star, TrendingUp } from "lucide-react";
 import { useTheme } from "next-themes";

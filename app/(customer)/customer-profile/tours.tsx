@@ -1,7 +1,7 @@
 import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import { GuideDetails } from "./GuideDetails";
-import BookingStatus from "./BookingStatus";
+// import BookingStatus from "./BookingStatus";
 
 const Tours = ({ tour }: { tour: TourDataType[] }) => {
   const upcomingTours: TourDataType[] = [
@@ -88,7 +88,18 @@ const Tours = ({ tour }: { tour: TourDataType[] }) => {
                   </div>
                 </div>
 
-                <BookingStatus e={e} />
+                {/* <BookingStatus e={e} />  */}
+                <div
+                  className={`border rounded-xl text-sm p-1 ${
+                    e.status == "ACCEPTED"
+                      ? "bg-green-500"
+                      : e.status == "PENDING"
+                      ? "bg-amber-400"
+                      : "bg-red-500"
+                  }`}
+                >
+                  {e.status}
+                </div>
               </div>
             </div>
           </div>

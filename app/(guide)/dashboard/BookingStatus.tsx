@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 import { ChangeEvent } from "react";
 
@@ -25,7 +25,7 @@ const BookingStatus = ({ e }: { e: TourDataType }) => {
     //db
 
     try {
-      const res = await fetch("/api/user/activity/updateBookingStatus", {
+      const res = await fetch("/api/guide/activity/updateBookingStatus", {
         method: "PUT",
         body: JSON.stringify(statusUpdatedData),
       });
