@@ -54,6 +54,17 @@ const tourSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    meetup_location: {
+      type: {
+        type: String,
+        enum: ["Point"], // 'location.type' must be 'Point'
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], // [Longitude, Latitude]
+        required: true,
+      },
+    },
     status: {
       type: String,
       enum: ["PENDING", "REJECTED", "ACCEPTED"],

@@ -79,4 +79,8 @@ export type TourDataType = {
   price: number | 0;
   location: string;
   status: "PENDING" | "REJECTED" | "ACCEPTED";
+  meetup_location: {
+    type: "Point";
+    coordinates: [number, number]; // [Longitude, Latitude]
+  };
 };

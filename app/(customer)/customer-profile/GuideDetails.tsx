@@ -10,6 +10,7 @@ export const GuideDetails = ({
   location,
   duration,
   guideName,
+  meetup,
 }: {
   guideid: string | MongoId;
   tourid: string;
@@ -19,6 +20,7 @@ export const GuideDetails = ({
   location: string;
   duration: string;
   guideName: string;
+  meetup: [number, number];
 }) => {
   const router = useRouter();
 
@@ -27,7 +29,7 @@ export const GuideDetails = ({
       onClick={() =>
         router.push(
           `/guide-profile/${guideid}?tourId=${tourid}&date=${date}
-          &startTime=${startTime}&endTime=${endTime}&location=${location}&duration=${duration}`
+          &startTime=${startTime}&endTime=${endTime}&location=${location}&duration=${duration}&meetup=${meetup}`
         )
       }
       className="hover:cursor-pointer"

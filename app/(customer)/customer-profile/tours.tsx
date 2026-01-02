@@ -4,20 +4,20 @@ import { GuideDetails } from "./GuideDetails";
 // import BookingStatus from "./BookingStatus";
 
 const Tours = ({ tour }: { tour: TourDataType[] }) => {
-  const upcomingTours: TourDataType[] = [
-    {
-      id: "asdasd1",
-      guide: { id: "4g234g234gs", name: "Michael Chen guide" },
+  // const upcomingTours: TourDataType[] = [
+  //   {
+  //     id: "asdasd1",
+  //     guide: { id: "4g234g234gs", name: "Michael Chen guide" },
 
-      client: { id: "4g234g234g", name: "Michael Chen customer" },
-      date: "Today",
-      time: { startTime: "2:00", endTime: "4:00" },
-      duration: "3 hours",
-      location: "Downtown Districts s",
-      price: 120,
-      status: "PENDING",
-    },
-  ];
+  //     client: { id: "4g234g234g", name: "Michael Chen customer" },
+  //     date: "Today",
+  //     time: { startTime: "2:00", endTime: "4:00" },
+  //     duration: "3 hours",
+  //     location: "Downtown Districts s",
+  //     price: 120,
+  //     status: "PENDING",
+  //   },
+  // ];
   console.log(tour);
   // const tourData: TourDataType[] = [...upcomingTours, tour];
 
@@ -65,6 +65,7 @@ const Tours = ({ tour }: { tour: TourDataType[] }) => {
                       location={e.location}
                       duration={e.duration}
                       guideName={e.guide.name}
+                      meetup={e.meetup_location.coordinates}
                     />
                   </div>
                   <div className="flex gap-4">

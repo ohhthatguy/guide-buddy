@@ -5,6 +5,7 @@ import Button from "../../../../component/Button/page";
 import { useTheme } from "next-themes";
 import type { TourDataType } from "../type/type";
 import { useSearchParams } from "next/navigation";
+import SetPositionOnMap from "@/component/Map/setPositionOnMap/SetPositionOnMap";
 
 const PaymentSection = ({
   guideName,
@@ -18,6 +19,17 @@ const PaymentSection = ({
   const { theme } = useTheme();
   const searchParams = useSearchParams();
 
+  const handleParamMeetupLocation = () => {
+    const data = searchParams?.get("meetup") ?? "0,0";
+    console.log(data);
+    // if(!data) return
+    const meetupLocationData: { type: "Point"; coordinates: [number, number] } =
+      {
+        type: "Point" as const,
+        coordinates: data!.split(",").map(Number) as [number, number],
+      };
+    return meetupLocationData;
+  };
   const initPaymentSectionData: TourDataType = {
     id: "",
     date: searchParams ? (searchParams.get("date") as string) : "",
@@ -31,6 +43,7 @@ const PaymentSection = ({
     status: "PENDING",
     guide: { id: guideId, name: guideName },
     client: { id: "", name: "" },
+    meetup_location: handleParamMeetupLocation(),
   };
   const [paymentSectionData, setPaymentSectionData] = useState<TourDataType>(
     initPaymentSectionData
@@ -152,6 +165,16 @@ const PaymentSection = ({
               onChange={handleInputDataChange}
               value={paymentSectionData.location ?? ""}
               required
+            />
+          </div>
+
+          {/* choose the meeting point on map */}
+          <div>
+            <label className="">Meeting Point</label>
+            <br />
+            <SetPositionOnMap
+              paymentSectionData={paymentSectionData}
+              setPaymentSectionData={setPaymentSectionData}
             />
           </div>
 
