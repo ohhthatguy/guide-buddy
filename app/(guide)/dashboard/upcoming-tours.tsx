@@ -6,6 +6,7 @@ import connectDB from "@/lib/database/database";
 import { notFound } from "next/navigation";
 import { getTokenData } from "@/lib/helper/useGetDataFromToken";
 import BookingStatus from "./BookingStatus";
+import Link from "next/link";
 
 const UpcomingTours = async () => {
   try {
@@ -42,9 +43,10 @@ const UpcomingTours = async () => {
 
         {serializedTour?.length > 0 ? (
           serializedTour.map((e: TourDataType, index: number) => (
-            <div
+            <Link
+              href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&client=${e.client.name}&tourID=${e._id}&clientName=${e.client.name}`}
               key={index}
-              className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg"
+              className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500"
             >
               <div>
                 <Calendar size={44} className="p-2 rounded-md comp-bg" />
@@ -82,8 +84,8 @@ const UpcomingTours = async () => {
                     </div>
                   </div>
 
-                  <BookingStatus e={e} />
-                  {/* <div
+                  {/* <BookingStatus e={e} /> */}
+                  <div
                     className={`border rounded-xl text-sm p-1 ${
                       e.status == "ACCEPTED"
                         ? "bg-green-500"
@@ -93,10 +95,10 @@ const UpcomingTours = async () => {
                     }`}
                   >
                     {e.status}
-                  </div> */}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <div>Opps... there are no tours scheduled for you rn !!</div>
