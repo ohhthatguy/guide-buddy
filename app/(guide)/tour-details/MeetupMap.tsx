@@ -15,7 +15,7 @@ const MeetupMap = async ({
     // console.log(data);
 
     return (
-      <div className="comp-bg p-4 max-w-4xl min-w-xl mt-4">
+      <div className="comp-bg p-4 max-w-4xl min-w-xl ">
         <div className="flex gap-4 items-center">
           <h4>Meeting Point</h4>
         </div>

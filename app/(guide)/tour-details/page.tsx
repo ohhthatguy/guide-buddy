@@ -9,8 +9,16 @@ const page = async ({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const params = await searchParams;
-  const { location, price, meetup, tourID, status, startTime, duration } =
-    params;
+  const {
+    location,
+    price,
+    meetup,
+    tourID,
+    status,
+    startTime,
+    duration,
+    clientName,
+  } = params;
   // Convert meetup back to an array for your Map
   const dataCords = meetup ? (meetup as string).split(",").map(Number) : [0, 0];
   const meetupCordsFinal: [number, number] = [dataCords[1], dataCords[0]];
@@ -23,17 +31,18 @@ const page = async ({
     status,
     startTime,
     duration,
-    meetupCordsFinal
+    meetupCordsFinal,
+    clientName
   );
 
   return (
     <div className="m-8">
       <UpperPart params={params} />
-      <div className="">
+      <div className="grid grid-cols-[2fr_1fr] mt-4 gap-4">
         <MeetupMap meetupCords={meetupCordsFinal as [number, number]} />
         <NotePart />
       </div>
-      <ClientPart />
+      <ClientPart clientName={clientName} />
     </div>
   );
 };
