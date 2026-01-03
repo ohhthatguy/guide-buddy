@@ -113,7 +113,7 @@ const page = () => {
       const data = await res.json();
 
       console.log(data);
-      router.push(`/dashboard`);
+      router.push(`/dashboard?id=${data.AccountData.id}`);
     } catch (error) {
       console.log("Error at forntend in firstitme guide login: ", error);
     }
