@@ -195,6 +195,7 @@ const page = () => {
           </div> */}
 
           <div className="my-4">
+            {/* //profile  */}
             <div>
               <label className="">Profile upload</label>
               <input
@@ -256,6 +257,7 @@ const page = () => {
               />
             </div>
 
+            {/* lang  */}
             <div>
               <label className="">Language</label>
               <Select

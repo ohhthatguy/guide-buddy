@@ -86,6 +86,7 @@ const PaymentSection = ({
         ...rest.time,
         endTime: formattedEndTime,
       },
+      guideNote: "",
     };
 
     console.log("Final Booking Data, POST:", finalData);
@@ -98,6 +99,7 @@ const PaymentSection = ({
         body: tourId
           ? JSON.stringify({
               finalData: finalData,
+
               ...(tourId && { tourId }),
             })
           : JSON.stringify(finalData),

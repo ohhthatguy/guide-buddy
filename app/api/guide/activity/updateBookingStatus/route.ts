@@ -32,3 +32,37 @@ export async function PUT(req: NextRequest) {
     );
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const reqBody = await req.json();
+    console.log("Req body in patch booking sttaus: ", reqBody);
+
+    const updateQuery = await TourModel.findOneAndUpdate(
+      { _id: reqBody.tourID },
+      { $set: { status: reqBody.status } },
+      { new: true }
+    );
+
+    if (!updateQuery) {
+      return NextResponse.json(
+        {
+          msg: "Error in backend while patching booking status, data came out nothing: ",
+          updateQuery,
+        },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      { msg: "Successful while patching booking status: ", updateQuery },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log("ERROR IN patching the status booking: ", error);
+    return NextResponse.json(
+      { msg: "Error in backend while patching booking status: ", error },
+      { status: 500 }
+    );
+  }
+}

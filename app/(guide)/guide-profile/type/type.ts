@@ -83,4 +83,5 @@ export type TourDataType = {
     type: "Point";
     coordinates: [number, number]; // [Longitude, Latitude]
   };
+  guideNote?: string;
 };

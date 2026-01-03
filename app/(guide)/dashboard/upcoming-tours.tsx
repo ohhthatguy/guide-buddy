@@ -44,7 +44,7 @@ const UpcomingTours = async () => {
         {serializedTour?.length > 0 ? (
           serializedTour.map((e: TourDataType, index: number) => (
             <Link
-              href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&tourID=${e._id}&clientName=${e.client.name}`}
+              href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&tourID=${e._id}`}
               key={index}
               className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500"
             >

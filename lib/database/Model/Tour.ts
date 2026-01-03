@@ -54,6 +54,10 @@ const tourSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    guideNote: {
+      type: String,
+      default: "",
+    },
     meetup_location: {
       type: {
         type: String,

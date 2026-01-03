@@ -40,9 +40,9 @@ const page = async ({
       <UpperPart params={params} />
       <div className="grid grid-cols-[2fr_1fr] mt-4 gap-4">
         <MeetupMap meetupCords={meetupCordsFinal as [number, number]} />
-        <NotePart />
+        <NotePart tourID={tourID} />
       </div>
-      <ClientPart clientName={clientName} />
+      <ClientPart clientName={clientName as string} />
     </div>
   );
 };
