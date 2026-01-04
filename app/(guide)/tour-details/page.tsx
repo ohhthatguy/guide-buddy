@@ -18,6 +18,7 @@ const page = async ({
     startTime,
     duration,
     clientName,
+    clientId,
   } = params;
   // Convert meetup back to an array for your Map
   const dataCords = meetup ? (meetup as string).split(",").map(Number) : [0, 0];
@@ -42,7 +43,10 @@ const page = async ({
         <MeetupMap meetupCords={meetupCordsFinal as [number, number]} />
         <NotePart tourID={tourID} />
       </div>
-      <ClientPart clientName={clientName as string} />
+      <ClientPart
+        clientName={clientName as string}
+        clientId={clientId as string}
+      />
     </div>
   );
 };

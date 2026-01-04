@@ -14,6 +14,8 @@ const UpperPart = ({
   const [statusState, setStatusState] = useState(status);
 
   const handleStatus = async (value: string) => {
+    console.log(value);
+
     // const statusData = e.currentTarget.name;
     setIsLoading(true);
 
@@ -157,9 +159,13 @@ const UpperPart = ({
               name="status"
               onChange={(ele) => handleStatus(ele.target.value)}
               // onChange={((ele))}
-              value={statusState}
+              // value={statusState}
               className="cursor-pointer border p-1 rounded-md"
             >
+              <option value="" disabled selected hidden>
+                Change Status
+              </option>
+
               <option value="ACCEPTED">ACCEPTED</option>
 
               <option value="REJECTED">REJECTED</option>
