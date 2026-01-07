@@ -1,6 +1,7 @@
 import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 import { Calendar, Clock, MapPin } from "lucide-react";
 import { GuideDetails } from "./GuideDetails";
+import Link from "next/link";
 // import BookingStatus from "./BookingStatus";
 
 const Tours = ({ tour }: { tour: TourDataType[] }) => {
@@ -38,7 +39,8 @@ const Tours = ({ tour }: { tour: TourDataType[] }) => {
 
       {tour?.length > 0 ? (
         tour.map((e: TourDataType, index: number) => (
-          <div
+          <Link
+            href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`}
             key={index}
             className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg"
           >
@@ -103,7 +105,7 @@ const Tours = ({ tour }: { tour: TourDataType[] }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))
       ) : (
         <div>Opps... there are no tours scheduled for you rn !!</div>

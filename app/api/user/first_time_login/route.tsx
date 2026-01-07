@@ -24,17 +24,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
       process.env.JWT_SECRET!
     ) as { id: string };
 
-    console.log(reqBody);
+    console.log("ClientModel firstime: ", req);
     const newGuide = new ClientModel({
       ...reqBody,
       clientId: AccountData.id,
     });
+
     const savedGuide = await newGuide.save({ session });
     const updatedIsFirstTimeFlag = await AccountModel.findByIdAndUpdate(
       AccountData.id,
       { isFirstTime: false },
       { session }
     );
+
+    console.log("ClientModel savefd: ", savedGuide);
 
     await session.commitTransaction();
     return NextResponse.json(

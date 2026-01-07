@@ -1,13 +1,17 @@
+import mongoose from "mongoose";
 import { NextResponse, NextRequest } from "next/server";
 import connectDB from "@/lib/database/database";
 import TourModel from "@/lib/database/Model/Tour";
+import ClientModel from "@/lib/database/Model/Client";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
 await connectDB();
 
 export async function POST(req: NextRequest) {
+  const session = await mongoose.startSession();
   try {
+    session.startTransaction();
     const reqBody = await req.json();
 
     const cookieStore = await cookies();
@@ -23,18 +27,39 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
 
+    //get client_id
+    console.log("CLIENT ACC ID: ", verifiedDataFromToken.id);
+    const ress = await ClientModel.findOne(
+      { clientId: verifiedDataFromToken.id },
+      null,
+      { session }
+    );
+
+    console.log("From client model: ", ress);
+
+    if (!ress) {
+      await session.abortTransaction();
+      return NextResponse.json(
+        {
+          msg: "Client not found in tour model",
+          ress,
+        },
+        { status: 500 }
+      );
+    }
+
     const finalDataForDb = {
       ...reqBody,
       client: {
-        id: verifiedDataFromToken.id,
+        id: ress._id,
         name: verifiedDataFromToken.name,
       },
     };
     console.log(finalDataForDb);
 
     const newTour = new TourModel(finalDataForDb);
-    const saveNewTour = await newTour.save();
-
+    const saveNewTour = await newTour.save({ session });
+    await session.commitTransaction();
     return NextResponse.json(
       {
         msg: "Successfully saved data to db about tour booking",
@@ -45,10 +70,13 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.log("Error in booking guide (Backend): ", error);
+    await session.abortTransaction();
     return NextResponse.json(
       { msg: "Error in booking guide (Backend): ", error },
       { status: 500 }
     );
+  } finally {
+    session.endSession();
   }
 }
 

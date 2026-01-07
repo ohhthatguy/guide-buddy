@@ -20,7 +20,7 @@ const tourSchema: Schema = new Schema(
     client: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
-        //   ref: "Customer", this is not yet ready in db
+        ref: "Client",
         required: true,
       },
       name: {

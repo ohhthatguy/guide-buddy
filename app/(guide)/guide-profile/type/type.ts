@@ -14,6 +14,7 @@ export type GuideType = {
   toursCompleted: number;
   responseTime: string;
   certifications: string[];
+  phone: number;
 };
 
 export type MongoId = { $oid: string };
@@ -28,6 +29,7 @@ export type GuideTypeFromDB = {
   profileURL: string; // Maps to your previous 'avatar'
   bio: string;
   languages: string[];
+  phone: number;
 
   // Professional Data
   speciality: string[]; // Array as per your DB snippet

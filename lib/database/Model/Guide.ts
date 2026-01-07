@@ -38,6 +38,7 @@ const GuideSchema: Schema = new Schema({
   responseTime: { type: String, deault: "30 min" },
   certifications: { type: [String], default: ["no certifications yet"] },
   languages: { type: [String], default: ["no Languages yet"] },
+  phone: { type: Number, default: 0 },
 });
 
 const GuideModel: Model<IGuide> =

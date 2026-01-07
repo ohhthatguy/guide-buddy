@@ -2,7 +2,13 @@ import { NotepadText } from "lucide-react";
 import NotePartInput from "./NotePartInput";
 import TourModel from "@/lib/database/Model/Tour";
 
-const NotePart = async ({ tourID }: { tourID: string }) => {
+const NotePart = async ({
+  tourID,
+  role,
+}: {
+  tourID: string;
+  role: "guide" | "client";
+}) => {
   try {
     const updateQuery = await TourModel.findOne({ _id: tourID });
 
@@ -26,7 +32,7 @@ const NotePart = async ({ tourID }: { tourID: string }) => {
           {data}
         </div>
 
-        <NotePartInput tourID={tourID} />
+        {role == "guide" && <NotePartInput tourID={tourID} />}
 
         {/* <div className="">
         <textarea

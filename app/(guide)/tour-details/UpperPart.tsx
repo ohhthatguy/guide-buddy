@@ -4,8 +4,10 @@ import { useState } from "react";
 
 const UpperPart = ({
   params,
+  role,
 }: {
   params: { [key: string]: string | string[] | undefined };
+  role: "guide" | "client";
 }) => {
   const { location, price, meetup, tourID, status, startTime, duration, date } =
     params;
@@ -114,62 +116,66 @@ const UpperPart = ({
               {duration} Hrs
             </div>
           </div> */}
-          {isLoading ? (
-            <div className="flex items-center justify-center">
-              <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
-            </div>
+          {role == "guide" ? (
+            isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+              </div>
+            ) : (
+              // <div className="flex gap-4 mx-2">
+              //   <button
+              //     name="REJECTED"
+              //     onClick={handleStatus}
+              //     className={`${
+              //       "text-white bg-red-600"
+              //       //   theme == "light"
+              //       //   ? "text-black comp-bg"
+              //       //   : "text-white comp-bg"
+              //     } min-w-28 rounded-xl hover:cursor-pointer p-2 ${
+              //       status !== "PENDING" ? "block" : "hidden"
+              //     } `}
+              //   >
+              //     <div className="flex gap-2">
+              //       <X />
+              //       <>Reject</>
+              //     </div>
+              //   </button>
+              //   <button
+              //     name="ACCEPTED"
+              //     onClick={handleStatus}
+              //     className={`${
+              //       "text-white bg-green-700"
+              //       //   theme == "light"
+              //       //   ? "text-black comp-bg"
+              //       //   : "text-white comp-bg"
+              //     } min-w-28 rounded-xl hover:cursor-pointer p-2  ${
+              //       status !== "PENDING" ? "block" : "hidden"
+              //     } `}
+              //   >
+              //     <div className="flex gap-2">
+              //       <Check />
+              //       <>Accept</>
+              //     </div>
+              //   </button>
+              // </div>
+              <select
+                name="status"
+                onChange={(ele) => handleStatus(ele.target.value)}
+                // onChange={((ele))}
+                // value={statusState}
+                className="cursor-pointer border p-1 rounded-md"
+              >
+                <option value="" disabled selected hidden>
+                  Change Status
+                </option>
+
+                <option value="ACCEPTED">ACCEPTED</option>
+
+                <option value="REJECTED">REJECTED</option>
+              </select>
+            )
           ) : (
-            // <div className="flex gap-4 mx-2">
-            //   <button
-            //     name="REJECTED"
-            //     onClick={handleStatus}
-            //     className={`${
-            //       "text-white bg-red-600"
-            //       //   theme == "light"
-            //       //   ? "text-black comp-bg"
-            //       //   : "text-white comp-bg"
-            //     } min-w-28 rounded-xl hover:cursor-pointer p-2 ${
-            //       status !== "PENDING" ? "block" : "hidden"
-            //     } `}
-            //   >
-            //     <div className="flex gap-2">
-            //       <X />
-            //       <>Reject</>
-            //     </div>
-            //   </button>
-            //   <button
-            //     name="ACCEPTED"
-            //     onClick={handleStatus}
-            //     className={`${
-            //       "text-white bg-green-700"
-            //       //   theme == "light"
-            //       //   ? "text-black comp-bg"
-            //       //   : "text-white comp-bg"
-            //     } min-w-28 rounded-xl hover:cursor-pointer p-2  ${
-            //       status !== "PENDING" ? "block" : "hidden"
-            //     } `}
-            //   >
-            //     <div className="flex gap-2">
-            //       <Check />
-            //       <>Accept</>
-            //     </div>
-            //   </button>
-            // </div>
-            <select
-              name="status"
-              onChange={(ele) => handleStatus(ele.target.value)}
-              // onChange={((ele))}
-              // value={statusState}
-              className="cursor-pointer border p-1 rounded-md"
-            >
-              <option value="" disabled selected hidden>
-                Change Status
-              </option>
-
-              <option value="ACCEPTED">ACCEPTED</option>
-
-              <option value="REJECTED">REJECTED</option>
-            </select>
+            <div>{statusState}</div>
           )}
         </div>
       </div>

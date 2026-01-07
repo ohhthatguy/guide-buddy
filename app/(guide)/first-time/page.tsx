@@ -36,6 +36,7 @@ const page = () => {
     responseTime: "",
     certifications: [] as string[],
     languages: [] as string[],
+    phone: 0,
   };
 
   const specialtyOptions = [
@@ -205,6 +206,20 @@ const page = () => {
                 type="text"
                 onChange={handleInputDataChange}
                 value={guideRemainingData.profileURL}
+                required
+              />
+            </div>
+
+            {/* //phone number  */}
+            <div>
+              <label className="">Contact </label>
+              <input
+                className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
+                // placeholder=""
+                name="phone"
+                type="number"
+                onChange={handleInputDataChange}
+                value={guideRemainingData.phone}
                 required
               />
             </div>

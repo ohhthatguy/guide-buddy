@@ -1,12 +1,16 @@
+import mongoose from "mongoose";
 import connectDB from "@/lib/database/database";
 import TourModel from "@/lib/database/Model/Tour";
 import { getTokenData } from "@/lib/helper/useGetDataFromToken";
 import { notFound } from "next/navigation";
 import Profile from "./profile";
 import Tours from "./tours";
+import ClientModel from "@/lib/database/Model/Client";
 
 export default async function TourPage() {
+  const session = await mongoose.startSession();
   try {
+    session.startTransaction();
     await connectDB();
 
     const tokenData = await getTokenData("token");
@@ -18,10 +22,23 @@ export default async function TourPage() {
 
     const { id, name, role } = tokenData;
 
+    //get the clientmodelID
+    const ress = await ClientModel.findOne({ clientId: id }, null, { session });
+    console.log("RESS AT PAHGE: ", ress);
+    if (!ress) {
+      await session.abortTransaction();
+      notFound();
+    }
+
     // Explicitly select only what you need for safety
-    const tour = await TourModel.find({ "client.id": id }).lean();
+    const tour = await TourModel.find({ "client.id": ress._id }, null, {
+      session,
+    }).lean();
+    console.log(tour);
 
     if (!tour) {
+      await session.abortTransaction();
+
       notFound(); // This triggers your not-found.tsx file
     }
 
@@ -35,6 +52,10 @@ export default async function TourPage() {
     );
   } catch (error) {
     // This will be caught by error.tsx
+    await session.abortTransaction();
+
     throw new Error("Failed to fetch tour data from database");
+  } finally {
+    await session.endSession();
   }
 }

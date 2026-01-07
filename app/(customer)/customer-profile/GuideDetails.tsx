@@ -32,7 +32,7 @@ export const GuideDetails = ({
           &startTime=${startTime}&endTime=${endTime}&location=${location}&duration=${duration}&meetup=${meetup}`
         )
       }
-      className="hover:cursor-pointer"
+      className="hover:cursor-pointer hover:text-white hover:bg-black"
     >
       Guide: {guideName}
     </div>

@@ -36,6 +36,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         ], // MUST BE [Long, Lat]
       },
     });
+
     const savedGuide = await newGuide.save({ session });
     const updatedIsFirstTimeFlag = await AccountModel.findByIdAndUpdate(
       AccountData.id,
