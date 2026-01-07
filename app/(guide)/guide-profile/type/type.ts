@@ -63,11 +63,15 @@ export type PopulatedGuideNameFromDB = GuideTypeFromDB & {
 };
 
 export type ReviewType = {
-  id: string;
-  name: string;
   rating: number;
   comment: string;
   date: string;
+  clientId: MongoId | string;
+  guideId: MongoId | string;
+};
+
+export type ReviewTypeFromBackend = ReviewType & {
+  clientName: string;
 };
 
 //upcoming tour
