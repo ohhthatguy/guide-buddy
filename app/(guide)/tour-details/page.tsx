@@ -125,15 +125,21 @@ const page = async ({
             />
           </div>
 
-          <div className="grid grid-rows-[1.5fr_1fr] gap-4">
+          <div
+            className={`grid ${
+              role === "customer" && "grid-rows-[1.5fr_1fr]"
+            } gap-4`}
+          >
             <NotePart
               tourID={tourID as string}
               role={role as "guide" | "client"}
             />
-            <ReviewSection
-              clientId={clientId as string}
-              guideId={guideId as string}
-            />
+            {role === "customer" && (
+              <ReviewSection
+                clientId={clientId as string}
+                guideId={guideId as string}
+              />
+            )}
           </div>
         </div>
       </div>

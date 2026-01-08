@@ -1,39 +1,20 @@
 import type { TourDataType } from "../guide-profile/type/type";
 import { Calendar, Clock, MapPin } from "lucide-react";
-import TourModel from "@/lib/database/Model/Tour";
-import GuideModel from "@/lib/database/Model/Guide";
-import connectDB from "@/lib/database/database";
-import { notFound } from "next/navigation";
-import { getTokenData } from "@/lib/helper/useGetDataFromToken";
-import BookingStatus from "./BookingStatus";
+// import TourModel from "@/lib/database/Model/Tour";
+// import GuideModel from "@/lib/database/Model/Guide";
+// import connectDB from "@/lib/database/database";
+// import { notFound } from "next/navigation";
+// import { getTokenData } from "@/lib/helper/useGetDataFromToken";
+// import BookingStatus from "./BookingStatus";
 import Link from "next/link";
 
-const UpcomingTours = async () => {
+const UpcomingTours = async ({
+  serializedTour,
+}: {
+  serializedTour: TourDataType[];
+}) => {
   try {
-    await connectDB();
-
-    const tokenData = await getTokenData("token");
-
-    if (!tokenData) {
-      console.log(
-        "getTokenData() has bugs, check it in helper function. Error at upcoming-tour page of guide"
-      );
-      return notFound();
-    }
-
-    const { id } = tokenData;
-
-    const guide = await GuideModel.findOne({ guideId: id });
-    if (!guide) throw new Error("Guide not found");
-    const tour = await TourModel.find({ "guide.id": guide._id.toString() });
-
-    if (!tour) {
-      notFound();
-    }
-
-    const serializedTour = JSON.parse(JSON.stringify(tour));
     console.log("upcoming tour: ", serializedTour);
-
     return (
       <div className=" p-4 comp-bg rounded-2xl">
         <div className="mb-4">
