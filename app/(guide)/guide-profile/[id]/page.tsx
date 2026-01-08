@@ -4,6 +4,7 @@ import connectDB from "@/lib/database/database";
 import { notFound } from "next/navigation";
 import ProfileSection from "./ProfileSection/ProfileSection";
 import PaymentSection from "./PaymentSection";
+import { getTokenData } from "@/lib/helper/useGetDataFromToken";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   // const guideData: GuideType[] = [
@@ -96,10 +97,25 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   await connectDB();
   const { id } = await params;
+  const tokenData = await getTokenData("token");
+  if (!tokenData) {
+    console.log("Token data not ofund");
+    return notFound();
+  }
+  const { role } = tokenData;
 
-  const rawGuide = await GuideModel.findById(id)
-    .populate("guideId", "name")
-    .lean();
+  console.log(id);
+  console.log(role);
+
+  let rawGuide;
+
+  if (role == "guide") {
+    rawGuide = await GuideModel.findOne({ guideId: id })
+      .populate("guideId", "name")
+      .lean();
+  } else {
+    rawGuide = await GuideModel.findById(id).populate("guideId", "name").lean();
+  }
 
   console.log(rawGuide);
 
@@ -125,18 +141,29 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     toursCompleted: rawGuide.toursCompleted || 0,
     responseTime: rawGuide.responseTime || "N/A",
     certifications: rawGuide.certifications || [],
+    phone: rawGuide.phone || 0,
   };
 
   console.log(selectedData);
 
   return (
-    <div className="grid grid-cols-[2fr_1fr] mx-8 gap-8">
-      <ProfileSection data={selectedData} id={id} />
-      <PaymentSection
-        guideName={selectedData.name}
-        guideId={id}
-        rate={selectedData.hourlyRate ?? 10}
+    <div
+      className={`grid my-4 ${
+        role === "guide" ? "place-items-center" : "grid-cols-[2fr_1fr] mx-8"
+      }  gap-8`}
+    >
+      <ProfileSection
+        data={selectedData}
+        id={id}
+        role={role as "guide" | "customer"}
       />
+      {role !== "guide" && (
+        <PaymentSection
+          guideName={selectedData.name}
+          guideId={id}
+          rate={selectedData.hourlyRate ?? 10}
+        />
+      )}
     </div>
   );
 };

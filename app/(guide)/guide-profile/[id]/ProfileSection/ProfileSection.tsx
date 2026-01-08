@@ -1,10 +1,17 @@
-import React from "react";
 import type { GuideType, ReviewType } from "../../type/type";
 import Profile from "./Profile";
 import About from "./About";
 import Certification from "./Certification";
 import Reviews from "./Reviews";
-const ProfileSection = ({ data, id }: { data: GuideType; id: string }) => {
+const ProfileSection = ({
+  data,
+  id,
+  role,
+}: {
+  data: GuideType;
+  id: string;
+  role: "guide" | "customer";
+}) => {
   const omit = <T extends object, K extends (keyof T)[]>(
     data: T,
     keys: K
@@ -59,11 +66,15 @@ const ProfileSection = ({ data, id }: { data: GuideType; id: string }) => {
   // console.log(certificationData);
 
   return (
-    <div className="">
+    <div className={`${role === "guide" && " w-10/11"}`}>
       <Profile profileData={profileData} />
-      <About aboutData={aboutData} />
-      <Certification certificationData={certificationData} />
-      <Reviews id={id} />
+      <div
+        className={`${role === "guide" && "grid grid-cols-[1fr_1fr] gap-4"}`}
+      >
+        <About aboutData={aboutData} />
+        <Certification certificationData={certificationData} />
+      </div>
+      <Reviews id={id} role={role as "guide" | "customer"} Guidedata={data} />
     </div>
   );
 };

@@ -3,9 +3,17 @@
 import { Star } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-import type { ReviewTypeFromBackend } from "../../type/type";
+import type { ReviewTypeFromBackend, GuideType } from "../../type/type";
 
-const Reviews = ({ id }: { id: string }) => {
+const Reviews = ({
+  id,
+  role,
+  Guidedata,
+}: {
+  id: string;
+  role: "guide" | "customer";
+  Guidedata: GuideType;
+}) => {
   const { theme } = useTheme();
   console.log(
     "we call api with id to fetch reviews here in this component: ",
@@ -55,9 +63,14 @@ const Reviews = ({ id }: { id: string }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       console.log(id);
+      console.log(Guidedata);
 
       try {
-        const res = await fetch(`/api/user/activity/giveReview?guideId=${id}`);
+        const res = await fetch(
+          `/api/user/activity/giveReview?guideId=${
+            role === "guide" ? Guidedata.id : id
+          }`
+        );
         const data = await res.json();
 
         console.log(data.finalData);

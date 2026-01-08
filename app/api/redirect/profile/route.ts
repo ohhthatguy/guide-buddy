@@ -10,8 +10,11 @@ export async function GET() {
         { msg: "Token is not verified for routing" },
         { status: 500 }
       );
-
-    const data = verifiedToken.role === "guide" ? `/` : `/customer-profile`;
+    console.log(verifiedToken);
+    const data =
+      verifiedToken.role === "guide"
+        ? `/guide-profile/${verifiedToken.id}`
+        : `/customer-profile`;
 
     return NextResponse.json(
       { msg: "succesfully retrived routing profile Data", data },
