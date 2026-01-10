@@ -2,8 +2,9 @@
 
 import { Star } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { ReviewTypeFromBackend, GuideType } from "../../type/type";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const Reviews = ({
   id,
@@ -14,6 +15,10 @@ const Reviews = ({
   role: "guide" | "customer";
   Guidedata: GuideType;
 }) => {
+  const reviewRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { theme } = useTheme();
   console.log(
     "we call api with id to fetch reviews here in this component: ",
@@ -21,6 +26,10 @@ const Reviews = ({
   );
 
   const [review, setReview] = useState<ReviewTypeFromBackend[] | []>([]);
+
+  const searchParams = useSearchParams();
+
+  const focusReview = searchParams.get("focusReview");
 
   // const demoReviews: ReviewType[] = [
   //   {
@@ -73,6 +82,35 @@ const Reviews = ({
         );
         const data = await res.json();
 
+        if (focusReview && reviewRef.current) {
+          reviewRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+
+          //   // 2. Define the animation classes
+          //   const animationClasses = [
+          //     "animate-bounce-focus",
+          //     "ring-4",
+          //     "ring-blue-500",
+          //     "shadow-2xl",
+          //   ];
+
+          //   const timer = setTimeout(() => {
+          //     // Direct DOM manipulation via ref
+          //     reviewRef.current?.classList.add(...animationClasses);
+
+          //     // 4. Remove classes after animation finishes (e.g., 1 second later)
+          //     setTimeout(() => {
+          //       reviewRef.current?.classList.remove(...animationClasses);
+          //     }, 1000);
+          //   }, 800);
+
+          router.replace(pathname, { scroll: false }); // remove the ?focusReview part after scroll into view
+
+          //   return () => clearTimeout(timer);
+        }
+
         console.log(data.finalData);
         setReview(data.finalData);
       } catch (err) {
@@ -85,7 +123,9 @@ const Reviews = ({
 
   return (
     <div className="comp-bg p-4 rounded-2xl">
-      <h3 className="mb-4">Review ({review?.length})</h3>
+      <h3 ref={reviewRef} className="mb-4">
+        Review ({review?.length})
+      </h3>
 
       {review ? (
         review?.map((e: ReviewTypeFromBackend, index) => (

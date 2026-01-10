@@ -2,12 +2,14 @@ import type { RecentActivity } from "./type/type";
 import type { TourDataType } from "../guide-profile/type/type";
 import { useGetTimingMessage } from "@/lib/helper/useGetTimingMessage";
 import ReviewModel from "@/lib/database/Model/Review";
-import { notFound } from "next/navigation";
 
+import RecentActivityClientComp from "../clientcomp/RecentActivityClientComp";
 const RecentActivityComp = async ({
   serializedTour,
+  id,
 }: {
   serializedTour: TourDataType[];
+  id: string;
 }) => {
   try {
     let recentActivity: RecentActivity[] = [];
@@ -27,17 +29,22 @@ const RecentActivityComp = async ({
       })
     );
 
-    console.log(serializedTour);
-    const data = await ReviewModel.find({ guideId: serializedTour[0].guide.id })
+    console.log("Tour at recent activity", tourActivities);
+
+    const dataReview = await ReviewModel.find({
+      guideId: serializedTour[0].guide.id,
+    })
       .populate({
         path: "clientId",
+        model: "Client",
         populate: {
           path: "clientId",
+          model: "Account",
           select: "name",
         },
       })
       .lean();
-
+    const data = JSON.parse(JSON.stringify(dataReview));
     console.log(data);
     const reviewActivities: RecentActivity[] = (data || []).map((e) => ({
       type: "review",
@@ -45,6 +52,7 @@ const RecentActivityComp = async ({
       time: useGetTimingMessage(e.createdAt),
       id: e._id,
     }));
+    console.log("Review at recent activity", reviewActivities);
 
     recentActivity = [...tourActivities, ...reviewActivities];
 
@@ -58,18 +66,24 @@ const RecentActivityComp = async ({
         <div>
           {recentActivity?.length > 0 ? (
             recentActivity.map((e: RecentActivity, index: number) => (
-              <div
+              <RecentActivityClientComp
                 key={index}
-                className="grid grid-cols-[5%_95%] gap-4 p-2 mb-4 ele-bg rounded-md hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500"
-              >
-                <div className="flex justify-end  items-center">
-                  <span className=" inline-block rounded-full bg-blue-700 w-2 h-2"></span>
-                </div>
-                <div className="">
-                  <div>{e.message}</div>
-                  <div>{e.time}</div>
-                </div>
-              </div>
+                e={e}
+                index={index}
+                guideId={id}
+              />
+              // <div
+              //   key={index}
+              //   className="grid grid-cols-[5%_95%] gap-4 p-2 mb-4 ele-bg rounded-md hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500"
+              // >
+              //   <div className="flex justify-end  items-center">
+              //     <span className=" inline-block rounded-full bg-blue-700 w-2 h-2"></span>
+              //   </div>
+              //   <div className="">
+              //     <div>{e.message}</div>
+              //     <div>{e.time}</div>
+              //   </div>
+              // </div>
             ))
           ) : (
             <div className="text-gray-700">
@@ -81,7 +95,7 @@ const RecentActivityComp = async ({
     );
   } catch (error) {
     console.log("ERROR IN THE RECENT ACTIIVTY AREA, ", error);
-    return notFound();
+    // return notFound();
   }
 };
 

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import visualReducer from "./feature/visual/visualSlices";
+import upcomingAndRecentTourConnectionReducer from "./feature/guide/upcomingAndRecentTourConnection";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       visual: visualReducer,
+      upcomingAndRecentTourConnection: upcomingAndRecentTourConnectionReducer,
     },
   });
 };
