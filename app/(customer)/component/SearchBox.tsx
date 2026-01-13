@@ -6,11 +6,13 @@ import { usePathname, useRouter } from "next/navigation";
 
 const SearchBox = ({
   selectedView,
-  searchParams,
+
+  id,
 }: // setSelectedView,
 {
   selectedView: "list" | "map";
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+
+  id: string;
   // setSelectedView: React.Dispatch<React.SetStateAction<"list" | "map">>;
 }) => {
   // type viewtype = "list" | "map";
@@ -22,10 +24,10 @@ const SearchBox = ({
   const pathname = usePathname();
 
   const handleViewChange = () => {
-    const replacedView = selectedView === "map" ? "list" : "view";
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("view", replacedView);
-    router.push(`${pathname}?${params.toString()}`);
+    const replacedView = selectedView === "map" ? "list" : "map";
+    console.log("Repalced view; ", replacedView);
+
+    router.push(`${pathname}?id=${id}&view=${replacedView}`);
   };
 
   return (
@@ -39,7 +41,7 @@ const SearchBox = ({
 
       <div className="flex justify-center items-center gap-4">
         <button
-          onClick={() => setSelectedView("map")}
+          onClick={handleViewChange}
           className={`${
             selectedView == "map"
               ? "text-white bg-blue-700"

@@ -41,6 +41,8 @@ const GuideSchema: Schema = new Schema({
   phone: { type: Number, default: 0 },
 });
 
+GuideSchema.index({ location: "2dsphere" });
+
 const GuideModel: Model<IGuide> =
   mongoose.models.Guide || mongoose.model<IGuide>("Guide", GuideSchema);
 export default GuideModel;

@@ -25,34 +25,34 @@ const MapMarker = ({
     //distance far from customer
   };
 
-  const demoUserGuide: GuideMarker[] = [
-    {
-      id: 1,
-      name: "First Name",
-      profileURL: "https://randomuser.me/api/portraits/men/32.jpg",
-      position: [lat + 0.1, lon + 0.1],
-    },
+  // const demoUserGuide: GuideMarker[] = [
+  //   {
+  //     id: 1,
+  //     name: "First Name",
+  //     profileURL: "https://randomuser.me/api/portraits/men/32.jpg",
+  //     position: [lat + 0.1, lon + 0.1],
+  //   },
 
-    // {
-    //   id: 4,
-    //   name: "First Name",
-    //   profile: "https://randomuser.me/api/portraits/men/32.jpg",
-    //   position: [lat + 0.0001, lon + 0.0001],
-    // },
+  //   // {
+  //   //   id: 4,
+  //   //   name: "First Name",
+  //   //   profile: "https://randomuser.me/api/portraits/men/32.jpg",
+  //   //   position: [lat + 0.0001, lon + 0.0001],
+  //   // },
 
-    {
-      id: 2,
-      name: "Second Name",
-      profileURL: "https://randomuser.me/api/portraits/women/45.jpg",
-      position: [lat + 0.1, lon - 0.1],
-    },
-    {
-      id: 3,
-      name: "Third Name",
-      profileURL: "https://randomuser.me/api/portraits/men/76.jpg",
-      position: [lat - 0.1, lon - 0.1],
-    },
-  ];
+  //   {
+  //     id: 2,
+  //     name: "Second Name",
+  //     profileURL: "https://randomuser.me/api/portraits/women/45.jpg",
+  //     position: [lat + 0.1, lon - 0.1],
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Third Name",
+  //     profileURL: "https://randomuser.me/api/portraits/men/76.jpg",
+  //     position: [lat - 0.1, lon - 0.1],
+  //   },
+  // ];
 
   console.log("ACTIVE GUIDES: ", activeGuides);
 
@@ -71,8 +71,9 @@ const MapMarker = ({
       };
     }
   );
+  // const userGuide: GuideMarker[] = [...demoUserGuide, ...realUserGuide];
 
-  const userGuide: GuideMarker[] = [...demoUserGuide, ...realUserGuide];
+  const userGuide: GuideMarker[] = [...realUserGuide];
 
   console.log("Guides on map: ", activeGuides);
   console.log("customer current location: ", currentUserPos);

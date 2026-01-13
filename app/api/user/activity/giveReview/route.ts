@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/database/database";
 import ReviewModel from "@/lib/database/Model/Review";
+import GuideModel from "@/lib/database/Model/Guide";
 import { paginationWithoutSkip } from "@/lib/helper/pagination";
+import mongoose from "mongoose";
 
 export async function POST(req: NextRequest) {
   await connectDB();
+  const session = await mongoose.startSession();
+
   try {
+    session.startTransaction();
     const reqBody = await req.json();
 
     console.log("Review data: ", reqBody);
 
+    //save review
     const newReview = new ReviewModel(reqBody);
-    const savedReview = await newReview.save();
+    const savedReview = await newReview.save({ session });
 
     if (!savedReview) {
       return NextResponse.json(
@@ -22,6 +28,38 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    //save the review stats to guide
+    const data = await ReviewModel.find({ guideId: reqBody.guideId }).session(
+      session
+    );
+
+    console.log("REVIEW DTA: ", data);
+
+    if (!data || data.length == 0) {
+      await session.abortTransaction();
+    } else {
+      const totalRatingScore = data.reduce((count, e) => count + e.rating, 0);
+      console.log("TOTAL RATING: ", totalRatingScore);
+
+      const averageRating = Math.floor(
+        data.length > 0 ? totalRatingScore / data.length : 0
+      );
+
+      console.log("avg RATING: ", averageRating);
+
+      const settingRating = await GuideModel.findByIdAndUpdate(
+        reqBody.guideId,
+        {
+          rating: averageRating,
+        },
+        { session, new: true }
+      );
+
+      console.log("settingRating: ", settingRating);
+    }
+
+    await session.commitTransaction();
     return NextResponse.json(
       {
         msg: "Succesfully saved REVIEW: ",
@@ -30,6 +68,8 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    await session.abortTransaction();
+
     console.log("ERROR IN posting REVIEW: ", error);
     return NextResponse.json(
       {
@@ -38,6 +78,8 @@ export async function POST(req: NextRequest) {
       },
       { status: 500 }
     );
+  } finally {
+    await session.endSession();
   }
 }
 

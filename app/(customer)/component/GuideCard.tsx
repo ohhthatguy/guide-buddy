@@ -7,11 +7,17 @@ import type {
   MongoId,
 } from "@/app/(guide)/guide-profile/type/type";
 import { useRouter } from "next/navigation";
+import {
+  useGetCurrentPosition,
+  distanceFromThisToMe,
+} from "@/lib/helper/useGetCurrentPosition";
 
 const GuideCard = ({
   activeGuides,
+  pos,
 }: {
   activeGuides: PopulatedGuideNameFromDB[];
+  pos: [number, number];
 }) => {
   type guideCardType = {
     name: string;
@@ -25,68 +31,70 @@ const GuideCard = ({
     id: string | MongoId;
   };
 
-  const dummyguide: guideCardType[] = [
-    {
-      name: "Aarav Sharma",
-      profileURL:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      rating: 4.8,
-      distance: 2.3,
-      rate: 25,
-      review: 128,
-      talksAbout: "Local culture",
-      available: true,
-      id: "1",
-    },
-    {
-      name: "Ritika Mehta",
-      profileURL:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      rating: 4.5,
-      distance: 5.1,
-      rate: 20,
-      review: 89,
-      talksAbout: "History",
-      available: false,
-      id: "2",
-    },
-    {
-      name: "Sanjay Karki",
-      profileURL:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      rating: 4.9,
-      distance: 1.2,
-      rate: 30,
-      review: 214,
-      talksAbout: "Mountain",
-      available: true,
-      id: "3",
-    },
-    {
-      name: "Priya Singh",
-      profileURL:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      rating: 4.3,
-      distance: 7.8,
-      rate: 18,
-      review: 56,
-      talksAbout: "Street food",
-      available: true,
-      id: "4",
-    },
-    {
-      name: "Nabin Thapa",
-      profileURL:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      rating: 4.7,
-      distance: 3.6,
-      rate: 22,
-      review: 102,
-      talksAbout: "Nightlife",
-      available: false,
-      id: "5",
-    },
-  ];
+  const position = useGetCurrentPosition();
+
+  // const dummyguide: guideCardType[] = [
+  //   {
+  //     name: "Aarav Sharma",
+  //     profileURL:
+  //       "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  //     rating: 4.8,
+  //     distance: 2.3,
+  //     rate: 25,
+  //     review: 128,
+  //     talksAbout: "Local culture",
+  //     available: true,
+  //     id: "1",
+  //   },
+  //   {
+  //     name: "Ritika Mehta",
+  //     profileURL:
+  //       "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  //     rating: 4.5,
+  //     distance: 5.1,
+  //     rate: 20,
+  //     review: 89,
+  //     talksAbout: "History",
+  //     available: false,
+  //     id: "2",
+  //   },
+  //   {
+  //     name: "Sanjay Karki",
+  //     profileURL:
+  //       "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  //     rating: 4.9,
+  //     distance: 1.2,
+  //     rate: 30,
+  //     review: 214,
+  //     talksAbout: "Mountain",
+  //     available: true,
+  //     id: "3",
+  //   },
+  //   {
+  //     name: "Priya Singh",
+  //     profileURL:
+  //       "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  //     rating: 4.3,
+  //     distance: 7.8,
+  //     rate: 18,
+  //     review: 56,
+  //     talksAbout: "Street food",
+  //     available: true,
+  //     id: "4",
+  //   },
+  //   {
+  //     name: "Nabin Thapa",
+  //     profileURL:
+  //       "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  //     rating: 4.7,
+  //     distance: 3.6,
+  //     rate: 22,
+  //     review: 102,
+  //     talksAbout: "Nightlife",
+  //     available: false,
+  //     id: "5",
+  //   },
+  // ];
 
   console.log(activeGuides);
 
@@ -103,14 +111,20 @@ const GuideCard = ({
       // Join the speciality array into a single string for 'talksAbout'
       talksAbout: guide.speciality.join(", "),
       // Placeholder values for data not in your snippet
-      distance: 0, // This usually requires a calculation function
+      distance: distanceFromThisToMe(
+        pos[1],
+        pos[0],
+        guide.location.coordinates[0],
+        guide.location.coordinates[1] || 0
+      ), // This usually requires a calculation function
       review: 0, // You might need a count() query for this later
     })
   );
 
   console.log(guidesForCards);
 
-  const realGuides: guideCardType[] = [...dummyguide, ...guidesForCards];
+  // const realGuides: guideCardType[] = [...dummyguide, ...guidesForCards];
+  const realGuides: guideCardType[] = [...guidesForCards];
 
   const router = useRouter();
   return (
@@ -132,7 +146,7 @@ const GuideCard = ({
 
           <div className="my-4 ele-bg rounded-2xl p-2">
             <p className="flex items-center  gap-1">
-              <MapPin size={18} /> {e.distance}{" "}
+              <MapPin size={18} /> {e.distance === 0 ? "~0 " : e.distance}{" "}
               <span className="muted">km far</span>
             </p>
 
