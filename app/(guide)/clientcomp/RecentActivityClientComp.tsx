@@ -22,7 +22,7 @@ const RecentActivityClientComp = ({
 
     if (e.type == "review") {
       //move to the guide-profile
-      router.push(`/guide-profile/${guideId}?focusReview=true`);
+      router.push(`/guide-profile/${guideId}?focusReview=true&page=1`);
     }
 
     if (e.type == "booking") {

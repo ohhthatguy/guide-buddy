@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/database/database";
 import ReviewModel from "@/lib/database/Model/Review";
+import { paginationWithoutSkip } from "@/lib/helper/pagination";
 
 export async function POST(req: NextRequest) {
   await connectDB();
@@ -45,19 +46,31 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const guideId = searchParams.get("guideId");
+    const page = searchParams.get("page");
 
     console.log("guideID of review: ", guideId);
+    console.log("page of review: ", page);
+
+    const totalDataToSend = paginationWithoutSkip(Number(page));
 
     // const data = await ReviewModel.find({ guideId }).lean();
-    const data = await ReviewModel.find({ guideId }).populate({
-      path: "clientId",
-      populate: {
+    const totalReviewCount = await ReviewModel.countDocuments({ guideId });
+    console.log(
+      "toal count  of review of this certain guide: ",
+      totalReviewCount
+    );
+
+    const data = await ReviewModel.find({ guideId })
+      .populate({
         path: "clientId",
-        model: "Account",
-        select: "name",
-      },
-    });
-    console.log("data", data);
+        populate: {
+          path: "clientId",
+          model: "Account",
+          select: "name",
+        },
+      })
+      .limit(totalDataToSend);
+    // console.log("data", data);
 
     if (!data) {
       return NextResponse.json(
@@ -81,12 +94,13 @@ export async function GET(req: NextRequest) {
       };
     });
 
-    console.log("FINAL DATA", finalData);
+    // console.log("FINAL DATA", finalData);
 
     return NextResponse.json(
       {
         msg: "Succesfully get REVIEW: ",
         finalData,
+        totalReviewCount,
       },
       { status: 200 }
     );

@@ -1,39 +1,82 @@
 "use client";
 import Link from "next/link";
 import { Calendar, Clock, MapPin } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setTourId } from "@/lib/feature/guide/upcomingAndRecentTourConnection";
 import type { TourDataType } from "../guide-profile/type/type";
+import { useSearchParams, usePathname } from "next/navigation";
+import { isFinalPage } from "@/lib/helper/pagination";
+import { useEffect } from "react";
 
 const UpcomingToursClientComp = ({
   e,
   index,
+  length,
+  TourItemCount,
 }: {
   e: TourDataType;
   index: number;
+  length: number;
+  TourItemCount: number;
 }) => {
+  const dispatch = useDispatch();
+
   const selectedTourId = useSelector(
     (state: any) => state.upcomingAndRecentTourConnection.tourId
   );
-  console.log("ID SELECTED:", selectedTourId);
+  // console.log("ID SELECTED:", selectedTourId);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const page = Number(searchParams.get("page"));
+
+  const createPageURL = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    const pageNumber = Number(page) + 1;
+    params.set("page", pageNumber.toString());
+
+    return `${pathname}?${params.toString()}`;
+  };
+
+  useEffect(() => {
+    if (selectedTourId) {
+      // Look for the element by its HTML ID attribute
+      const element = document.getElementById(`tour-${selectedTourId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    } else if (page > 1) {
+      const element = document.getElementById(`next-page-link`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [selectedTourId]);
+
+  const handlePageChange = () => {
+    dispatch(setTourId(null));
+  };
 
   return (
     <div
+      id={`tour-${e._id}`}
       key={index}
-      className={`
-    transition-all duration-500 transform
-    ${
-      e._id === selectedTourId
-        ? "scale-[1.02] shadow-xl border-blue-500"
-        : "scale-100 border-transparent"
-    }
-   border-2 rounded-lg
-  `}
+      className={` 
+        transition-all duration-500 transform
+        ${
+          e._id === selectedTourId
+            ? "scale-[1.02] shadow-xl border-blue-500 "
+            : "scale-100 border-transparent"
+        }
+       border-2 rounded-lg 
+      `}
     >
       <Link
         href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`}
         className={` ${
           e._id === selectedTourId && " border-blue-500"
-        }  grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500`}
+        } grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500`}
       >
         <div>
           <Calendar size={44} className="p-2 rounded-md comp-bg" />
@@ -86,6 +129,19 @@ const UpcomingToursClientComp = ({
           </div>
         </div>
       </Link>
+
+      {!isFinalPage(page, TourItemCount) && length - 1 == index && (
+        <div
+          className=" text-center"
+          onClick={handlePageChange}
+          // id="next-page-link"
+        >
+          <Link className="text-blue-600 underline" href={createPageURL()}>
+            More
+          </Link>
+        </div>
+      )}
+      {length - 1 == index && <div id="next-page-link"></div>}
     </div>
   );
 };

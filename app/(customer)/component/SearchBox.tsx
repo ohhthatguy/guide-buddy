@@ -2,16 +2,31 @@
 
 import { useTheme } from "next-themes";
 
+import { usePathname, useRouter } from "next/navigation";
+
 const SearchBox = ({
   selectedView,
-  setSelectedView,
-}: {
+  searchParams,
+}: // setSelectedView,
+{
   selectedView: "list" | "map";
-  setSelectedView: React.Dispatch<React.SetStateAction<"list" | "map">>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  // setSelectedView: React.Dispatch<React.SetStateAction<"list" | "map">>;
 }) => {
   // type viewtype = "list" | "map";
   const { theme } = useTheme();
   // const [selectedView, setSelectedView] = useState<viewtype>("list");
+
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  const handleViewChange = () => {
+    const replacedView = selectedView === "map" ? "list" : "view";
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("view", replacedView);
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className=" place-items-center grid gap-4 py-8">
@@ -24,19 +39,6 @@ const SearchBox = ({
 
       <div className="flex justify-center items-center gap-4">
         <button
-          onClick={() => setSelectedView("list")}
-          className={`${
-            selectedView == "list"
-              ? "text-white bg-blue-700"
-              : theme == "light"
-              ? "text-black comp-bg"
-              : "text-white comp-bg"
-          } min-w-36 rounded-xl hover:cursor-pointer p-2  `}
-        >
-          {" "}
-          List View{" "}
-        </button>
-        <button
           onClick={() => setSelectedView("map")}
           className={`${
             selectedView == "map"
@@ -48,6 +50,19 @@ const SearchBox = ({
         >
           {" "}
           Map View{" "}
+        </button>
+        <button
+          onClick={handleViewChange}
+          className={`${
+            selectedView == "list"
+              ? "text-white bg-blue-700"
+              : theme == "light"
+              ? "text-black comp-bg"
+              : "text-white comp-bg"
+          } min-w-36 rounded-xl hover:cursor-pointer p-2  `}
+        >
+          {" "}
+          List View{" "}
         </button>
       </div>
     </div>

@@ -21,8 +21,8 @@ export async function GET(req: NextResponse) {
 
     const data =
       verifiedToken.role === "guide"
-        ? `/dashboard?id=${verifiedToken.id}`
-        : `/home?id=${verifiedToken.id}`;
+        ? `/dashboard?id=${verifiedToken.id}&page=1`
+        : `/home?id=${verifiedToken.id}&view=map`;
 
     return NextResponse.json(
       { msg: "succesfully retrived routing Data", data },

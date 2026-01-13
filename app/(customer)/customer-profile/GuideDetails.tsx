@@ -29,7 +29,7 @@ export const GuideDetails = ({
       onClick={() =>
         router.push(
           `/guide-profile/${guideid}?tourId=${tourid}&date=${date}
-          &startTime=${startTime}&endTime=${endTime}&location=${location}&duration=${duration}&meetup=${meetup}`
+          &startTime=${startTime}&endTime=${endTime}&location=${location}&duration=${duration}&meetup=${meetup}&page=1`
         )
       }
       className="hover:cursor-pointer hover:text-white hover:bg-black"

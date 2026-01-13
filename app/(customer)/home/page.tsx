@@ -1,46 +1,56 @@
-"use client";
-
 import SearchBox from "../component/SearchBox";
 import Map from "@/component/Map/MapWrapper";
 import GuideCard from "../component/GuideCard";
-import { useState, useEffect } from "react";
-import { PopulatedGuideNameFromDB } from "@/app/(guide)/guide-profile/type/type";
+import connectDB from "@/lib/database/database";
+import GuideModel from "@/lib/database/Model/Guide";
+// import { PopulatedGuideNameFromDB } from "@/app/(guide)/guide-profile/type/type";
 
-const page = () => {
+const getAllGuide = async () => {
+  try {
+    await connectDB();
+    // Fetch directly from MongoDB
+    const res = await GuideModel.find({ available: true })
+      .populate("guideId", "name")
+      .lean();
+    const data = JSON.parse(JSON.stringify(res));
+    console.log(data);
+
+    return data; // Ensure it's plain objects
+  } catch (error) {
+    console.error("Error fetching guides at getallguide():", error);
+    return [];
+  }
+};
+
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined | "list" | "map";
+  }>;
+}) => {
   type viewtype = "list" | "map";
 
-  const [selectedView, setSelectedView] = useState<viewtype>("list");
-  const [activeGuides, setActiveGuides] = useState<
-    PopulatedGuideNameFromDB[] | []
-  >([]);
+  const data = await getAllGuide();
+  if (!data) {
+    console.log("DATA AT getAllGuide(): ", data);
+    throw new Error("DATA FROM getAllGuide() is not found");
+  }
+  let { view } = await searchParams;
 
-  useEffect(() => {
-    const getAllGuide = async () => {
-      try {
-        const res = await fetch("/api/user/activity/searchAllGuides");
-        const data = await res.json();
-        setActiveGuides(data.data);
-        console.log(data);
-      } catch (error) {
-        console.log("Error at the get all guide useEffect");
-      }
-    };
+  if (!view) {
+    view = "map";
+  }
 
-    getAllGuide();
-  }, []);
-
-  console.log(activeGuides);
+  console.log(data);
 
   return (
     <div className="mx-8">
-      <SearchBox
-        selectedView={selectedView}
-        setSelectedView={setSelectedView}
-      />
-      {selectedView == "list" ? (
-        <GuideCard activeGuides={activeGuides} />
+      <SearchBox selectedView={view} searchParams={searchParams} />
+      {view == "list" ? (
+        <GuideCard activeGuides={data} />
       ) : (
-        <Map activeGuides={activeGuides} />
+        <Map activeGuides={data} />
       )}
     </div>
   );

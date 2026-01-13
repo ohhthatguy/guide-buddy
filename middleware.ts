@@ -20,7 +20,7 @@ export function middleware(req: NextRequest) {
     const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!);
     if (decodedToken.role == "guide") {
       return NextResponse.redirect(
-        new URL(`/dashboard?id=${decodedToken.id}`, req.url)
+        new URL(`/dashboard?id=${decodedToken.id}&page=1`, req.url)
       ); //guide id requires
     }
 

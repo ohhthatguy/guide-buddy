@@ -6,7 +6,13 @@ import ProfileSection from "./ProfileSection/ProfileSection";
 import PaymentSection from "./PaymentSection";
 import { getTokenData } from "@/lib/helper/useGetDataFromToken";
 
-const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
   // const guideData: GuideType[] = [
   //   {
   //     id: "1",
@@ -97,6 +103,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   await connectDB();
   const { id } = await params;
+  const { page } = await searchParams;
   const tokenData = await getTokenData("token");
   if (!tokenData) {
     console.log("Token data not ofund");
@@ -106,6 +113,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   console.log(id);
   console.log(role);
+  console.log("PAGE: ", page);
 
   let rawGuide;
 
@@ -156,6 +164,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         data={selectedData}
         id={id}
         role={role as "guide" | "customer"}
+        page={page}
       />
       {role !== "guide" && (
         <PaymentSection

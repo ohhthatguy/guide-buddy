@@ -155,7 +155,9 @@ const GuideCard = ({
               <p className="text-2xl">${e.rate}</p>
               <span className="muted"> /hr</span>
             </div>
-            <Button onClick={() => router.push(`/guide-profile/${e.id}`)}>
+            <Button
+              onClick={() => router.push(`/guide-profile/${e.id}?page=1`)}
+            >
               View Profile
             </Button>
           </div>

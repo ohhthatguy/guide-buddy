@@ -54,6 +54,8 @@ const MapMarker = ({
     },
   ];
 
+  console.log("ACTIVE GUIDES: ", activeGuides);
+
   const realUserGuide: GuideMarker[] = activeGuides?.map(
     (e: PopulatedGuideNameFromDB) => {
       return {
@@ -118,7 +120,7 @@ const MapMarker = ({
               <div
                 className="grid place-items-center gap-3 hover:comp-bg cursor-pointer"
                 onClick={() => {
-                  router.push(`/guide-profile/${e.id}`);
+                  router.push(`/guide-profile/${e.id}?page=1`);
                 }}
               >
                 <img

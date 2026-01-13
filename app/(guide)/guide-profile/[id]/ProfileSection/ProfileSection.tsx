@@ -7,10 +7,12 @@ const ProfileSection = ({
   data,
   id,
   role,
+  page,
 }: {
   data: GuideType;
   id: string;
   role: "guide" | "customer";
+  page: string;
 }) => {
   const omit = <T extends object, K extends (keyof T)[]>(
     data: T,
@@ -74,7 +76,12 @@ const ProfileSection = ({
         <About aboutData={aboutData} />
         <Certification certificationData={certificationData} />
       </div>
-      <Reviews id={id} role={role as "guide" | "customer"} Guidedata={data} />
+      <Reviews
+        id={id}
+        role={role as "guide" | "customer"}
+        Guidedata={data}
+        page={page}
+      />
     </div>
   );
 };

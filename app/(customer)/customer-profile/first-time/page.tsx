@@ -50,7 +50,7 @@ const page = () => {
       const data = await res.json();
 
       console.log(data);
-      router.push(`/home?id=${data.data.AccountData.id}`);
+      router.push(`/home?id=${data.data.AccountData.id}&view=map`);
     } catch (error) {
       console.log("Error at forntend in firstitme client login: ", error);
     }

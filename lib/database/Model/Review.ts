@@ -20,7 +20,7 @@ const reviewSchema: Schema = new Schema(
       required: [true, "Guide ID is missing"],
     },
   },
-  { timestamps: true }
+  { timestamps: true, autoIndex: true }
 );
 
 const ReviewModel: Model<IReview> =

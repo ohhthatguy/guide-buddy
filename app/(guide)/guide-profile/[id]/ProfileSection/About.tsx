@@ -8,8 +8,8 @@ const About = ({ aboutData }: { aboutData: any }) => {
       <h3>About</h3>
       <p className="text-xl">{aboutData.bio}</p>
 
-      <div className="flex ">
-        <div className="flex-1">
+      <div className="flex  ">
+        <div className="flex-1 ">
           <p
             className={`mb-1  ${
               theme == "light" ? "text-gray-700" : "text-gray-400"
@@ -31,7 +31,7 @@ const About = ({ aboutData }: { aboutData: any }) => {
           </div>
         </div>
 
-        <div className="flex-2">
+        <div className="flex-2 text-right">
           <p
             className={`mb-1   ${
               theme == "light" ? "text-gray-700" : "text-gray-400"

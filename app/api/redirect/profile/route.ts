@@ -13,7 +13,7 @@ export async function GET() {
     console.log(verifiedToken);
     const data =
       verifiedToken.role === "guide"
-        ? `/guide-profile/${verifiedToken.id}`
+        ? `/guide-profile/${verifiedToken.id}?page=1`
         : `/customer-profile`;
 
     return NextResponse.json(

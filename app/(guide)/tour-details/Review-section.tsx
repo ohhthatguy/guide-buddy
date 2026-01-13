@@ -27,10 +27,12 @@ const ReviewSection = ({
       };
       console.log(DataToBACKEND);
 
-      const data = await fetch("/api/user/activity/giveReview", {
+      const res = await fetch("/api/user/activity/giveReview", {
         method: "POST",
         body: JSON.stringify(DataToBACKEND),
       });
+
+      const data = await res.json();
 
       console.log("succesfsully saved review.", data);
     } catch (error) {

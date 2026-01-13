@@ -36,14 +36,14 @@ const page = () => {
         if (data.isFirstTime) {
           router.push(`/customer-profile/first-time`);
         } else {
-          router.push(`/home?id=${data.id}`); //with the id
+          router.push(`/home?id=${data.id}&view=map`); //with the id
         }
       } else if (data.role == "guide") {
         if (data.isFirstTime) {
           router.push(`/first-time`); //for now
           // the extra thigns to choose on guide if first time
         } else {
-          router.push(`/dashboard?id=${data.id}`); //with the id
+          router.push(`/dashboard?id=${data.id}&page=1`); //with the id
         }
       }
     } catch (error) {
