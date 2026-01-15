@@ -5,9 +5,11 @@ import { useState } from "react";
 const UpperPart = ({
   params,
   role,
+  guideId,
 }: {
   params: { [key: string]: string | string[] | undefined };
   role: "guide" | "client";
+  guideId: string;
 }) => {
   const { location, price, meetup, tourID, status, startTime, duration, date } =
     params;
@@ -22,7 +24,8 @@ const UpperPart = ({
     setIsLoading(true);
 
     try {
-      const patchData = { tourID, status: value };
+      // const patchData = { tourID, status: value };
+      const patchData = { tourID, status: value, guideId };
 
       const res = await fetch("/api/guide/activity/updateBookingStatus", {
         method: "PATCH",
@@ -64,9 +67,7 @@ const UpperPart = ({
             </div>
             <div>posted 2 hr ago</div>
           </div>
-          <h2 className=" whitespace-break-spaces">
-            {location} Lorem ipsum dolor sit amet.
-          </h2>
+          <h2 className=" whitespace-break-spaces">{location}</h2>
         </div>
 
         <div className="flex gap-4  items-center justify-end">

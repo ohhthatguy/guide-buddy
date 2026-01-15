@@ -1,10 +1,42 @@
 "use client";
 import { MapPin, Star, ClipboardList, Clock, Award } from "lucide-react";
 import { useTheme } from "next-themes";
+import {
+  useGetCurrentPosition,
+  distanceFromThisToMe,
+} from "@/lib/helper/useGetCurrentPosition";
+import { useEffect, useState } from "react";
 
-const Profile = ({ profileData }: { profileData: any }) => {
+const Profile = ({
+  profileData,
+  location,
+}: {
+  profileData: any;
+  location: [number, number];
+}) => {
   console.log(profileData);
   const { theme } = useTheme();
+  const [distance, setDistance] = useState(0);
+
+  const pos = useGetCurrentPosition();
+  useEffect(() => {
+    if (pos) {
+      console.log("lat1: ", pos[0]);
+      console.log("lng1: ", pos[1]);
+      console.log("lat2: ", location[1]);
+      console.log("lng2: ", location[0]);
+
+      const dis = distanceFromThisToMe(
+        location[1],
+        location[0],
+        pos[0],
+        pos[1]
+      );
+      console.log("Distance: ", dis);
+      setDistance(dis);
+    }
+  }, [pos]);
+
   return (
     <div className="flex justify-center  h-52 comp-bg p-2 rounded-2xl ">
       <div className=" flex justify-center items-center  flex-1">
@@ -18,7 +50,9 @@ const Profile = ({ profileData }: { profileData: any }) => {
         <div className="flex justify-between">
           <p className="flex items-center  gap-1">
             <MapPin size={18} />{" "}
-            <span className="font-semibold">{profileData.distance}</span>{" "}
+            <span className="font-semibold">
+              {distance == 0 ? "~ 0" : distance} km
+            </span>{" "}
           </p>
 
           <p>

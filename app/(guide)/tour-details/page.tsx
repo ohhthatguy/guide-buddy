@@ -99,7 +99,11 @@ const page = async ({
 
     return (
       <div className="m-8">
-        <UpperPart params={params} role={role as "guide" | "client"} />
+        <UpperPart
+          params={params}
+          role={role as "guide" | "client"}
+          guideId={guideId}
+        />
         {/* <div className="grid grid-cols-[2fr_1fr] mt-4 gap-4">
           <MeetupMap meetupCords={meetupCordsFinal as [number, number]} />
           <div className="grid grid-rows-[2fr_1fr] gap-4">

@@ -6,9 +6,16 @@ import { notFound } from "next/navigation";
 import Profile from "./profile";
 import Tours from "./tours";
 import ClientModel from "@/lib/database/Model/Client";
+import { paginationWithoutSkip } from "@/lib/helper/pagination";
 
-export default async function TourPage() {
+export default async function TourPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const session = await mongoose.startSession();
+  const params = await searchParams;
+  const { page } = params;
   try {
     session.startTransaction();
     await connectDB();
@@ -30,24 +37,36 @@ export default async function TourPage() {
       notFound();
     }
 
+    const TourItemCount = await TourModel.countDocuments({
+      "client.id": ress._id,
+    });
+    console.log("YOUR ITEM COUNT: ", TourItemCount);
+
+    const pagLimit = paginationWithoutSkip(Number(page));
+
     // Explicitly select only what you need for safety
     const tour = await TourModel.find({ "client.id": ress._id }, null, {
       session,
-    }).lean();
+    })
+      .limit(pagLimit)
+      .lean();
     console.log(tour);
 
     if (!tour) {
       await session.abortTransaction();
-
       notFound(); // This triggers your not-found.tsx file
     }
 
     const serializedTour = JSON.parse(JSON.stringify(tour));
     console.log(serializedTour);
     return (
-      <main className="p-8">
+      <main className="p-8 grid gap-4">
         <Profile tour={serializedTour[0]} />
-        <Tours tour={serializedTour} />
+        <Tours
+          tour={serializedTour}
+          page={page}
+          TourItemCount={TourItemCount}
+        />
       </main>
     );
   } catch (error) {

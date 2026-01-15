@@ -8,11 +8,13 @@ const ProfileSection = ({
   id,
   role,
   page,
+  location,
 }: {
   data: GuideType;
   id: string;
   role: "guide" | "customer";
   page: string;
+  location: [number, number];
 }) => {
   const omit = <T extends object, K extends (keyof T)[]>(
     data: T,
@@ -69,7 +71,7 @@ const ProfileSection = ({
 
   return (
     <div className={`${role === "guide" && " w-10/11"}`}>
-      <Profile profileData={profileData} />
+      <Profile profileData={profileData} location={location} />
       <div
         className={`${role === "guide" && "grid grid-cols-[1fr_1fr] gap-4"}`}
       >

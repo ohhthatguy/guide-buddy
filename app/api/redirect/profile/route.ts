@@ -14,7 +14,7 @@ export async function GET() {
     const data =
       verifiedToken.role === "guide"
         ? `/guide-profile/${verifiedToken.id}?page=1`
-        : `/customer-profile`;
+        : `/customer-profile?page=1`;
 
     return NextResponse.json(
       { msg: "succesfully retrived routing profile Data", data },

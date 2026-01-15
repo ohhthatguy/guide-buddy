@@ -165,6 +165,7 @@ const page = async ({
         id={id}
         role={role as "guide" | "customer"}
         page={page}
+        location={rawGuide.location.coordinates}
       />
       {role !== "guide" && (
         <PaymentSection
