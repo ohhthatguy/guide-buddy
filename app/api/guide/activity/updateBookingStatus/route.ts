@@ -78,20 +78,62 @@ export async function PATCH(req: NextRequest) {
       ]);
       // Output will look like: [{ _id: 'completed', count: 10 }, { _id: 'pending', count: 2 }]
 
+      const totalEarningOfGuide = await TourModel.aggregate([
+        { $match: { "guide.id": guideObjectId } },
+        {
+          $group: {
+            _id: null,
+            totalEarning: {
+              $sum: {
+                $cond: [
+                  {
+                    $eq: ["$status", "ACCEPTED"],
+                  },
+                  "$price",
+                  0,
+                ],
+              },
+            },
+          },
+        },
+      ]);
+
+      console.log(totalEarningOfGuide);
+      const { totalEarning } = totalEarningOfGuide[0] || { totalEarning: 0 };
+
       console.log("statusCountInGuide: ", statusCountInGuide);
       //select the count of one where status is ACCEPTED
       const completedData = statusCountInGuide.find(
         (item) => item._id === "ACCEPTED"
       );
+
+      const rejectedData = statusCountInGuide.find(
+        (item) => item._id === "REJECTED"
+      );
       const completedCount = completedData ? completedData.count : 0;
+      const rejectedCount = rejectedData ? rejectedData.count : 0;
 
       console.log("COMEPLETE COUNT: ", completedCount);
+      console.log("REJECT COUNT: ", rejectedCount);
+
+      const completionRate = Math.floor(
+        (completedCount / (completedCount + rejectedCount)) * 100
+      );
 
       //update the count of guide with newTOur completed count
 
+      console.log("completion rate: ", completionRate);
+      console.log("totalEarninig: ", totalEarning);
+
       const updateCompleteStatusInGuide = await GuideModel.findOneAndUpdate(
         { _id: reqBody.guideId },
-        { $set: { toursCompleted: completedCount } },
+        {
+          $set: {
+            toursCompleted: completedCount,
+            completionRate: completionRate,
+            totalEarning: totalEarning,
+          },
+        },
         { session: session, new: true }
       );
 

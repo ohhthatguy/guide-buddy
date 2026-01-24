@@ -16,7 +16,7 @@ export type Guide = {
 export type StatCard = {
   title: string;
   value: string;
-  change: string;
+
   icon: LucideIcon;
   color: string; // Tailwind class
   bgColor: string; // Tailwind class

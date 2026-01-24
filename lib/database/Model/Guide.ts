@@ -39,6 +39,8 @@ const GuideSchema: Schema = new Schema({
   certifications: { type: [String], default: ["no certifications yet"] },
   languages: { type: [String], default: ["no Languages yet"] },
   phone: { type: Number, default: 0 },
+  completionRate: { type: Number, default: 0 },
+  totalEarning: { type: Number, default: 0 },
 });
 
 GuideSchema.index({ location: "2dsphere" });

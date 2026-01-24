@@ -15,6 +15,9 @@ export type GuideType = {
   responseTime: string;
   certifications: string[];
   phone: number;
+
+  completionRate?: number;
+  totalEarning?: number;
 };
 
 export type MongoId = { $oid: string };
@@ -30,6 +33,8 @@ export type GuideTypeFromDB = {
   bio: string;
   languages: string[];
   phone: number;
+  completionRate?: number;
+  totalEarning?: number;
 
   // Professional Data
   speciality: string[]; // Array as per your DB snippet
