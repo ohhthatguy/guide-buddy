@@ -1,43 +1,42 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
 import Select from "react-select";
 import { useRouter } from "next/navigation";
-import Button from "@/component/Button/page";
-import type { GuideType } from "../guide-profile/type/type";
+
 import { useGetCurrentPosition } from "@/lib/helper/useGetCurrentPosition";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { firstTimeGuideSchema } from "@/lib/zodSchema/firstTimeSchema";
+import { useForm, Controller } from "react-hook-form";
+
 const page = () => {
   const router = useRouter();
 
   // 1. Call the hook at the TOP LEVEL
   const position = useGetCurrentPosition();
+  // const initData = {
+  //   speciality: [] as string[],
+  //   hourlyRate: 10,
+  //   profileURL: "",
+  //   available: false,
+  //   bio: "",
+  //   location: [] as number[],
+  //   experience: "",
+  //   toursCompleted: 0,
+  //   responseTime: "",
+  //   certifications: [] as string[],
+  //   languages: [] as string[],
+  //   phone: 0,
+  // };
 
-  const handleInputDataChange = (
-    e:
-      | ChangeEvent<HTMLInputElement>
-      | ChangeEvent<HTMLSelectElement>
-      | ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setGuideRemainingData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const initData = {
-    speciality: [] as string[],
-    hourlyRate: 10,
-    profileURL: "",
-    available: false,
-    bio: "",
-    location: [] as number[],
-    experience: "",
-    toursCompleted: 0,
-    responseTime: "",
-    certifications: [] as string[],
-    languages: [] as string[],
-    phone: 0,
-  };
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(firstTimeGuideSchema),
+  });
 
   const specialtyOptions = [
     { value: "trekking", label: "High Altitude Trekking" },
@@ -83,22 +82,15 @@ const page = () => {
     { value: "10+", label: "10+ years" },
   ];
 
-  const [guideRemainingData, setGuideRemainingData] = useState(initData);
-
-  const handleFirstLogin = async () => {
+  const handleFirstLogin = async (guideRemainingData: any) => {
     try {
-      // console.log(guideRemainingData);
+      console.log(guideRemainingData);
       console.log(position);
 
       if (!position) {
         alert("Geoposition is required!");
         return;
       }
-
-      setGuideRemainingData((prev) => ({
-        ...prev,
-        location: position,
-      }));
 
       const guideRemainingDataWithLocation = {
         ...guideRemainingData,
@@ -195,157 +187,226 @@ const page = () => {
             </Button>
           </div> */}
 
-          <div className="my-4">
+          <form onSubmit={handleSubmit(handleFirstLogin)} className="my-4">
             {/* //profile  */}
-            <div>
+            <div className="mb-4">
               <label className="">Profile upload</label>
               <input
-                className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
+                className="border rounded-xl w-full px-4 py-2  mt-2 "
                 placeholder=" Upload Profile reamiang"
-                name="profileURL"
                 type="text"
-                onChange={handleInputDataChange}
-                value={guideRemainingData.profileURL}
-                required
+                {...register("profileURL")}
               />
+              {errors.profileURL?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.profileURL.message)}
+                </p>
+              )}
             </div>
 
             {/* //phone number  */}
-            <div>
+            <div className="mb-4">
               <label className="">Contact </label>
               <input
-                className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
+                className="border rounded-xl w-full px-4 py-2  mt-2"
                 // placeholder=""
-                name="phone"
+
                 type="number"
-                onChange={handleInputDataChange}
-                value={guideRemainingData.phone}
-                required
+                {...register("phone")}
               />
+              {errors.phone?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.phone.message)}
+                </p>
+              )}
             </div>
 
-            <div>
+            <div className="mb-4">
               <label className="">Hourly Rate</label>
               <input
-                className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
-                name="hourlyRate"
+                className="border rounded-xl w-full px-4 py-2  mt-2 "
                 type="number"
                 min={10}
                 max={100}
-                onChange={handleInputDataChange}
-                value={guideRemainingData.hourlyRate}
-                required
+                {...register("hourlyRate")}
               />
+              {errors.hourlyRate?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.hourlyRate.message)}
+                </p>
+              )}
             </div>
 
-            <div>
+            <div className="mb-4">
               <label className="">About Yourself</label>
               <textarea
-                className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
+                className="border rounded-xl w-full px-4 py-2  mt-2 "
                 placeholder=" Write something about yourself"
-                name="bio"
                 rows={5}
-                onChange={handleInputDataChange}
-                value={guideRemainingData.bio}
-                required
+                {...register("bio")}
               />
+              {errors.bio?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.bio.message)}
+                </p>
+              )}
             </div>
 
             <div>
               <label className="">Speciality</label>
-              <Select
-                defaultValue={[specialtyOptions[2]]}
-                isMulti
+              <Controller
                 name="speciality"
-                onChange={(e) => {
-                  console.log(e);
-                  const data = e.map((ele) => ele.value);
-                  console.log(data);
-                  setGuideRemainingData((prev) => ({
-                    ...prev,
-                    speciality: data,
-                  }));
-                }}
-                options={specialtyOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
+                control={control}
+                render={({ field: { onChange, value, ref } }) => (
+                  <Select
+                    ref={ref}
+                    defaultValue={[specialtyOptions[2]]}
+                    isMulti
+                    name="speciality"
+                    value={specialtyOptions.filter((opt) =>
+                      (value as string[])?.includes(opt.value)
+                    )}
+                    onChange={(e) => {
+                      console.log(e);
+                      const data = e.map((ele) => ele.value);
+                      console.log(data);
+                      onChange(data);
+                    }}
+                    options={specialtyOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
               />
+              {errors.speciality?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.speciality.message)}
+                </p>
+              )}
             </div>
 
             {/* lang  */}
             <div>
               <label className="">Language</label>
-              <Select
-                defaultValue={[languageOptions[1]]}
-                isMulti
+              <Controller
                 name="languages"
-                onChange={(e) => {
-                  console.log(e);
-                  const data = e.map((ele) => ele.value);
-                  console.log(data);
-                  setGuideRemainingData((prev) => ({
-                    ...prev,
-                    languages: data,
-                  }));
-                }}
-                options={languageOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
+                control={control}
+                render={({ field: { onChange, value, ref } }) => (
+                  <Select
+                    ref={ref}
+                    defaultValue={[languageOptions[1]]}
+                    isMulti
+                    name="languages"
+                    value={languageOptions.filter((opt) =>
+                      (value as string[])?.includes(opt.value)
+                    )}
+                    onChange={(e) => {
+                      console.log(e);
+                      const data = e.map((ele) => ele.value);
+                      console.log(data);
+                      onChange(data);
+                    }}
+                    options={languageOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
               />
+              {errors.languages?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.languages.message)}
+                </p>
+              )}
             </div>
 
             <div>
               <label className="">Certification</label>
-              <Select
-                defaultValue={[certificationOptions[1]]}
-                isMulti
+
+              <Controller
                 name="certifications"
-                onChange={(e) => {
-                  console.log(e);
-                  const data = e.map((ele) => ele.value);
-                  console.log(data);
-                  setGuideRemainingData((prev) => ({
-                    ...prev,
-                    certifications: data,
-                  }));
-                }}
-                options={certificationOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
+                control={control}
+                render={({ field: { onChange, value, ref } }) => (
+                  <Select
+                    ref={ref}
+                    defaultValue={[certificationOptions[1]]}
+                    isMulti
+                    name="certifications"
+                    value={certificationOptions.filter((opt) =>
+                      (value as string[])?.includes(opt.value)
+                    )}
+                    onChange={(e) => {
+                      console.log(e);
+                      const data = e.map((ele) => ele.value);
+                      console.log(data);
+                      onChange(data);
+                    }}
+                    options={certificationOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
+                )}
               />
+              {errors.certifications?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.certifications.message)}
+                </p>
+              )}
             </div>
 
             <div>
               <label className="">Experience</label>
-              <Select
-                defaultValue={[experienceOptions[1]]}
-                name="experience"
-                onChange={(e) => {
-                  console.log(e);
-                  const data = e?.value || "";
-                  console.log(data);
-                  setGuideRemainingData((prev) => ({
-                    ...prev,
-                    experience: data,
-                  }));
-                }}
-                options={experienceOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
-              />
-            </div>
-          </div>
-          <p>
-            Already have an account?{" "}
-            <span
-              className="text-blue-700 cursor-pointer "
-              onClick={() => router.push("/login")}
-            >
-              Login
-            </span>
-          </p>
 
-          <Button onClick={handleFirstLogin}> Continue</Button>
+              <Controller
+                name="experience"
+                control={control}
+                render={({ field: { onChange, value, ref } }) => (
+                  <Select
+                    ref={ref}
+                    name="experience"
+                    value={experienceOptions.find((opt) => opt.value === value)}
+                    onChange={(e) => {
+                      console.log(e);
+                      const data = e?.value || "";
+                      console.log(data);
+                      onChange(data);
+                    }}
+                    options={experienceOptions}
+                    className="basic-select"
+                    classNamePrefix="select"
+                  />
+                )}
+              />
+              {errors.experience?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.experience.message)}
+                </p>
+              )}
+            </div>
+            <p>
+              Already have an account?{" "}
+              <span
+                className="text-blue-700 cursor-pointer "
+                onClick={() => router.push("/login")}
+              >
+                Login
+              </span>
+            </p>
+
+            {/* <Button onClick={handleFirstLogin}> Continue</Button> */}
+            <button
+              type="submit"
+              className="rounded-xl w-full hover:cursor-pointer p-2 text-white bg-linear-to-r from-blue-700 to-blue-600 "
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <div className="flex items-center justify-center">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+                </div>
+              ) : (
+                "Continue"
+              )}
+            </button>
+          </form>
         </div>
       </div>
     </>

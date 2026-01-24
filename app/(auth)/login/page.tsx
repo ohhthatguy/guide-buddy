@@ -1,7 +1,10 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+
 import { useRouter } from "next/navigation";
-import Button from "../../../component/Button/page";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { loginZodSchema } from "@/lib/zodSchema/authSchema";
 
 const page = () => {
   const router = useRouter();
@@ -16,10 +19,18 @@ const page = () => {
     password: "",
   };
 
-  const [loginData, setLoginData] = useState(initloginData);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(loginZodSchema),
+    defaultValues: initloginData,
+  });
 
-  const handleLogin = async () => {
+  const handleLogin: SubmitHandler<loginType> = async (loginData) => {
     console.log(loginData);
+
     try {
       const res = await fetch("/api/user/login", {
         method: "POST",
@@ -51,52 +62,59 @@ const page = () => {
     }
   };
 
-  const handleInputDataChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLoginData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
   return (
     <>
       <div className=" flex justify-center items-center p-8">
-        <div className="comp-bg rounded-2xl max-w-xl p-8 ">
+        <div className="comp-bg rounded-2xl w-xl p-8 ">
           <h3 className="text-center">Welcome back</h3>
 
-          <div className="my-4">
-            <label className="">Email</label>
-            <input
-              className="border rounded-xl w-full px-4 py-2  mt-2 mb-4"
-              placeholder=" youremail@gmail.com"
-              name="email"
-              onChange={handleInputDataChange}
-              value={loginData.email}
-              type="email"
-              required
-            />
-
-            <label className="">Password</label>
-            <input
-              className="border rounded-xl w-full px-4 py-2  mt-2 mb-8"
-              placeholder="Enter Your Password"
-              name="password"
-              onChange={handleInputDataChange}
-              value={loginData.password}
-              type="password"
-              required
-            />
-
-            <Button onClick={handleLogin} size="full">
-              Log in
-            </Button>
-
-            <div className="mt-4">
-              <Button onClick={() => router.push("/dashboard")} size="full">
-                GUIDE DASHBOARD
-              </Button>
+          {/* 1. Use a proper form tag */}
+          <form onSubmit={handleSubmit(handleLogin)} className="my-4">
+            <div className=" mb-4">
+              <label>Email</label>
+              <input
+                className="border rounded-xl w-full px-4 py-2  mt-2 "
+                placeholder="youremail@gmail.com"
+                {...register("email")}
+                // type="email"
+              />
+              {errors.email?.message && (
+                <p className="  text-xs w-full text-red-500 ">
+                  {String(errors.email.message)}
+                </p>
+              )}
             </div>
-          </div>
+
+            <div className=" mb-4">
+              <label>Password</label>
+              <input
+                className="border rounded-xl w-full px-4 py-2  mt-2 "
+                placeholder="Enter Your Password"
+                {...register("password")}
+                type="password"
+              />
+              {errors.password?.message && (
+                <p className="text-xs w-full text-red-500">
+                  {String(errors.password.message)}
+                </p>
+              )}
+            </div>
+
+            {/* 2. Button must be type submit. DO NOT use onClick={handleSubmit} */}
+            <button
+              type="submit"
+              className="rounded-xl w-full hover:cursor-pointer p-2 text-white bg-linear-to-r from-blue-700 to-blue-600 "
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <div className="flex items-center justify-center">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+                </div>
+              ) : (
+                "Log in"
+              )}
+            </button>
+          </form>
 
           <p>
             Don't have an account?{" "}
