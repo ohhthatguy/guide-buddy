@@ -7,19 +7,23 @@ import type { TourDataType } from "../guide-profile/type/type";
 import { useSearchParams, usePathname } from "next/navigation";
 import { isFinalPage } from "@/lib/helper/pagination";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const UpcomingToursClientComp = ({
   e,
   index,
   length,
   TourItemCount,
+  serializedTour,
 }: {
   e: TourDataType;
   index: number;
   length: number;
   TourItemCount: number;
+  serializedTour: TourDataType[];
 }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const selectedTourId = useSelector(
     (state: any) => state.upcomingAndRecentTourConnection.tourId
@@ -40,7 +44,16 @@ const UpcomingToursClientComp = ({
   };
 
   useEffect(() => {
-    if (selectedTourId) {
+    const isSelectedTourLoaded = serializedTour.find(
+      (ele) => ele._id === selectedTourId
+    );
+    if (selectedTourId && !isSelectedTourLoaded) {
+      router.push(
+        `/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`
+      );
+    }
+
+    if (selectedTourId && isSelectedTourLoaded) {
       // Look for the element by its HTML ID attribute
       const element = document.getElementById(`tour-${selectedTourId}`);
       if (element) {
@@ -52,6 +65,8 @@ const UpcomingToursClientComp = ({
         element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
+
+    console.log("SECLECTED TOUR ID: ", selectedTourId);
   }, [selectedTourId]);
 
   const handlePageChange = () => {

@@ -1,6 +1,8 @@
 "use client";
-import { Check, X, Calendar, Clock4, Hourglass } from "lucide-react";
+import { Calendar, Clock4, Hourglass } from "lucide-react";
 import { useState } from "react";
+import { setTourId } from "@/lib/feature/guide/upcomingAndRecentTourConnection";
+import { useDispatch } from "react-redux";
 
 const UpperPart = ({
   params,
@@ -13,6 +15,8 @@ const UpperPart = ({
 }) => {
   const { location, price, meetup, tourID, status, startTime, duration, date } =
     params;
+  const dispatch = useDispatch();
+  dispatch(setTourId(null));
 
   const [isLoading, setIsLoading] = useState(false);
   const [statusState, setStatusState] = useState(status);

@@ -35,6 +35,8 @@ const getData = async (page: string) => {
       "guide.id": guide._id.toString(),
     }).limit(pagLimit);
 
+    console.log("PAGELIMIT AT UPCMONG: ", pagLimit);
+
     if (!tour || tour.length === 0) {
       console.log("No tours found for this guide");
       // You can return an empty array instead of notFound()
@@ -129,7 +131,7 @@ const getData = async (page: string) => {
     //   },
     // ];
     // serializedTour = [...serializedTour, ...dummySerializedTour];
-    return { serializedTour, id, TourItemCount };
+    return { serializedTour, id, TourItemCount, pagLimit };
   } catch (err) {
     console.log(
       "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database",
@@ -142,7 +144,7 @@ const getData = async (page: string) => {
 };
 
 const UpcomingToursAndRecentActivity = async ({ page }: { page: string }) => {
-  const { serializedTour, id, TourItemCount } = await getData(page);
+  const { serializedTour, id, TourItemCount, pagLimit } = await getData(page);
 
   return (
     <div className="grid grid-cols-[2fr_1fr]  items-start mt-4 gap-4  ">
@@ -154,7 +156,11 @@ const UpcomingToursAndRecentActivity = async ({ page }: { page: string }) => {
             serializedTour={serializedTour}
             TourItemCount={TourItemCount}
           />
-          <RecentActivityComp serializedTour={serializedTour} id={id} />
+          <RecentActivityComp
+            serializedTour={serializedTour}
+            id={id}
+            pagLimit={pagLimit}
+          />
         </>
       )}
     </div>

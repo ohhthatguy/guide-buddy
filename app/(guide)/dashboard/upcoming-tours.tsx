@@ -36,6 +36,7 @@ const UpcomingTours = async ({
                 index={index}
                 length={serializedTour.length}
                 TourItemCount={TourItemCount}
+                serializedTour={serializedTour}
               />
             ))
           ) : (
