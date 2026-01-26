@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { useMapEvents, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { Dispatch, SetStateAction } from "react";
-import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 
 // Fix for default marker icons
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -18,40 +16,37 @@ L.Icon.Default.mergeOptions({
 });
 
 const MainFunction = ({
-  paymentSectionData,
-  setPaymentSectionData,
   initPosData,
+  setInitMeetupLocationData,
+  handleMapClick,
 }: {
-  paymentSectionData: TourDataType;
-  setPaymentSectionData: Dispatch<SetStateAction<TourDataType>>;
   initPosData: [number, number] | null;
+  setInitMeetupLocationData: any;
+  handleMapClick: any;
 }) => {
-  const [pos, setPos] = useState<[number, number] | null>(initPosData);
+  // const [pos, setPos] = useState<[number, number] | null>(initPosData);
 
   const map = useMapEvents({
     click(e) {
       map.locate();
       console.log("Clicked Cordinate: ", e.latlng);
 
-      setPos((prev) => [e.latlng.lat, e.latlng.lng]);
+      // setPos((prev) => [e.latlng.lat, e.latlng.lng]);
+      setInitMeetupLocationData({
+        type: "Point",
+        coordinates: [e.latlng.lat, e.latlng.lng],
+      });
       //saved in db as longitude, laltitude for mongo
-      setPaymentSectionData((prev) => ({
-        ...prev,
-        meetup_location: {
-          type: "Point",
-          coordinates: [e.latlng.lng, e.latlng.lat],
-        },
-      }));
+      handleMapClick(e.latlng.lng, e.latlng.lat);
     },
   });
 
-  console.log("meetup_position in paymentSection: ", pos);
-  console.log("data in paymentSection: ", paymentSectionData);
+  console.log("meetup_position in paymentSection: ", initPosData);
 
   return (
     <>
-      {pos !== null && (
-        <Marker position={pos as [number, number]}>
+      {initPosData !== null && (
+        <Marker position={initPosData as [number, number]}>
           <Popup>Meeting Point here</Popup>
         </Marker>
       )}
