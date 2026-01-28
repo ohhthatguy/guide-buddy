@@ -7,6 +7,8 @@ import Profile from "./profile";
 import Tours from "./tours";
 import ClientModel from "@/lib/database/Model/Client";
 import { paginationWithoutSkip } from "@/lib/helper/pagination";
+import Footer from "../component/Footer";
+import ListViewHeader from "../component/ListViewHeader";
 
 export default async function TourPage({
   searchParams,
@@ -27,7 +29,7 @@ export default async function TourPage({
       return notFound();
     }
 
-    const { id, name, role } = tokenData;
+    const { id } = tokenData;
 
     //get the clientmodelID
     const ress = await ClientModel.findOne({ clientId: id }, null, { session });
@@ -60,14 +62,19 @@ export default async function TourPage({
     const serializedTour = JSON.parse(JSON.stringify(tour));
     console.log(serializedTour);
     return (
-      <main className="p-8 grid gap-4">
-        <Profile tour={serializedTour[0]} />
-        <Tours
-          tour={serializedTour}
-          page={page}
-          TourItemCount={TourItemCount}
-        />
-      </main>
+      <>
+        <Header />
+
+        <main className="p-8 grid gap-4">
+          <Profile tour={serializedTour[0]} />
+          <Tours
+            tour={serializedTour}
+            page={page}
+            TourItemCount={TourItemCount}
+          />
+        </main>
+        <Footer />
+      </>
     );
   } catch (error) {
     // This will be caught by error.tsx

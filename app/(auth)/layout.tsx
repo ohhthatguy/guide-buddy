@@ -1,5 +1,6 @@
 import Header from "./component/Header";
-import connectDB from "@/lib/database/database";
+import Footer from "./component/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -9,6 +10,7 @@ export default function RootLayout({
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

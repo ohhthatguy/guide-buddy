@@ -24,6 +24,10 @@ const UpperPart = ({
   const handleStatus = async (value: string) => {
     console.log(value);
 
+    if (statusState === value) {
+      return;
+    }
+
     // const statusData = e.currentTarget.name;
     setIsLoading(true);
 
@@ -54,8 +58,8 @@ const UpperPart = ({
                 statusState == "ACCEPTED"
                   ? "bg-green-200"
                   : statusState == "PENDING"
-                  ? "bg-amber-200"
-                  : "bg-red-200"
+                    ? "bg-amber-200"
+                    : "bg-red-200"
               } `}
             >
               <div
@@ -63,8 +67,8 @@ const UpperPart = ({
                   statusState == "ACCEPTED"
                     ? "bg-green-500"
                     : statusState == "PENDING"
-                    ? "bg-amber-400"
-                    : "bg-red-500"
+                      ? "bg-amber-400"
+                      : "bg-red-500"
                 } rounded-full `}
               ></div>
               APPROVAL {statusState}

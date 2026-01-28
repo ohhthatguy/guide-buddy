@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { firstTimeCustomerSchema } from "@/lib/zodSchema/firstTimeSchema";
 import { useForm, Controller } from "react-hook-form";
-
+import Header from "../../component/Header";
+import Footer from "../../component/Footer";
 const page = () => {
   const router = useRouter();
 
@@ -71,6 +72,7 @@ const page = () => {
 
   return (
     <>
+      <Header />
       <div className=" flex justify-center items-center p-8 w-full">
         <div className="comp-bg rounded-2xl min-w-2xl p-8 ">
           <h3 className="text-center">Tell us more!</h3>
@@ -137,7 +139,7 @@ const page = () => {
                     isMulti
                     name="languages"
                     value={languageOptions.filter((opt) =>
-                      (value as string[])?.includes(opt.value)
+                      (value as string[])?.includes(opt.value),
                     )}
                     onChange={(e) => {
                       console.log(e);
@@ -174,6 +176,7 @@ const page = () => {
           </form>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

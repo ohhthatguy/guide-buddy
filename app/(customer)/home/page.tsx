@@ -49,9 +49,9 @@ const page = async ({
   // console.log(data);
 
   return (
-    <div className="mx-8">
-      <SearchBox selectedView={view} id={id} />
+    <div className="">
       <GuideCardAndMapClientComp selectedView={view} />
+      {/* <SearchBox selectedView={view} id={id} /> */}
     </div>
   );
 };

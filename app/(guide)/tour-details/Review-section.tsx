@@ -20,6 +20,16 @@ const ReviewSection = ({
   const [reviewObj, setReviewObj] = useState<ReviewType>(initReview);
 
   const handleReview = async () => {
+    if (reviewObj.rating === 0) {
+      alert("Please add at least one star");
+      return;
+    }
+
+    if (!reviewObj.comment) {
+      alert("Please add some text");
+      return;
+    }
+
     try {
       const DataToBACKEND = {
         ...reviewObj,

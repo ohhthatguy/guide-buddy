@@ -6,6 +6,11 @@ const NotePartInput = ({ tourID }: { tourID: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNote = async () => {
+    if (!note) {
+      alert("Please enter some notes");
+      return;
+    }
+
     try {
       const patchData = { tourID, guideNote: note ?? "default note" };
       setIsLoading(true);

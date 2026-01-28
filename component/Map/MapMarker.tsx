@@ -10,9 +10,11 @@ import type {
 const MapMarker = ({
   currentUserPos,
   activeGuides,
+  openGuideSide,
 }: {
   currentUserPos: [number, number];
   activeGuides: PopulatedGuideNameFromDB[];
+  openGuideSide: any;
 }) => {
   const [lat, lon] = currentUserPos;
   const router = useRouter();
@@ -69,7 +71,7 @@ const MapMarker = ({
           e.location.coordinates[0] || 0,
         ],
       };
-    }
+    },
   );
   // const userGuide: GuideMarker[] = [...demoUserGuide, ...realUserGuide];
 
@@ -116,8 +118,15 @@ const MapMarker = ({
         });
 
         return (
-          <Marker key={index} position={e.position} icon={iconPerson}>
-            <Popup>
+          <Marker
+            eventHandlers={{
+              click: () => openGuideSide(e),
+            }}
+            key={index}
+            position={e.position}
+            icon={iconPerson}
+          >
+            {/* <Popup>
               <div
                 className="grid place-items-center gap-3 hover:comp-bg cursor-pointer"
                 onClick={() => {
@@ -131,7 +140,7 @@ const MapMarker = ({
                 />
                 <span className="font-medium text-blue-600 ">{e.name}</span>
               </div>
-            </Popup>
+            </Popup> */}
           </Marker>
         );
       })}

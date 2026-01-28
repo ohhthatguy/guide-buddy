@@ -1,4 +1,4 @@
-import Header from "./component/Header";
+import SpecialCustomerHomeHeader from "./component/SpecialCustomerHomeHeader";
 
 export default function RootLayout({
   children,
@@ -7,7 +7,8 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
+      {/* <SpecialCustomerHomeHeader /> */}
       {children}
     </>
   );
