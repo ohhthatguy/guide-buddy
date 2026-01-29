@@ -25,7 +25,7 @@ const GuideCardAndMapClientComp = ({
           throw new Error("PROBELM IN FRONTEND TO GET THE POSIITOn");
         }
         const res = await fetch(
-          `/api/user/activity/getActiveGuide?lat=${pos[0]}&lng=${pos[1]}`
+          `/api/user/activity/getActiveGuide?lat=${pos[0]}&lng=${pos[1]}`,
         );
         const data = await res.json();
         console.log(data.data);
@@ -48,7 +48,9 @@ const GuideCardAndMapClientComp = ({
           <Map activeGuides={activeGuides} />
         )
       ) : (
-        <div>LOADINGGGGGGG</div>
+        <div className="h-screen flex  justify-center items-center">
+          LOADINGGGGGGG
+        </div>
       )}
     </div>
   );

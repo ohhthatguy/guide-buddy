@@ -8,7 +8,8 @@ import Tours from "./tours";
 import ClientModel from "@/lib/database/Model/Client";
 import { paginationWithoutSkip } from "@/lib/helper/pagination";
 import Footer from "../component/Footer";
-import ListViewHeader from "../component/ListViewHeader";
+// import ListViewHeader from "../component/ListViewHeader";
+import Header from "../component/Header";
 
 export default async function TourPage({
   searchParams,
@@ -79,7 +80,7 @@ export default async function TourPage({
   } catch (error) {
     // This will be caught by error.tsx
     await session.abortTransaction();
-
+    console.log(error);
     throw new Error("Failed to fetch tour data from database");
   } finally {
     await session.endSession();

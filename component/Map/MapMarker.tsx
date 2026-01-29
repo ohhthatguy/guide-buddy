@@ -66,6 +66,7 @@ const MapMarker = ({
         profileURL:
           e.profileURL ||
           "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+
         position: [
           e.location.coordinates[1] || 0,
           e.location.coordinates[0] || 0,

@@ -2,7 +2,11 @@
 import dynamic from "next/dynamic";
 
 const LeafletMap = dynamic(() => import("./Map"), {
-  loading: () => <p>A map is loading</p>,
+  loading: () => (
+    <div className="h-screen flex  justify-center items-center">
+      Map is being LOADED
+    </div>
+  ),
   ssr: false,
 });
 
