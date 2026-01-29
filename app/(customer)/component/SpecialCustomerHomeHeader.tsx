@@ -74,25 +74,26 @@ const SpecialCustomerHomeHeader = () => {
   };
 
   return (
-    <div className="w-full absolute z-1000  flex justify-between px-12 py-4 items-center ">
+    // <div className="w-full absolute z-1000  flex justify-between px-12 py-4 items-center ">
+    <div className="w-full absolute z-1000  flex justify-between items-center ele-bg p-1">
       <div className="flex justify-center items-center gap-4  ">
-        <MapIcon className="h-8 w-8 text-black" />
-        <section className="text-2xl text-black">Guideme</section>
+        <MapIcon className=" sm:h-8 sm:w-8 text-black" />
+        <section className=" text-sm sm:text-xl text-black">Guideme</section>
       </div>
 
       <div className="flex justify-center items-center gap-8">
         {/* <ThemeToggle /> */}
         <TableOfContents
           onClick={handleViewChange}
-          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+          className=" sm:h-10 sm:w-10 sm:p-2 rounded-full sm:ele-bg hover:cursor-pointer"
         />
         <UserRound
           onClick={handleProfileCustomer}
-          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+          className="sm:h-10 sm:w-10 sm:p-2 rounded-full sm:ele-bg hover:cursor-pointer"
         />
         <LogOut
           onClick={handleLogout}
-          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+          className="sm:h-10 sm:w-10 sm:p-2 rounded-full sm:ele-bg hover:cursor-pointer"
         />
       </div>
     </div>

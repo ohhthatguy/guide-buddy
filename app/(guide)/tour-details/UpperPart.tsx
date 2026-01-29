@@ -3,6 +3,7 @@ import { Calendar, Clock4, Hourglass } from "lucide-react";
 import { useState } from "react";
 import { setTourId } from "@/lib/feature/guide/upcomingAndRecentTourConnection";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 const UpperPart = ({
   params,
@@ -42,8 +43,10 @@ const UpperPart = ({
       const data = await res.json();
       console.log(data);
       setStatusState(data.updateQuery.status);
+      toast.success(`Status changed: ${data.updateQuery.status}`);
     } catch (err) {
       console.log("ERROR in status upadte in guide side: ", err);
+      toast.error(`Error in changing Status`);
     }
     setIsLoading(false);
   };
@@ -173,8 +176,9 @@ const UpperPart = ({
                 // onChange={((ele))}
                 // value={statusState}
                 className="cursor-pointer border p-1 rounded-md"
+                defaultValue={""}
               >
-                <option value="" disabled selected hidden>
+                <option value="" disabled hidden>
                   Change Status
                 </option>
 

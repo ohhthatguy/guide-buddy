@@ -1,6 +1,6 @@
 import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
-import { Calendar, Clock, MapPin } from "lucide-react";
-import { GuideDetails } from "./GuideDetails";
+import { Calendar, Clock, MapPin, Eye } from "lucide-react";
+// import { GuideDetails } from "./GuideDetails";
 import Link from "next/link";
 import { isFinalPage } from "@/lib/helper/pagination";
 
@@ -42,10 +42,7 @@ const Tours = ({
                   </Link>
                 </div>
               ) : (
-                <Link
-                  href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`}
-                  className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500"
-                >
+                <div className="grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg ">
                   <div>
                     <Calendar size={44} className="p-2 rounded-md comp-bg" />
                   </div>
@@ -60,17 +57,13 @@ const Tours = ({
                       <div>
                         <div>
                           <div>{e.client.name}</div>
-                          <GuideDetails
-                            guideid={e.guide.id}
-                            tourid={e._id}
-                            date={e.date}
-                            startTime={e.time.startTime}
-                            endTime={e.time.endTime}
-                            location={e.location}
-                            duration={e.duration}
-                            guideName={e.guide.name}
-                            meetup={e.meetup_location.coordinates}
-                          />
+
+                          <Link
+                            href={`/guide-profile/${e.guide.id}?tourId=${e._id}&date=${e.date}&startTime=${e.time.startTime}&endTime=${e.time.endTime}&location=${e.location}&duration=${e.duration}&meetup=${e.meetup_location.coordinates}}&page=1`}
+                            className="hover:cursor-pointer hover:text-white hover:bg-black"
+                          >
+                            Guide: {e.guide.name}
+                          </Link>
                         </div>
                         <div className="flex gap-4">
                           <div className="flex gap-1 items-center">
@@ -94,20 +87,29 @@ const Tours = ({
                       </div>
 
                       {/* <BookingStatus e={e} />  */}
-                      <div
-                        className={`border rounded-xl text-sm p-1 ${
-                          e.status == "ACCEPTED"
-                            ? "bg-green-500"
-                            : e.status == "PENDING"
-                            ? "bg-amber-400"
-                            : "bg-red-500"
-                        }`}
-                      >
-                        {e.status}
+                      <div className="flex gap-4 items-center ">
+                        <Link
+                          href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`}
+                          className="grid grid-cols-[5%_95%] rounded-md ele-bg hover:cursor-pointer  hover:text-green-800 shadow-xs hover:scale-[1.1] scale-100 transition-all duration-500"
+                        >
+                          <Eye />
+                        </Link>
+
+                        <div
+                          className={`border rounded-xl text-sm p-1 ${
+                            e.status == "ACCEPTED"
+                              ? "bg-green-500"
+                              : e.status == "PENDING"
+                                ? "bg-amber-400"
+                                : "bg-red-500"
+                          }`}
+                        >
+                          {e.status}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               )}
             </div>
           ))

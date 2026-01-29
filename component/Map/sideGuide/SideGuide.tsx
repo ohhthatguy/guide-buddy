@@ -14,33 +14,42 @@ const SideGuide = ({
 }) => {
   console.log(selectedSideGuide);
 
-  const dummyarray = [
-    "sasdasd",
-    "sadad",
-    "asdasd",
-    "asdasd",
-    "sasdasd",
-    "sadad",
-    "asdasd",
-    "asdasd",
-    "sasdasd",
-    "sadad",
-    "asdasd",
-    "asdasd",
-    "sasdasd",
-    "sadad",
-    "asdasd",
-    "asdasd",
-  ];
-
   const imgURL = selectedSideGuide?.profileURL
     ? selectedSideGuide.profileURL
     : "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU0MzUwMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080";
 
   return (
-    <div className="h-screen min-h-0 overflow-hidden grid grid-rows-[2fr_1fr_5fr]">
-      <div className=" ele-bg  py-2">
-        <div className=" flex justify-between px-4 items-center ">
+    // h-[91vh]
+    // <div className="h-screen border-2 flex flex-col justify-end">
+    <div className="h-screen min-h-0 relative overflow-hidden grid grid-rows-[2fr_1fr_5fr]">
+      <div className=" ele-bg min-h-35   flex flex-col justify-end">
+        <div
+          className="cursor-pointer absolute left-0 top-10 sm:top-13 text-xs underline text-blue-500"
+          onClick={() => setOpenSide(false)}
+        >
+          BACK TO MAP
+        </div>
+        <div className="flex  justify-around  items-center  py-2">
+          <div className=" flex justify-between px-4 items-center ">
+            <div className="text-xl flex flex-col  font-semibold">
+              <p>{selectedSideGuide?.guideId.name}</p>
+              <div className="flex items-center ">
+                {[1, 2, 3, 4, 5].map((e, index) => (
+                  <Star
+                    key={index}
+                    // className={`${(selectedSideGuide?.rating ?? 0 >= e) ? "fill-yellow-400" : ""}`}
+                    className={`${(selectedSideGuide?.rating ?? 0) >= e ? "fill-yellow-400" : ""}`}
+                    size={13}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <img src={imgURL} className="h-20 w-20 object-cover rounded-full  " />
+        </div>
+
+        {/* <div className="border flex justify-between px-4 items-center ">
           <div className="text-xl flex flex-col  font-semibold">
             <p>{selectedSideGuide?.guideId.name}</p>
             <div className="flex items-center ">
@@ -58,10 +67,7 @@ const SideGuide = ({
           <div className="cursor-pointer " onClick={() => setOpenSide(false)}>
             X
           </div>
-        </div>
-        <div className="flex justify-center rounded-full items-center ">
-          <img src={imgURL} className="h-30 w-30 object-cover rounded-full  " />
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-[1fr_2fr_1fr] ">
@@ -72,7 +78,7 @@ const SideGuide = ({
           <p className="text-xs opacity-85">TOURS</p>
         </div>
 
-        <div className="flex flex-col justify-center items-center border-x-2">
+        <div className="flex flex-col justify-center items-center">
           <p className="text-md font-bold">{selectedSideGuide?.experience}</p>
           <p className="text-xs opacity-85">EXP. YEARS</p>
         </div>
@@ -83,10 +89,10 @@ const SideGuide = ({
         </div>
       </div>
 
-      <div className="grid grid-rows-[min-content_1fr] min-h-0  border-t-2">
+      <div className="grid grid-rows-[min-content_1fr] min-h-0  ">
         <div className=" min-h-0 max-h-fit p-2 ">
           <p className="font-semibold">ABOUT</p>
-          <p className=" text-sm overflow-auto max-h-30 p-2 min-h-0">
+          <p className=" text-sm overflow-auto max-h-30 p-2 min-h-30">
             {selectedSideGuide?.bio}
           </p>
         </div>
@@ -95,7 +101,7 @@ const SideGuide = ({
           <div className="grid grid-cols-2 min-h-0 gap-4 ">
             <div className="min-h-0 max-h-fit ">
               <p className="font-semibold capitalize p-2">Langauges</p>
-              <div className=" min-h-0 max-h-30  overflow-auto">
+              <div className=" min-h-20 max-h-30  overflow-auto">
                 {selectedSideGuide?.languages.map((e, index) => (
                   <div className="flex gap-2 items-center px-2 " key={index}>
                     <p className="bg-blue-500 w-2 h-2 rounded-full"></p>
@@ -129,6 +135,7 @@ const SideGuide = ({
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 

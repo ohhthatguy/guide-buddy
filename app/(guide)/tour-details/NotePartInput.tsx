@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-
+import toast from "react-hot-toast";
 const NotePartInput = ({ tourID }: { tourID: string }) => {
   const [note, setNote] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNote = async () => {
     if (!note) {
-      alert("Please enter some notes");
+      toast.error("Please enter some notes");
       return;
     }
 

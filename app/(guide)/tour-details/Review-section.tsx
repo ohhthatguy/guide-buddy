@@ -2,6 +2,7 @@
 import { MessageSquareHeart, Star } from "lucide-react";
 import { useState } from "react";
 import type { ReviewType } from "../guide-profile/type/type";
+import toast from "react-hot-toast";
 
 const ReviewSection = ({
   clientId,
@@ -18,19 +19,21 @@ const ReviewSection = ({
     guideId: guideId,
   };
   const [reviewObj, setReviewObj] = useState<ReviewType>(initReview);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleReview = async () => {
     if (reviewObj.rating === 0) {
-      alert("Please add at least one star");
+      toast.error("Please add at least one star");
       return;
     }
 
     if (!reviewObj.comment) {
-      alert("Please add some text");
+      toast.error("Please add some text");
       return;
     }
 
     try {
+      setIsLoading(true);
       const DataToBACKEND = {
         ...reviewObj,
         date: new Date().toLocaleDateString(),
@@ -45,9 +48,12 @@ const ReviewSection = ({
       const data = await res.json();
 
       console.log("succesfsully saved review.", data);
+      toast.success("succesfsully to save review");
     } catch (error) {
       console.log("Faield to  save review.", error);
+      toast.error("Failed to save review");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -101,14 +107,14 @@ const ReviewSection = ({
             //   : "text-white comp-bg"
           } min-w-16 text-center rounded-xl hover:cursor-pointer p-2  `}
         >
-          {/* {isLoading ? (
-          <div className="flex items-center justify-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
-          </div>
-        ) : (
-          "Save"
-        )} */}
-          Submit Review
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+            </div>
+          ) : (
+            "Save"
+          )}
+          {/* Submit Review */}
         </button>
       </div>
     </div>

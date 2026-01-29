@@ -15,12 +15,14 @@ const RecentActivityComp = ({
   const [page, setPage] = useState(1);
   const [recentActivity, setRecentActivity] = useState([]);
   const [isLastPage, setIsLastPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const res = await fetch(
-          `/api/guide/dashboard/recentActivities?guideId=${serializedTour[0].guide.id}&recentPageNumber=${page}`
+          `/api/guide/dashboard/recentActivities?guideId=${serializedTour[0].guide.id}&recentPageNumber=${page}`,
         );
 
         const data = await res.json();
@@ -31,6 +33,7 @@ const RecentActivityComp = ({
       } catch (error) {
         console.log("Errror in fetching data; ", error);
       }
+      setIsLoading(false);
     };
 
     fetchData();
@@ -43,30 +46,67 @@ const RecentActivityComp = ({
         <p>Latest updates and notifications</p>
       </div>
 
-      <div
-        className="overflow-auto px-4 h-[50vh] 
+      {/* <div
+            className="overflow-auto px-4 h-[50vh] 
         "
-      >
-        {recentActivity?.length > 0 ? (
-          recentActivity.map((e: RecentActivity, index: number) => (
-            <RecentActivityClientComp
-              key={index}
-              e={e}
-              index={index}
-              guideId={id}
-              setPage={setPage}
-              page={page}
-              isLastPage={isLastPage}
-              totalLength={recentActivity.length}
-              recentActivity={recentActivity}
-            />
-          ))
-        ) : (
-          <div className="text-gray-700">
-            You dont have any activity to show!
+          >
+            {recentActivity?.length > 0 ? (
+              recentActivity.map((e: RecentActivity, index: number) => (
+                <RecentActivityClientComp
+                  key={index}
+                  e={e}
+                  index={index}
+                  guideId={id}
+                  setPage={setPage}
+                  page={page}
+                  isLastPage={isLastPage}
+                  totalLength={recentActivity.length}
+                  recentActivity={recentActivity}
+                />
+              ))
+            ) : (
+              <div className="text-gray-700">
+                You dont have any activity to show!
+              </div>
+            )}
+          </div> */}
+
+      <>
+        {!isLoading ? (
+          <div
+            className="overflow-auto px-4 h-[50vh] 
+        "
+          >
+            {recentActivity?.length > 0 ? (
+              recentActivity.map((e: RecentActivity, index: number) => (
+                <RecentActivityClientComp
+                  key={index}
+                  e={e}
+                  index={index}
+                  guideId={id}
+                  setPage={setPage}
+                  page={page}
+                  isLastPage={isLastPage}
+                  totalLength={recentActivity.length}
+                  recentActivity={recentActivity}
+                />
+              ))
+            ) : (
+              <div className="text-gray-700">
+                You dont have any activity to show!
+              </div>
+            )}
           </div>
+        ) : (
+          <div className="h-[50vh] grid gap-4">
+            <div className="h-4 w-3/4 animate-pulse  rounded bg-slate-200"></div>
+            <div className="h-4 w-1/2 rounded animate-pulse  bg-slate-200"></div>
+            <div className="h-4 w-3/4 animate-pulse  rounded bg-slate-200"></div>
+            <div className="h-4 w-1/2 rounded animate-pulse  bg-slate-200"></div>
+          </div>
+          // <div className=" px-4 animate-pulse h-[50vh] w-full rounded-xl bg-slate-200"></div>
         )}
-      </div>
+      </>
     </div>
   );
 };

@@ -13,6 +13,7 @@ import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "./mapcss.css";
 import { useState } from "react";
+import { MainMapRecenterMap } from "./setPositionOnMap/MainMapRecenterMap";
 
 export default function leafletMap({
   activeGuides,
@@ -48,23 +49,24 @@ export default function leafletMap({
 
   return (
     <div className="">
+      <SpecialCustomerHomeHeader />
       <div
-        className={`grid transition-all duration-1000 ease-in-out 
-           ${openSide ? "grid-cols-[3fr_1fr]" : "grid-cols-[1fr_0fr]"} `}
+        className={`grid transition-all duration-1000 ease-in-out relative 
+           ${openSide ? "grid-cols-[0fr_1fr] sm:grid-cols-[2fr_1fr]  " : "grid-cols-[1fr_0fr]"} `}
       >
-        <div className="relative">
-          <SpecialCustomerHomeHeader />
-
+        <div>
           <MapContainer
             className="map"
             center={position}
             zoom={10}
-            scrollWheelZoom={true} //true
+            zoomControl={false}
+            // scrollWheelZoom={true} //true
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            <MainMapRecenterMap coords={position} />
 
             <MapMarker
               currentUserPos={position}

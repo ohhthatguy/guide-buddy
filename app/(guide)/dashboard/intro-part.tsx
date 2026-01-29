@@ -1,7 +1,8 @@
 "use client";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, Loader2 } from "lucide-react";
 import type { Guide } from "./type/type";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 const IntroPart = () => {
   const demoGuideData: Guide = {
     id: "guide-1",
@@ -18,9 +19,11 @@ const IntroPart = () => {
   };
 
   const [guideData, setGuideData] = useState(demoGuideData);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleGuideVisibility = async (currentStatus: boolean) => {
     try {
+      setIsLoading(true);
       const res = await fetch("/api/guide/dashboard", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -42,11 +45,13 @@ const IntroPart = () => {
     } catch (error) {
       console.log("Error in handleGuideVisibility frontned: ", error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     const initialDataFetch = async () => {
       try {
+        setIsLoading(true);
         const res = await fetch("/api/guide/dashboard");
         const data = await res.json();
 
@@ -60,6 +65,7 @@ const IntroPart = () => {
       } catch (error) {
         console.log("Error in dashboard guide frontned: ", error);
       }
+      setIsLoading(false);
     };
 
     initialDataFetch();
@@ -83,7 +89,16 @@ const IntroPart = () => {
           <div>
             {guideData.isOnline ? <Eye size={20} /> : <EyeClosed size={20} />}
           </div>
-          <div> {guideData.isOnline ? "Go Offline" : "Go Online"} </div>
+          <div>
+            {" "}
+            {isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : guideData.isOnline ? (
+              "Go Offline"
+            ) : (
+              "Go Online"
+            )}{" "}
+          </div>
         </button>
       </div>
     </div>
