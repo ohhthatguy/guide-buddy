@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 
 await connectDB();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
     const AccountData = jwt.verify(
       AccountToken || "",
-      process.env.JWT_SECRET!
+      process.env.JWT_SECRET!,
     ) as { id: string };
 
     console.log("ClientModel firstime: ", req);
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const updatedIsFirstTimeFlag = await AccountModel.findByIdAndUpdate(
       AccountData.id,
       { isFirstTime: false },
-      { session }
+      { session },
     );
 
     console.log("ClientModel savefd: ", savedGuide);
@@ -45,14 +45,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         msg: "succefully saved remaiing client data and isFirstTime updated to false",
         data: { AccountData, reqBody, savedGuide, updatedIsFirstTimeFlag },
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log("Error at backend of first_time_login client: ", error);
     // await session.abortTransaction();
     return NextResponse.json(
       { msg: "Error at backend of first_time_login client", err: error },
-      { status: 500 }
+      { status: 500 },
     );
   } finally {
     session.endSession();

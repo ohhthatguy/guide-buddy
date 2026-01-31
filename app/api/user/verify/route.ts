@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       {
         message: "TOKEN_EXPIRED",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
