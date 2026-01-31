@@ -59,7 +59,7 @@ const Tours = ({
                           <div>{e.client.name}</div>
 
                           <Link
-                            href={`/guide-profile/${e.guide.id}?tourId=${e._id}&date=${e.date}&startTime=${e.time.startTime}&endTime=${e.time.endTime}&location=${e.location}&duration=${e.duration}&meetup=${e.meetup_location.coordinates}}&page=1`}
+                            href={`/guide-profile/${e.guide.id}?tourId=${e._id}&date=${e.date}&startTime=${e.time.startTime}&endTime=${e.time.endTime}&location=${e.location}&duration=${e.duration}&meetup=${e.meetup_location.coordinates}&page=1`}
                             className="hover:cursor-pointer hover:text-white hover:bg-black"
                           >
                             Guide: {e.guide.name}
