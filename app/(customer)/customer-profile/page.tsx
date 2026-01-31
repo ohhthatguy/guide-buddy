@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import mongoose from "mongoose";
 import connectDB from "@/lib/database/database";
 import TourModel from "@/lib/database/Model/Tour";
