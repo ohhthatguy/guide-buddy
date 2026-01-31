@@ -12,7 +12,7 @@ export const upcomingAndRecentTourSlices = createSlice({
   name: "upcomingAndRecentTourConnection",
   initialState,
   reducers: {
-    setTourId: (state, action: PayloadAction<string>) => {
+    setTourId: (state, action: PayloadAction<string | null>) => {
       //   console.log("INSIDE THE REDUX, ", action.payload);
       state.tourId = action.payload;
     },

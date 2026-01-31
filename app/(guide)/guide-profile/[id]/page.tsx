@@ -11,7 +11,7 @@ const page = async ({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string }>;
 }) => {
   // const guideData: GuideType[] = [
   //   {
@@ -103,7 +103,7 @@ const page = async ({
 
   await connectDB();
   const { id } = await params;
-  const { page } = await searchParams;
+  const { page = "1" } = await searchParams;
   const tokenData = await getTokenData("token");
   if (!tokenData) {
     console.log("Token data not ofund");
@@ -165,7 +165,7 @@ const page = async ({
         id={id}
         role={role as "guide" | "customer"}
         page={page}
-        location={rawGuide.location.coordinates}
+        location={rawGuide.location ? rawGuide.location.coordinates : [0, 0]}
       />
       {role !== "guide" && (
         <PaymentSection

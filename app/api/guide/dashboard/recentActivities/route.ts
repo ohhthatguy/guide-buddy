@@ -15,10 +15,10 @@ const getUpcomingTourData = async (pagLimit: number) => {
 
     if (!tokenData) {
       console.log(
-        "getTokenData() has bugs, check it in helper function. Error at upcoming-tour page of guide"
+        "getTokenData() has bugs, check it in helper function. Error at upcoming-tour page of guide",
       );
       throw new Error(
-        "Failed to get token data in UpcomingToursAndRecentActivity component "
+        "Failed to get token data in UpcomingToursAndRecentActivity component ",
       );
     }
 
@@ -49,10 +49,10 @@ const getUpcomingTourData = async (pagLimit: number) => {
   } catch (error) {
     console.log(
       "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database",
-      error
+      error,
     );
     throw new Error(
-      "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database"
+      "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database",
     );
   }
 };
@@ -80,12 +80,12 @@ export async function GET(req: NextRequest) {
           e.status === "PENDING"
             ? `New booking request from ${e.client.name}!`
             : e.status === "REJECTED"
-            ? `Booking request of ${e.client.name} Rejected!`
-            : `Booking request of ${e.client.name} Accepted!`,
+              ? `Booking request of ${e.client.name} Rejected!`
+              : `Booking request of ${e.client.name} Accepted!`,
         // FIX: Passing as an object to match your function definition
         time: useGetTimingMessage(e.createdAt),
         id: e._id,
-      })
+      }),
     );
 
     const reviewItemCount = await ReviewModel.countDocuments({});
@@ -107,7 +107,7 @@ export async function GET(req: NextRequest) {
 
     const data = JSON.parse(JSON.stringify(dataReview));
     console.log(data);
-    const reviewActivities: RecentActivity[] = (data || []).map((e) => ({
+    const reviewActivities: RecentActivity[] = (data || []).map((e: any) => ({
       type: "review",
       message: `New review from ${e.clientId?.clientId?.name || "Anonymous"}!`,
       time: useGetTimingMessage(e.createdAt),
@@ -128,19 +128,19 @@ export async function GET(req: NextRequest) {
         msg: "Success IN GETTING THE VALUE OF RECENT ACTIVITY IN BACKEND",
         finalData,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(
       "ERROR IN GETTING THE VALUE OF RECENT ACTIVITY IN BACKEND",
-      error
+      error,
     );
     return NextResponse.json(
       {
         msg: "ERROR IN GETTING THE VALUE OF RECENT ACTIVITY IN BACKEND",
         error,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

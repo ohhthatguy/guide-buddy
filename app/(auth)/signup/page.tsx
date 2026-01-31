@@ -18,7 +18,7 @@ const page = () => {
     password: "",
     name: "",
     confirmPassword: "",
-    role: "",
+    role: "customer",
     isFirstTime: true,
     isVerified: false,
   };

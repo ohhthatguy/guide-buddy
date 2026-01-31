@@ -2,7 +2,7 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 
 import type { ReviewType } from "@/app/(guide)/guide-profile/type/type";
 
-export interface IReview extends Document, ReviewType {}
+// export interface IReview extends Document, ReviewType {}
 
 const reviewSchema: Schema = new Schema(
   {
@@ -20,9 +20,9 @@ const reviewSchema: Schema = new Schema(
       required: [true, "Guide ID is missing"],
     },
   },
-  { timestamps: true, autoIndex: true }
+  { timestamps: true, autoIndex: true },
 );
 
-const ReviewModel: Model<IReview> =
-  mongoose.models.Review || mongoose.model<IReview>("Review", reviewSchema);
+const ReviewModel =
+  mongoose.models.Review || mongoose.model("Review", reviewSchema);
 export default ReviewModel;

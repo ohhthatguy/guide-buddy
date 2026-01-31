@@ -42,7 +42,7 @@ const page = async ({
       duration,
       meetupCordsFinal,
       clientName,
-      clientId
+      clientId,
     );
 
     const tokenData = await getTokenData("token");

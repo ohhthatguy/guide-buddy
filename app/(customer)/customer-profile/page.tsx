@@ -14,11 +14,15 @@ import Header from "../component/Header";
 export default async function TourPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const session = await mongoose.startSession();
   const params = await searchParams;
-  const { page } = params;
+  let { page } = params;
+
+  if (!page) {
+    page = "1";
+  }
   try {
     session.startTransaction();
     await connectDB();

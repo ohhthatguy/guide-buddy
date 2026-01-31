@@ -14,10 +14,10 @@ const getData = async (page: string) => {
 
     if (!tokenData) {
       console.log(
-        "getTokenData() has bugs, check it in helper function. Error at upcoming-tour page of guide"
+        "getTokenData() has bugs, check it in helper function. Error at upcoming-tour page of guide",
       );
       throw new Error(
-        "Failed to get token data in UpcomingToursAndRecentActivity component "
+        "Failed to get token data in UpcomingToursAndRecentActivity component ",
       );
     }
 
@@ -135,16 +135,21 @@ const getData = async (page: string) => {
   } catch (err) {
     console.log(
       "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database",
-      err
+      err,
     );
     throw new Error(
-      "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database"
+      "Failed to fetch upcoming-tour data in UpcomingToursAndRecentActivity component from database",
     );
   }
 };
 
 const UpcomingToursAndRecentActivity = async ({ page }: { page: string }) => {
-  const { serializedTour, id, TourItemCount, pagLimit } = await getData(page);
+  const {
+    serializedTour,
+    id,
+    TourItemCount = 0,
+    pagLimit,
+  } = await getData(page);
 
   return (
     <div className="grid grid-cols-[2fr_1fr]  items-start mt-4 gap-4  ">
@@ -159,7 +164,7 @@ const UpcomingToursAndRecentActivity = async ({ page }: { page: string }) => {
           <RecentActivityComp
             serializedTour={serializedTour}
             id={id}
-            pagLimit={pagLimit}
+            // pagLimit={pagLimit}
           />
         </>
       )}

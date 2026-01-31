@@ -29,6 +29,7 @@ export const signUpZodSchema = z
     email: z.email("Invalid Email"),
     role: z.enum(["guide", "customer"], "Please select one of the option"),
     isFirstTime: z.boolean(),
+    isVerified: z.boolean(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

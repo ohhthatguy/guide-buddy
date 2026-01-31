@@ -18,7 +18,7 @@ const About = ({ aboutData }: { aboutData: any }) => {
             Languages
           </p>
           <div className="flex gap-4">
-            {aboutData.languages.map((e, index) => (
+            {aboutData.languages.map((e: any, index: number) => (
               <span
                 key={index}
                 className={`p-1 rounded-xl text-sm ${

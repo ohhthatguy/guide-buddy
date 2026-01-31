@@ -7,10 +7,13 @@ import UpcomingToursAndRecentActivity from "./UpcomingToursAndRecentActivity";
 const page = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string }>;
 }) => {
   const params = await searchParams;
-  const { page } = params;
+  let { page } = params;
+  if (!page) {
+    page = "1";
+  }
   return (
     <div className="mx-8">
       <IntroPart />

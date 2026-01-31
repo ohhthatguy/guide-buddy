@@ -7,7 +7,7 @@ const Certification = ({ certificationData }: { certificationData: any }) => {
       <h3>Certification</h3>
 
       <div className="flex gap-4 flex-col">
-        {certificationData.certifications.map((e, index) => (
+        {certificationData.certifications.map((e: any, index: number) => (
           <div key={index} className="flex gap-2 items-center">
             <Shield />
             <div className="font-normal text-xl">{e}</div>

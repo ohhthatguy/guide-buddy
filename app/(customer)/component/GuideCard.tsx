@@ -16,10 +16,10 @@ import Footer from "./Footer";
 
 const GuideCard = ({
   activeGuides,
-  pos,
+  pos = [0, 0],
 }: {
   activeGuides: PopulatedGuideNameFromDB[];
-  pos: [number, number];
+  pos: [number, number] | null;
 }) => {
   type guideCardType = {
     name: string;
@@ -113,12 +113,14 @@ const GuideCard = ({
       // Join the speciality array into a single string for 'talksAbout'
       talksAbout: guide.speciality.join(", "),
       // Placeholder values for data not in your snippet
-      distance: distanceFromThisToMe(
-        pos[1],
-        pos[0],
-        guide.location.coordinates[0],
-        guide.location.coordinates[1] || 0,
-      ), // This usually requires a calculation function
+      distance: pos
+        ? distanceFromThisToMe(
+            pos[1] || 0,
+            pos[0] || 0,
+            guide.location.coordinates[0],
+            guide.location.coordinates[1] || 0,
+          )
+        : 0, // This usually requires a calculation function
       review: 0, // You might need a count() query for this later
     }),
   );

@@ -2,7 +2,7 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 
 // 1. Ensure your interface extends Document
-export interface ITour extends Document, TourDataType {}
+// export interface ITour extends Document, TourDataType {}
 
 const tourSchema: Schema = new Schema(
   {
@@ -76,10 +76,9 @@ const tourSchema: Schema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const TourModel: Model<ITour> =
-  mongoose.models.Tour || mongoose.model<ITour>("Tour", tourSchema);
+const TourModel = mongoose.models.Tour || mongoose.model("Tour", tourSchema);
 
 export default TourModel;

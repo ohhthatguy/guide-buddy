@@ -18,6 +18,11 @@ export type GuideType = {
 
   completionRate?: number;
   totalEarning?: number;
+
+  location?: {
+    type: "Point";
+    coordinates: [number, number]; // [longitude, latitude]
+  };
 };
 
 export type MongoId = { $oid: string };
@@ -95,4 +100,6 @@ export type TourDataType = {
     coordinates: [number, number]; // [Longitude, Latitude]
   };
   guideNote?: string;
+  _id?: MongoId | string;
+  createdAt: string;
 };

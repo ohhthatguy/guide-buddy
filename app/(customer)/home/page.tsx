@@ -30,7 +30,7 @@ const page = async ({
   searchParams,
 }: {
   searchParams: Promise<{
-    [key: string]: string | string[] | undefined | "list" | "map";
+    [key: string]: "list" | "map";
   }>;
 }) => {
   // type viewtype = "list" | "map";

@@ -13,13 +13,13 @@ import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
 import { useEffect, useState } from "react";
 
 const Profile = ({ tour }: { tour: TourDataType }) => {
-  const [clientData, setClientData] = useState(null);
+  const [clientData, setClientData] = useState<any>(null);
 
   useEffect(() => {
     const getClientDetails = async () => {
       try {
         const res = await fetch(
-          `/api/user/activity/getClientDetail?client_ID=${tour.client.id}`
+          `/api/user/activity/getClientDetail?client_ID=${tour.client.id}`,
         );
         console.log(res);
         const data = await res.json();
@@ -69,7 +69,7 @@ const Profile = ({ tour }: { tour: TourDataType }) => {
         <div className="flex gap-4 items-center">
           <Languages size={18} />
           <div className="flex gap-4">
-            {clientData?.languages.map((e, index) => (
+            {clientData?.languages.map((e: any, index: number) => (
               <span
                 key={index}
                 className={`p-1 rounded-xl text-sm ${
