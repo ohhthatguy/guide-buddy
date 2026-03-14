@@ -13,6 +13,7 @@ import {
 } from "@/lib/helper/useGetCurrentPosition";
 import ListViewHeader from "./ListViewHeader";
 import Footer from "./Footer";
+import Link from "next/link";
 
 const GuideCard = ({
   activeGuides,
@@ -134,7 +135,83 @@ const GuideCard = ({
   return (
     <>
       <ListViewHeader />
-      <div className="grid grid-cols-3 gap-8">
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
+        {realGuides?.map((e, index) => (
+          <div className=" rounded-2xl p-1 comp-bg  " key={index}>
+            <div className="h-52  relative">
+              <img
+                src={e.profileURL}
+                className="w-full h-full object-cover object-center"
+              />
+              <span className="absolute text-white top-2 left-1 rounded-2xl bg-green-700 px-2">
+                {e.available ? "Available" : ""}
+              </span>
+            </div>
+
+            <div className="mt-4  ele-bg rounded-2xl p-2">
+              <div className="flex justify-between ">
+                <div className="leading-tight">
+                  <p className="text-[clamp(0.75rem,4vw+0.35rem,1.5rem)] font-bold">
+                    {e.name}
+                  </p>
+
+                  <div className="flex gap-1.5   items-center">
+                    <Star size={16} className="" />
+                    <span className="text-[clamp(0.75rem,4vw+0.35rem,0.85rem)] font-black">
+                      {e.rating}
+                    </span>{" "}
+                    <span className="muted   text-[clamp(0.75rem,4vw+0.35rem,0.85rem)]">
+                      ({e.review} reviews)
+                    </span>
+                  </div>
+                </div>
+
+                {/* <div className="flex gap-1.5   items-center">
+                    <Star size={16} className="" />
+                    <span className="text-[clamp(0.75rem,4vw+0.35rem,1rem)] leading-none ">
+                      {e.rating}
+                    </span>{" "}
+                    <span className="muted   text-[clamp(0.75rem,4vw+0.35rem,0.85rem)] leading-none">
+                      ({e.review} reviews)
+                    </span>
+                  </div>
+                </div> */}
+
+                <div className="leading-tight ">
+                  <p className="text-end">
+                    <span className="text-[clamp(0.75rem,4vw+0.35rem,1rem)] font-bold">
+                      ${e.rate}
+                    </span>
+                    <span className="text-[clamp(0.75rem,4vw+0.35rem,0.85rem)] ">
+                      /hr
+                    </span>
+                  </p>
+
+                  <p className="text-[clamp(0.75rem,4vw+0.35rem,0.85rem)] muted">
+                    {e.distance === 0 ? "~0 " : e.distance} <span>km far</span>
+                  </p>
+                </div>
+              </div>
+              <hr className="my-2 border border-gray-300" />
+              <div className=" flex flex-col gap-4">
+                <p className="flex items-center gap-2 flex-wrap">
+                  {e.talksAbout}
+                </p>
+
+                <Link
+                  className="w-full p-2 rounded-2xl hover:cursor-pointer hover:text-blue-600 hover:bg-gray-300 duration-300 transition-all  bg-blue-600 text-center text-white"
+                  href={`/guide-profile/${e.id}?page=1`}
+                >
+                  View Profile
+                </Link>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* <div className="grid sm:grid-cols-3 gap-8 border ">
         {realGuides?.map((e, index) => (
           <div
             className="h-fit rounded-2xl p-4 comp-bg hover:cursor-pointer hover:scale-105 scale-100 duration-300 transition-all "
@@ -183,7 +260,7 @@ const GuideCard = ({
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
       <Footer />
     </>
   );

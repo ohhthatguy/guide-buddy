@@ -26,7 +26,7 @@ const Reviews = ({
   const { theme } = useTheme();
   console.log(
     "we call api with id to fetch reviews here in this component: ",
-    id
+    id,
   );
 
   const [review, setReview] = useState<ReviewTypeFromBackend[] | []>([]);
@@ -87,7 +87,7 @@ const Reviews = ({
         const res = await fetch(
           `/api/user/activity/giveReview?guideId=${
             role === "guide" ? Guidedata.id : id
-          }&page=${page}`
+          }&page=${page}`,
         );
         const data = await res.json();
 
@@ -142,9 +142,15 @@ const Reviews = ({
 
   return (
     <div className="comp-bg p-4 rounded-2xl">
-      <h3 ref={reviewRef} className="mb-4">
-        Review ({totalReviewCount})
-      </h3>
+      <div
+        ref={reviewRef}
+        className="mb-4 text-[clamp(2rem,5vw+0.1rem,3rem)] flex items-center gap-2"
+      >
+        Review{" "}
+        <span className="text-[clamp(1.5rem,5vw+0.2rem,2.5rem)]">
+          ({totalReviewCount})
+        </span>
+      </div>
 
       <div className=" h-[60vh] overflow-auto px-4">
         {review ? (

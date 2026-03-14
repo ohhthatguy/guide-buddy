@@ -98,27 +98,15 @@ const page = async ({
       role === "guide" ? data?.client.id.languages : data?.guide.id?.languages;
 
     return (
-      <div className="m-8">
+      <div className=" m-2 sm:m-12 ">
         <UpperPart
           params={params}
           role={role as "guide" | "client"}
           guideId={guideId}
         />
-        {/* <div className="grid grid-cols-[2fr_1fr] mt-4 gap-4">
-          <MeetupMap meetupCords={meetupCordsFinal as [number, number]} />
-          <div className="grid grid-rows-[2fr_1fr] gap-4">
-            <NotePart
-              tourID={tourID as string}
-              role={role as "guide" | "client"}
-            />
-            <div className="border">asd</div>
-          </div>
-        </div>
 
-        <ClientPart role={role} tourID={tourID as string} /> */}
-
-        <div className="grid grid-cols-[2fr_1fr] mt-4 gap-4">
-          <div>
+        <div className="grid sm:grid-cols-[2fr_1fr]  mt-4 gap-4 ">
+          <div className="">
             <MeetupMap meetupCords={meetupCordsFinal as [number, number]} />
             <ClientPart
               name={name as string}
@@ -130,7 +118,7 @@ const page = async ({
           </div>
 
           <div
-            className={`grid ${
+            className={`grid  ${
               role === "customer" && "grid-rows-[1.5fr_1fr]"
             } gap-4`}
           >

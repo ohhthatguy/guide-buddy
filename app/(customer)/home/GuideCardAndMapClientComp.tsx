@@ -28,6 +28,7 @@ const GuideCardAndMapClientComp = ({
           `/api/user/activity/getActiveGuide?lat=${pos[0]}&lng=${pos[1]}`,
         );
         const data = await res.json();
+        console.log(data);
         console.log(data.data);
         setActiveGuides(data.data);
       } catch (error) {
@@ -41,17 +42,19 @@ const GuideCardAndMapClientComp = ({
 
   return (
     <div>
-      {activeGuides.length > 0 ? (
+      {
+        // activeGuides.length > 0 ? (
         selectedView == "list" ? (
           <GuideCard activeGuides={activeGuides} pos={pos} />
         ) : (
           <Map activeGuides={activeGuides} />
         )
-      ) : (
-        <div className="h-screen flex  justify-center items-center">
-          LOADINGGGGGGG
-        </div>
-      )}
+        // ) : (
+        //   <div className="h-screen flex  justify-center items-center">
+        //     LOADINGGGGGGG
+        //   </div>
+        // )
+      }
     </div>
   );
 };

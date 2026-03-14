@@ -11,9 +11,10 @@ const NotePart = async ({
 }) => {
   try {
     const updateQuery = await TourModel.findOne({ _id: tourID });
-
-    const data =
-      updateQuery?.guideNote ?? "NO EXTRA NOTE OR INSTRUCTION FROM GUIDE";
+    console.log(updateQuery);
+    console.log(
+      updateQuery?.guideNote || "NO EXTRA NOTE OR INSTRUCTION FROM GUIDE",
+    );
 
     return (
       <div className=" comp-bg rounded-md p-4 flex flex-col justify-between">
@@ -29,7 +30,7 @@ const NotePart = async ({
         </div>
 
         <div className=" flex-2 overflow-auto p-2 ele-bg my-2 italic">
-          {data}
+          {updateQuery?.guideNote || "NO EXTRA NOTE OR INSTRUCTION FROM GUIDE"}
         </div>
 
         {role == "guide" && <NotePartInput tourID={tourID} />}

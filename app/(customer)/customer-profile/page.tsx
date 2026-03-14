@@ -11,7 +11,8 @@ import ClientModel from "@/lib/database/Model/Client";
 import { paginationWithoutSkip } from "@/lib/helper/pagination";
 import Footer from "../component/Footer";
 // import ListViewHeader from "../component/ListViewHeader";
-import Header from "../component/Header";
+// import Header from "../component/Header";
+import Header from "../../(guide)/component/Header";
 
 export default async function TourPage({
   searchParams,
@@ -69,19 +70,18 @@ export default async function TourPage({
     const serializedTour = JSON.parse(JSON.stringify(tour));
     console.log(serializedTour);
     return (
-      <>
+      <div>
         <Header />
-
-        <main className="p-8 grid gap-4">
+        <div className="  ">
           <Profile tour={serializedTour[0]} />
           <Tours
             tour={serializedTour}
             page={page}
             TourItemCount={TourItemCount}
           />
-        </main>
+        </div>
         <Footer />
-      </>
+      </div>
     );
   } catch (error) {
     // This will be caught by error.tsx

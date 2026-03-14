@@ -157,7 +157,9 @@ const page = async ({
   return (
     <div
       className={`grid my-4 ${
-        role === "guide" ? "place-items-center" : "grid-cols-[2fr_1fr] mx-8"
+        role === "guide"
+          ? "place-items-center"
+          : "sm:grid-cols-[2fr_1fr] mx-4 sm:mx-8"
       }  gap-8`}
     >
       <ProfileSection

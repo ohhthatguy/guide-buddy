@@ -79,19 +79,20 @@ const ClientPart = async ({
 
     return (
       <div className="  grid grid-cols-[1fr_2fr] comp-bg rounded-md mt-4 p-2">
-        <div className="border-r border-r-amber-300 grid gap-2 place-items-center p-2">
-          <div className="w-32 h-32 rounded-full text-4xl ele-bg border-2 border-amber-300 flex justify-center items-center">
+        <div className="border-r border-r-amber-300 flex flex-col items-center justify-center gap-2 sm:gap-0">
+          {/* <div className="w-32 h-32 rounded-full text-4xl ele-bg border-2 border-amber-300 flex justify-center items-center"> */}
+          <div className="w-16 h-16 rounded-full text-2xl ele-bg border-2 border-amber-300 flex justify-center items-center ">
             {handleInitial(name)}
           </div>
 
-          <h4>{name}</h4>
+          <div className="text-[clamp(0.5rem,2vw+0.5rem,1.25rem)] ">{name}</div>
         </div>
 
-        <div className="grid grid-cols-2">
-          <div className="grid gap-4  pl-4">
+        <div className="grid grid-cols-2 px-2 ">
+          <div className="grid gap-4  ">
             <div>
               <label>Contact Info</label>
-              <div className="flex gap-4 mt-2">
+              <div className="flex gap-4 mt-2 ">
                 <Mail size={18} />
                 <div>{email}</div>
               </div>
@@ -120,10 +121,10 @@ const ClientPart = async ({
 
           {/* asd */}
 
-          <div>
+          {/* <div>
             <label>Last Experience</label>
             <p className="italic mt-2">"his review"</p>
-          </div>
+          </div> */}
         </div>
       </div>
     );

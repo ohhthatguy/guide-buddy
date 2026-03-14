@@ -4,7 +4,7 @@ import { Shield } from "lucide-react";
 const Certification = ({ certificationData }: { certificationData: any }) => {
   return (
     <div className="comp-bg my-4 p-4 grid gap-4 rounded-2xl">
-      <h3>Certification</h3>
+      <div className="text-[clamp(2rem,5vw+0.1rem,3rem)]">Certification</div>
 
       <div className="flex gap-4 flex-col">
         {certificationData.certifications.map((e: any, index: number) => (

@@ -64,16 +64,21 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full flex justify-between px-12 py-4 items-center comp-bg">
+    // <div className="w-full flex justify-between px-12 py-4 items-center comp-bg border border-red-500">
+    <div className="w-full flex justify-between  items-center comp-bg border border-red-500 ">
       <div
         onClick={handleLogoClick}
-        className="flex justify-center items-center gap-4"
+        className="flex justify-center items-center gap-4 cursor-pointer border border-red-500"
       >
         <MapIcon className="h-8 w-8" />
-        <section className="text-2xl ">Guideme</section>
+        {/* <section className="text-2xl ">Guideme</section> */}
+
+        {/* remove the guideme text and only show logo at small screen */}
+        {/* <section className="text-2xl ">Guideme</section>  */}
       </div>
 
-      <div className="flex justify-center items-center gap-8">
+      {/* <div className="flex justify-center items-center gap-8 border border-red-500"> */}
+      <div className="flex justify-center items-center sm:gap-8 border border-red-500">
         <ThemeToggle />
         <Settings className="h-12 w-12 p-2 rounded-full ele-bg" />
         <UserRound

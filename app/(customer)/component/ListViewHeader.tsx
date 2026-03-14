@@ -76,28 +76,28 @@ const ListViewHeader = () => {
   };
 
   return (
-    <div className="w-full  flex justify-between px-12 py-4 items-center ">
+    <div className="w-full px-2 flex justify-between  py-4 items-center ">
       <div
         onClick={handleLogoClick}
         className="flex justify-center items-center gap-4"
       >
         <MapIcon className="h-8 w-8" />
-        <section className="text-2xl ">Guideme</section>
+        {/* <section className="text-2xl ">Guideme</section> */}
       </div>
 
-      <div className="flex justify-center items-center gap-8">
+      <div className="flex justify-center items-center gap-4 sm:gap-8  ">
         <ThemeToggle />
         <MapPinned
           onClick={handleViewChange}
-          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+          className="h-8 w-8  rounded-full ele-bg hover:cursor-pointer"
         />
         <UserRound
           onClick={handleProfileCustomer}
-          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+          className="h-8 w-8  rounded-full ele-bg hover:cursor-pointer"
         />
         <LogOut
           onClick={handleLogout}
-          className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer"
+          className="h-8 w-8  rounded-full ele-bg hover:cursor-pointer"
         />
       </div>
     </div>

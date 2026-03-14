@@ -52,12 +52,12 @@ const UpperPart = ({
   };
 
   return (
-    <div className="w-full comp-bg p-4  rounded-2xl">
+    <div className=" comp-bg p-4 rounded-2xl ">
       <div className="grid grid-cols-[3fr_1fr] ">
         <div>
           <div className="flex gap-4">
             <div
-              className={`flex gap-2 items-center  rounded-xl text-sm p-1 ${
+              className={`flex gap-2 items-center  rounded-xl text-[clamp(0.5rem,3vw+0.1rem,0.7rem)] p-0.5 ${
                 statusState == "ACCEPTED"
                   ? "bg-green-200"
                   : statusState == "PENDING"
@@ -66,7 +66,7 @@ const UpperPart = ({
               } `}
             >
               <div
-                className={`w-4 h-4  rounded-xl text-sm p-1 ${
+                className={`w-2 h-2  rounded-xl text-sm p-1 ${
                   statusState == "ACCEPTED"
                     ? "bg-green-500"
                     : statusState == "PENDING"
@@ -76,22 +76,27 @@ const UpperPart = ({
               ></div>
               APPROVAL {statusState}
             </div>
-            <div>posted 2 hr ago</div>
           </div>
           <h2 className=" whitespace-break-spaces">{location}</h2>
+          <div>posted 2 hr ago</div>
         </div>
 
         <div className="flex gap-4  items-center justify-end">
           <div className="flex flex-col items-center">
             <label>Total</label>
-            <h2>${price}</h2>
+            <div className="text-bold text-[clamp(2rem,3vw+0.5rem,4rem)]">
+              ${price}
+            </div>
           </div>
         </div>
       </div>
-      <hr className="my-4" />
-      <div className="flex   justify-between">
-        <div className="flex gap-8  items-center">
-          <Calendar className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer" />
+      <hr className="my-4 border border-gray-200" />
+
+      <div className="flex flex-wrap gap-4 justify-between sm:justify-start  w-full ">
+        <div className="flex gap-4  items-center">
+          <div className=" p-2 rounded-2xl ele-bg hover:cursor-pointer  ">
+            <Calendar size={20} />
+          </div>
           <div>
             <label>Date</label>
             <div className="text-xl font-semibold text-[hsl(0,0%,15%)]">
@@ -100,36 +105,39 @@ const UpperPart = ({
           </div>
         </div>
 
-        <div className="flex gap-8 items-center">
-          <Clock4 className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer" />
-          <div>
-            <label>Start Time</label>
-            <div className="text-xl font-semibold text-[hsl(0,0%,15%)]">
-              {startTime}
+        <div className="flex gap-4 justify-between  w-full ">
+          <div className="flex gap-4 items-center ">
+            {/* <Clock4 className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer" /> */}
+            <div className=" p-2 rounded-2xl ele-bg hover:cursor-pointer  ">
+              <Clock4 size={20} />
+            </div>
+            <div>
+              <label>Start Time</label>
+              <div className="text-xl font-semibold text-[hsl(0,0%,15%)]">
+                {startTime}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-4 items-center ">
+            {/* <Hourglass className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer" />
+             */}
+
+            <div className=" p-2 rounded-2xl ele-bg hover:cursor-pointer  ">
+              <Hourglass size={20} />
+            </div>
+            <div>
+              <label>Duration</label>
+              <div className="text-xl font-semibold text-[hsl(0,0%,15%)]">
+                {duration} Hrs
+              </div>
             </div>
           </div>
         </div>
 
         <div className="flex gap-8 items-center">
-          <Hourglass className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer" />
-          <div>
-            <label>Duration</label>
-            <div className="text-xl font-semibold text-[hsl(0,0%,15%)]">
-              {duration} Hrs
-            </div>
-          </div>
-        </div>
-
-        <div className="flex gap-8 items-center">
-          {/* <Hourglass className="h-12 w-12 p-2 rounded-full ele-bg hover:cursor-pointer" />
-          <div>
-            <label>Duration</label>
-            <div className="text-xl font-semibold text-[hsl(0,0%,15%)]">
-              {duration} Hrs
-            </div>
-          </div> */}
-          {role == "guide" ? (
-            isLoading ? (
+          {role == "guide" &&
+            (isLoading ? (
               <div className="flex items-center justify-center">
                 <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
               </div>
@@ -186,13 +194,12 @@ const UpperPart = ({
 
                 <option value="REJECTED">REJECTED</option>
               </select>
-            )
-          ) : (
-            <div>{statusState}</div>
-          )}
+            ))}
         </div>
       </div>
     </div>
+
+    // <div className=" comp-bg p-4 border border-red-500 rounded-2xl ">asd</div>
   );
 };
 

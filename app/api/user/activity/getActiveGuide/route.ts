@@ -3,7 +3,7 @@ import GuideModel from "@/lib/database/Model/Guide";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const MAX_DISTANCE_IN_KM = 10;
+  const MAX_DISTANCE_IN_KM = 1000;
   try {
     await connectDB();
 
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
         msg: "Succesfully get allActiveGuideFetch(): ",
         data,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error fetching guides at getallguide():", error);
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
         msg: "failed to get allActiveGuideFetch(): ",
         error,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

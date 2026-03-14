@@ -5,7 +5,7 @@ const About = ({ aboutData }: { aboutData: any }) => {
   const { theme } = useTheme();
   return (
     <div className="comp-bg my-4 p-4 grid gap-4 rounded-2xl">
-      <h3>About</h3>
+      <div className="text-[clamp(2rem,5vw+0.1rem,3rem)]">About</div>
       <p className="text-xl">{aboutData.bio}</p>
 
       <div className="flex  ">
