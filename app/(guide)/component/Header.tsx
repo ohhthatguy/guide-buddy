@@ -65,10 +65,10 @@ const Header = () => {
 
   return (
     // <div className="w-full flex justify-between px-12 py-4 items-center comp-bg border border-red-500">
-    <div className="w-full flex justify-between  items-center comp-bg border border-red-500 ">
+    <div className="w-full flex justify-between  items-center comp-bg p-2">
       <div
         onClick={handleLogoClick}
-        className="flex justify-center items-center gap-4 cursor-pointer border border-red-500"
+        className="flex justify-center items-center gap-4 cursor-pointer "
       >
         <MapIcon className="h-8 w-8" />
         {/* <section className="text-2xl ">Guideme</section> */}
@@ -78,7 +78,7 @@ const Header = () => {
       </div>
 
       {/* <div className="flex justify-center items-center gap-8 border border-red-500"> */}
-      <div className="flex justify-center items-center sm:gap-8 border border-red-500">
+      <div className="flex justify-center items-center gap-4 sm:gap-8">
         <ThemeToggle />
         <Settings className="h-12 w-12 p-2 rounded-full ele-bg" />
         <UserRound

@@ -15,7 +15,7 @@ const page = async ({
     page = "1";
   }
   return (
-    <div className="mx-8">
+    <div className="mx-2 sm:mx-6">
       <IntroPart />
 
       <GuideCards />

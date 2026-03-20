@@ -43,7 +43,7 @@ const Tours = ({
                   </Link>
                 </div>
               ) : (
-                <div className="grid grid-cols-[5%_95%] p-4  gap-6 mb-4 rounded-md ele-bg ">
+                <div className="grid grid-cols-[5%_95%] pt-4 px-4  gap-6 mb-4 rounded-md ele-bg ">
                   <div>
                     <Calendar size={44} className="p-2 rounded-md comp-bg" />
                   </div>
@@ -100,10 +100,10 @@ const Tours = ({
                         </div>
 
                         <div
-                          className={` rounded-xl text-sm p-1 text-center  flex justify-center items-center`}
+                          className={` rounded-xl text-sm mt-2 text-center  flex justify-center items-center`}
                         >
                           <div
-                            className={` rounded-xl w-full sm:w-44 ${
+                            className={` rounded-xl w-full sm:w-44 p-1 ${
                               e.status == "ACCEPTED"
                                 ? "bg-green-500"
                                 : e.status == "PENDING"

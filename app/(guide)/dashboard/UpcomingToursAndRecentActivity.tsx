@@ -152,7 +152,7 @@ const UpcomingToursAndRecentActivity = async ({ page }: { page: string }) => {
   } = await getData(page);
 
   return (
-    <div className="grid grid-cols-[2fr_1fr]  items-start mt-4 gap-4  ">
+    <div className="grid sm:grid-cols-[2fr_1fr]  items-start mt-4 gap-4  ">
       {!serializedTour || serializedTour.length === 0 ? (
         <p>No recent activity</p>
       ) : (

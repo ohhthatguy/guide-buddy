@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Calendar, Clock, MapPin } from "lucide-react";
+import { Calendar, Clock, MapPin, Eye } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { setTourId } from "@/lib/feature/guide/upcomingAndRecentTourConnection";
 import type { TourDataType } from "../guide-profile/type/type";
@@ -90,28 +90,48 @@ const UpcomingToursClientComp = ({
        border-2 rounded-lg 
       `}
         >
-          <Link
-            href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`}
+          <div
             className={` ${
               e._id === selectedTourId && " border-blue-500"
-            } grid grid-cols-[5%_95%] p-4  gap-4 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500`}
+            } grid grid-cols-[5%_95%]  p-2  gap-6 mb-4 rounded-md ele-bg hover:cursor-pointer  hover:shadow-md shadow-xs hover:scale-[1.01] scale-100 transition-all duration-500`}
           >
-            <div>
+            <div className="">
               <Calendar size={44} className="p-2 rounded-md comp-bg" />
             </div>
 
-            <div className="grid gap-1 px-4">
+            <div className="grid gap-1 px-4 ">
               <div className="flex justify-between ">
-                <div className="font-semibold">{e.location}</div>
-                <div className="font-medium">{e.price}</div>
+                <div className=" leading-tight">
+                  <div className="font-semibold">{e.location}</div>
+
+                  <div className="text-[clamp(0.8rem,0.3vw+0.01rem,2rem)] ">
+                    {e.client.name}
+                  </div>
+                </div>
+                <div className="font-medium flex gap-2">
+                  <span>{e.price}</span>
+                  <Link
+                    href={`/tour-details?location=${e.location}&price=${e.price}&date=${e.date}&duration=${e.duration}&startTime=${e.time.startTime}&status=${e.status}&meetup=${e.meetup_location.coordinates}&clientName=${e.client.name}&clientId=${e.client.id}&tourID=${e._id}`}
+                    className="grid grid-cols-[5%_95%] rounded-md ele-bg hover:cursor-pointer  hover:text-green-800 shadow-xs hover:scale-[1.1] scale-100 transition-all duration-500"
+                  >
+                    <Eye />
+                  </Link>
+                </div>
               </div>
 
-              <div className="flex justify-between items-center">
-                <div>
-                  <div>
-                    <div>{e.client.name}</div>
-                  </div>
-                  <div className="flex gap-4">
+              <div className="flex flex-col gap-2 my-2 ">
+                <div className="">
+                  <Link
+                    href={`/guide-profile/${e.guide.id}?tourId=${e._id}&date=${e.date}&startTime=${e.time.startTime}&endTime=${e.time.endTime}&location=${e.location}&duration=${e.duration}&meetup=${e.meetup_location.coordinates}&page=1`}
+                    className="hover:cursor-pointer hover:text-white hover:bg-black"
+                  >
+                    Guide: {e.guide.name}
+                  </Link>
+                </div>
+
+                {/* <div className="sm:flex gap-8 sm:justify-between  border"> */}
+                <div className=" gap-8  ">
+                  <div className="flex flex-wrap gap-2 sm:flex-1  justify-between sm:justify-start sm:gap-4">
                     <div className="flex gap-1 items-center">
                       {" "}
                       <Calendar size={18} />{" "}
@@ -130,23 +150,27 @@ const UpcomingToursClientComp = ({
                       <MapPin size={18} /> <div>{e.location}</div>
                     </div>
                   </div>
-                </div>
 
-                {/* <BookingStatus e={e} /> */}
-                <div
-                  className={`border rounded-xl text-sm p-1 ${
-                    e.status == "ACCEPTED"
-                      ? "bg-green-500"
-                      : e.status == "PENDING"
-                        ? "bg-amber-400"
-                        : "bg-red-500"
-                  }`}
-                >
-                  {e.status}
+                  <div
+                    className={` rounded-xl text-sm mt-2 text-center  flex justify-start items-center `}
+                  >
+                    <div
+                      className={` rounded-xl w-full md:w-44 p-1 ${
+                        e.status == "ACCEPTED"
+                          ? "bg-green-500"
+                          : e.status == "PENDING"
+                            ? "bg-amber-400"
+                            : "bg-red-500"
+                      }`}
+                    >
+                      {" "}
+                      {e.status}{" "}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
 
           {!isFinalPage(page, TourItemCount) && length - 1 == index && (
             <div

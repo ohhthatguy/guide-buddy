@@ -18,14 +18,14 @@ const UpcomingTours = async ({
   try {
     console.log("upcoming tour: ", serializedTour);
     return (
-      <div className=" p-4 comp-bg rounded-2xl   ">
+      <div className="  p-4 comp-bg rounded-2xl   ">
         <div className="mb-4">
           <h4>Upcoming Tours</h4>
           <p>Your scheduled tours for the next few days: </p>
         </div>
 
         <div
-          className="overflow-auto px-4 h-[50vh] 
+          className="overflow-auto  h-[50vh] 
         "
         >
           {serializedTour?.length > 0 ? (

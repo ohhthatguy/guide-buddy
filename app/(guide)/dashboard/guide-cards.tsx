@@ -80,18 +80,21 @@ const GuideCards = () => {
   }, []);
 
   return (
-    <div className="flex justify-between gap-4">
+    // <div className="flex flex-wrap justify-between gap-4">
+    <div className="grid grid-rows-3 grid-cols-2  min-[500px]:flex min-[500px]:flex-wrap  min-[500px]:justify-between  gap-4  ">
       {stats?.map((e: StatCard, index: number) => {
         const Icon = e.icon;
 
         return (
-          <div key={index} className="comp-bg p-8 rounded-md flex-1 ">
+          <div
+            key={index}
+            className={`p-4 rounded-md flex-1 comp-bg min-w-36  ${e.title === "Total Earnings" || e.title === "Completion Rate" ? " col-span-2" : "col-span-1 "}  `}
+          >
             <div className="flex justify-between mb-4 items-center">
               <Icon
                 size={56}
                 className={`p-2 rounded-md ${e.bgColor} ${e.color} `}
               />
-              <div className="font-medium text-xl">{e.value}</div>
             </div>
 
             <div>
@@ -102,7 +105,7 @@ const GuideCards = () => {
               >
                 {e.title}
               </div>
-              <div className="font-medium text-3xl">{e.value}</div>
+              <div className="font-medium text-3xl text-right">{e.value}</div>
             </div>
           </div>
         );
