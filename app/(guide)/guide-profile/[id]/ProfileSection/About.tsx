@@ -8,8 +8,8 @@ const About = ({ aboutData }: { aboutData: any }) => {
       <div className="text-[clamp(2rem,5vw+0.1rem,3rem)]">About</div>
       <p className="text-xl">{aboutData.bio}</p>
 
-      <div className="flex  flex-wrap">
-        <div className="flex-1">
+      <div className="flex gap-2 flex-wrap ">
+        <div className="flex-1 ">
           <p
             className={`mb-1   ${
               theme == "light" ? "text-gray-700" : "text-gray-400"
@@ -23,7 +23,7 @@ const About = ({ aboutData }: { aboutData: any }) => {
             </span>
           </div>
         </div>
-        <div className="flex-2 ">
+        <div className="flex-2  ">
           <p
             className={`mb-1  ${
               theme == "light" ? "text-gray-700" : "text-gray-400"

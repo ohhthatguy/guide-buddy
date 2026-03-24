@@ -38,7 +38,7 @@ const Profile = ({
   }, [pos]);
 
   return (
-    <div className="  comp-bg p-2 rounded-2xl ">
+    <div className=" sm:flex-1 sm:grid comp-bg p-2 rounded-2xl ">
       <div className="flex justify-center items-center flex-1 ">
         <div className=" relative">
           <img

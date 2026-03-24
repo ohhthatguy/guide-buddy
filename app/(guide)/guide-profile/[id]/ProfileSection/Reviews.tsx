@@ -141,7 +141,7 @@ const Reviews = ({
   };
 
   return (
-    <div className="comp-bg p-4 rounded-2xl">
+    <div className="comp-bg p-4 rounded-2xl sm:flex-6 w-full">
       <div
         ref={reviewRef}
         className="mb-4 text-[clamp(2rem,5vw+0.1rem,3rem)] flex items-center gap-2"
@@ -152,7 +152,7 @@ const Reviews = ({
         </span>
       </div>
 
-      <div className=" h-[60vh] overflow-auto px-4">
+      <div className=" h-[60vh] overflow-auto ">
         {review ? (
           review?.map((e: ReviewTypeFromBackend, index) => (
             <div key={index}>

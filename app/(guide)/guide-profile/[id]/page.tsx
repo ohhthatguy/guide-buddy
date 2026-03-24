@@ -156,11 +156,7 @@ const page = async ({
 
   return (
     <div
-      className={`grid my-4 ${
-        role === "guide"
-          ? "place-items-center"
-          : "sm:grid-cols-[2fr_1fr] mx-4 sm:mx-8"
-      }  gap-8`}
+      className={`grid my-4 mx-2 gap-8  ${role === "customer" ? "sm:grid-cols-[2fr_1fr] sm:mx-8" : "md:mx-8"}`}
     >
       <ProfileSection
         data={selectedData}

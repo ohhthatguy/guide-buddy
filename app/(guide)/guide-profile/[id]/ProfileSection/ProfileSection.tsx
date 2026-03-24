@@ -18,7 +18,7 @@ const ProfileSection = ({
 }) => {
   const omit = <T extends object, K extends (keyof T)[]>(
     data: T,
-    keys: K
+    keys: K,
   ): Omit<T, K[number]> => {
     const result = { ...data };
     keys.forEach((key) => {
@@ -70,13 +70,18 @@ const ProfileSection = ({
   // console.log(certificationData);
 
   return (
-    <div className={`${role === "guide" && " w-10/11"}`}>
-      <Profile profileData={profileData} location={location} />
+    <div
+      className={` ${role === "guide" && "sm:flex sm:flex-wrap sm:gap-4 sm:flex-col "} `}
+      // className=""
+    >
       <div
-        className={`${role === "guide" && "grid grid-cols-[1fr_1fr] gap-4"}`}
+        className={` ${role === "guide" && "sm:flex sm:flex-wrap sm:gap-4 sm:items-stretch  "} `}
       >
-        <About aboutData={aboutData} />
-        <Certification certificationData={certificationData} />
+        <Profile profileData={profileData} location={location} />
+        <div className={` ${role === "guide" && "sm:flex-1"} `}>
+          <About aboutData={aboutData} />
+          <Certification certificationData={certificationData} />
+        </div>
       </div>
       <Reviews
         id={id}

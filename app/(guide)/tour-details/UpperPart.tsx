@@ -52,8 +52,63 @@ const UpperPart = ({
   };
 
   return (
-    <div className=" comp-bg p-4 rounded-2xl ">
-      <div className="grid grid-cols-[3fr_1fr] ">
+    <div
+      className={` comp-bg p-4 rounded-2xl  border-l-4 ${
+        statusState == "ACCEPTED"
+          ? "border-l-green-500"
+          : statusState == "PENDING"
+            ? "border-l-amber-500"
+            : "border-l-red-500"
+      } `}
+    >
+      <div className="flex gap-4">
+        <div
+          className={`flex gap-2 items-center  rounded-xl text-[clamp(0.5rem,3vw+0.1rem,0.7rem)] p-0.5 ${
+            statusState == "ACCEPTED"
+              ? "bg-green-200"
+              : statusState == "PENDING"
+                ? "bg-amber-200"
+                : "bg-red-200"
+          } `}
+        >
+          <div
+            className={`w-2 h-2  rounded-xl text-sm p-1 ${
+              statusState == "ACCEPTED"
+                ? "bg-green-500"
+                : statusState == "PENDING"
+                  ? "bg-amber-400"
+                  : "bg-red-500"
+            } rounded-full `}
+          ></div>
+          APPROVAL {statusState}
+        </div>
+      </div>
+      {/* <div className="grid gap-2 grid-cols-[1fr_2fr] mt-2 place-items-start"> */}
+      <div className="flex gap-2 mt-2 place-items-start">
+        <div className="  mt-2  sm:w-min flex justify-center ">
+          <Calendar size={64} />
+        </div>
+        {/* <div>
+          <h2 className=" whitespace-break-spaces">{location}</h2>
+
+          <div>posted 2 hr ago</div>
+        </div> */}
+
+        <div className="">
+          <div className=" mt-2 text-[clamp(1.9rem,3vw+0.2rem,2rem)] whitespace-break-spaces leading-tight font-bold">
+            {location}
+          </div>
+
+          <div className="mt-2 leading-tight">
+            <div className=" text-gray-500 ">TOTAL</div>
+            <div className="text-bold text-[clamp(2rem,3vw+0.5rem,4rem)] text-orange-700 font-semibold">
+              ${price}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="grid grid-cols-[3fr_1fr] border">
         <div>
           <div className="flex gap-4">
             <div
@@ -77,7 +132,9 @@ const UpperPart = ({
               APPROVAL {statusState}
             </div>
           </div>
+
           <h2 className=" whitespace-break-spaces">{location}</h2>
+          
           <div>posted 2 hr ago</div>
         </div>
 
@@ -89,7 +146,8 @@ const UpperPart = ({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+
       <hr className="my-4 border border-gray-200" />
 
       <div className="flex flex-wrap gap-4 justify-between sm:justify-start  w-full ">
@@ -204,3 +262,15 @@ const UpperPart = ({
 };
 
 export default UpperPart;
+
+// evalutaion letter
+
+// about company : guys has writeen (authrized capital of Rs. 20 Million and an issued capital of Rs. 12 Million.),
+//   working structured, people involved, hierachy, .
+//   in infosys webiste, testo ramri chaina CEO and CTo ko kasko under ma testo chiina, just dev, businerss head yini harucha
+
+//   ani core product ma k rakhda hola ? kasto type ko product vanera?
+
+//   ani mailey euta MERN ma tourist ra guide lai conenct garni website (like pathao but for guide and tourist)
+//    BanknoteArrowDown, ame guideBudyy,
+//   tesko barema vanda thik hola hai Sir, i could say it is still in dev vanera ?
