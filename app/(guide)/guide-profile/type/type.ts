@@ -3,7 +3,7 @@ export type GuideType = {
   name: string;
   rating: number;
   reviews: number;
-  speciality: string;
+  speciality: string | string[];
   hourlyRate: number;
   profileURL: string;
   available: boolean;

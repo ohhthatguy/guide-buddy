@@ -77,7 +77,7 @@ const ProfileSection = ({
       <div
         className={` ${role === "guide" && "sm:flex sm:flex-wrap sm:gap-4 sm:items-stretch  "} `}
       >
-        <Profile profileData={profileData} location={location} />
+        <Profile profileData={profileData} location={location} data={data} />
         <div className={` ${role === "guide" && "sm:flex-1"} `}>
           <About aboutData={aboutData} />
           <Certification certificationData={certificationData} />

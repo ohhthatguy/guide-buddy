@@ -136,7 +136,9 @@ const page = async ({
     name: rawGuide.guideId?.name || "Unknown Guide",
     rating: rawGuide.rating || 0,
     reviews: rawGuide.reviews || 0, // Ensure this exists in your DB or default to 0
-    speciality: rawGuide.speciality?.[0] || "General Guide", // Extracts first item from array
+    // speciality: rawGuide.speciality?.[0] || "General Guide", // Extracts first item from array
+    speciality: rawGuide.speciality || ["General Guide"], // Extracts first item from array
+
     hourlyRate: rawGuide.hourlyRate,
     profileURL:
       rawGuide.profileURL ||

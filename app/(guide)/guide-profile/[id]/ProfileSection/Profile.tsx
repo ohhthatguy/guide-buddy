@@ -1,22 +1,26 @@
 "use client";
-import { MapPin, Star, ClipboardList, Clock, Award } from "lucide-react";
+import { MapPin, Star, Pen, Clock, Award, MoveLeft } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
   useGetCurrentPosition,
   distanceFromThisToMe,
 } from "@/lib/helper/useGetCurrentPosition";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import GuideEditForm from "@/app/(guide)/component/GuideEditForm";
 
 const Profile = ({
   profileData,
   location,
+  data,
 }: {
   profileData: any;
   location: [number, number];
+  data: any;
 }) => {
   console.log(profileData);
   const { theme } = useTheme();
   const [distance, setDistance] = useState(0);
+  const modalBtn = useRef<HTMLDialogElement | null>(null);
 
   const pos = useGetCurrentPosition();
   useEffect(() => {
@@ -39,7 +43,13 @@ const Profile = ({
 
   return (
     <div className=" sm:flex-1 sm:grid comp-bg p-2 rounded-2xl ">
-      <div className="flex justify-center items-center flex-1 ">
+      <div className="flex relative justify-center items-center flex-1  ">
+        <div
+          className="absolute top-6 right-2"
+          onClick={() => modalBtn.current?.showModal()}
+        >
+          <Pen className="hover:cursor-pointer scale-100  hover:fill-yellow-500 hover:scale-90 hover:duration-200 hover:transition-all" />
+        </div>
         <div className=" relative">
           <img
             src={profileData.profileURL}
@@ -62,15 +72,20 @@ const Profile = ({
             </p>
           </div>
           <p className="flex items-center gap-2 mb-1">
-            <span
-              className={`text-md ${
-                theme == "dark"
-                  ? "text-gray-400 font-semibold"
-                  : "text-gray-800 font-semibold"
-              }`}
-            >
-              {profileData.speciality}
-            </span>
+            {profileData.speciality.map((e: string, index: number) => (
+              <span
+                key={index}
+                className={`text-md ${
+                  theme == "dark"
+                    ? "text-gray-400 font-semibold"
+                    : "text-gray-800 font-semibold"
+                }`}
+              >
+                {/* 0 1 2 3  */}
+                {e}
+                {profileData.speciality.length - index > 1 && <span>,</span>}
+              </span>
+            ))}
           </p>
         </div>
         <div className="grid grid-cols-2 gap-4 place-items-center ">
@@ -132,6 +147,17 @@ const Profile = ({
           </div>
         </div>
       </div>
+
+      <dialog ref={modalBtn} className="m-auto  rounded-lg p-2">
+        <div className="flex gap-8   py-4 px-1 ele-bg">
+          <MoveLeft
+            className="hover:cursor-pointer"
+            onClick={() => modalBtn.current?.close()}
+          />
+          <div>Edit Profile</div>
+        </div>
+        <GuideEditForm data={data} modalBtn={modalBtn} />
+      </dialog>
     </div>
   );
 };

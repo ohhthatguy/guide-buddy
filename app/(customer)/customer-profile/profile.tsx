@@ -1,19 +1,17 @@
 "use client";
-import {
-  MapPin,
-  Star,
-  ClipboardList,
-  Clock,
-  Award,
-  Phone,
-  Languages,
-} from "lucide-react";
+import { Phone, Languages, Pen, MoveLeft } from "lucide-react";
 import { useTheme } from "next-themes";
 import type { TourDataType } from "@/app/(guide)/guide-profile/type/type";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import CustomerEditForm from "./edit-comp/CustomerEditForm";
 
 const Profile = ({ tour }: { tour: TourDataType }) => {
   const [clientData, setClientData] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCustomerDataUpdated, setIsCustomerDataUpdated] =
+    useState<boolean>(false);
+
+  const modalBtn = useRef<HTMLDialogElement | null>(null);
 
   useEffect(() => {
     const getClientDetails = async () => {
@@ -51,7 +49,7 @@ const Profile = ({ tour }: { tour: TourDataType }) => {
       }
     };
     getClientDetails();
-  }, []);
+  }, [isCustomerDataUpdated]);
 
   console.log(tour);
 
@@ -65,18 +63,21 @@ const Profile = ({ tour }: { tour: TourDataType }) => {
         /> */}
 
         <img
-          src="https://picsum.photos/400"
+          src={clientData?.profileURL}
           className="object-cover object-top rounded-full h-32 w-32 md:h-48 md:w-48"
           alt="Profile"
         />
       </div>
 
       <div className="ele-bg rounded-2xl p-4 flex-2 flex flex-col gap-2 ">
-        <div>
-          {" "}
+        <div className="flex justify-between ">
           <div className="mb-4">
             <p className="text-4xl font-medium">{tour.client.name}</p>
             <p className=" font-medium">{clientData?.bio || "default bio"}</p>
+          </div>
+
+          <div className="mt-2 " onClick={() => modalBtn.current?.showModal()}>
+            <Pen className="hover:cursor-pointer scale-100  hover:fill-yellow-500 hover:scale-90 hover:duration-200 hover:transition-all" />
           </div>
         </div>
 
@@ -109,6 +110,26 @@ const Profile = ({ tour }: { tour: TourDataType }) => {
           </div>
         </div>
       </div>
+
+      <dialog ref={modalBtn} className="m-auto  rounded-lg p-2">
+        <div className="flex gap-8   py-4 px-1 ele-bg">
+          <MoveLeft
+            className="hover:cursor-pointer"
+            onClick={() => modalBtn.current?.close()}
+          />
+          <div>Edit Profile</div>
+        </div>
+        <CustomerEditForm
+          name={tour.client.name}
+          contact={clientData?.phone}
+          bio={clientData?.bio}
+          languages={clientData?.languages}
+          _id={clientData?._id}
+          profileURL={clientData?.profileURL}
+          setIsCustomerDataUpdated={setIsCustomerDataUpdated}
+          modalBtn={modalBtn}
+        />
+      </dialog>
     </div>
   );
 };

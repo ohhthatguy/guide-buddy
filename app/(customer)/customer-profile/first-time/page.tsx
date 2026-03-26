@@ -11,18 +11,6 @@ import Footer from "../../component/Footer";
 const page = () => {
   const router = useRouter();
 
-  // const handleInputDataChange = (
-  //   e:
-  //     | ChangeEvent<HTMLInputElement>
-  //     | ChangeEvent<HTMLSelectElement>
-  //     | ChangeEvent<HTMLTextAreaElement>
-  // ) => {
-  //   setClientRemainingData((prev) => ({
-  //     ...prev,
-  //     [e.target.name]: e.target.value,
-  //   }));
-  // };
-
   const {
     handleSubmit,
     control,
