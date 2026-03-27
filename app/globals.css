@@ -22,6 +22,10 @@
   --gradient: linear-gradient(0deg, var(--bg), hsl(0, 0%, 100%));
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer utilities {
   .subtitle {
     line-height: 2em;
