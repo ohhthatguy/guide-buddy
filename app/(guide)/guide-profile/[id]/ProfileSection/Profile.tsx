@@ -12,10 +12,12 @@ const Profile = ({
   profileData,
   location,
   data,
+  role,
 }: {
   profileData: any;
   location: [number, number];
   data: any;
+  role: "guide" | "customer";
 }) => {
   console.log(profileData);
   const { theme } = useTheme();
@@ -45,7 +47,7 @@ const Profile = ({
     <div className=" sm:flex-1 sm:grid comp-bg p-2 rounded-2xl ">
       <div className="flex relative justify-center items-center flex-1  ">
         <div
-          className="absolute top-6 right-2"
+          className={`absolute top-6 right-2 ${role === "guide" ? "block" : "hidden"}`}
           onClick={() => modalBtn.current?.showModal()}
         >
           <Pen className="hover:cursor-pointer scale-100  hover:fill-yellow-500 hover:scale-90 hover:duration-200 hover:transition-all" />

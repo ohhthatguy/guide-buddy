@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { loginZodSchema } from "@/lib/zodSchema/authSchema";
+import { useRef } from "react";
 
 const page = () => {
   const router = useRouter();
@@ -27,6 +28,7 @@ const page = () => {
     resolver: zodResolver(loginZodSchema),
     defaultValues: initloginData,
   });
+  const modalBtn = useRef<HTMLDialogElement | null>(null);
 
   const handleLogin: SubmitHandler<loginType> = async (loginData) => {
     console.log(loginData);
@@ -66,7 +68,17 @@ const page = () => {
     <>
       <div className=" flex justify-center items-center p-8">
         <div className="comp-bg rounded-2xl w-xl p-8 ">
-          <h3 className="text-center">Welcome back</h3>
+          <div>
+            <h3 className="text-center">Welcome back</h3>
+            <div className="text-right">
+              <button
+                onClick={() => modalBtn.current?.showModal()}
+                className="p-2 bg-blue-700 rounded-md text-white hover:cursor-pointer hover:scale-105 scale-100 duration-300 transition-all"
+              >
+                Guest Mode
+              </button>
+            </div>
+          </div>
 
           {/* 1. Use a proper form tag */}
           <form onSubmit={handleSubmit(handleLogin)} className="my-4">
@@ -127,6 +139,33 @@ const page = () => {
           </p>
         </div>
       </div>
+
+      <dialog
+        ref={modalBtn}
+        className="m-auto w-8/12 relative comp-bg rounded-lg p-4"
+      >
+        <button
+          onClick={() => modalBtn.current?.close()}
+          className="absolute right-1 w-12 top-1 p-2 bg-blue-700 rounded-md text-white hover:cursor-pointer hover:scale-105 scale-100 duration-300 transition-all"
+        >
+          X
+        </button>
+        <div className="grid gap-4  bg-comp-bg p-4 ele-bg">
+          <div>
+            <div className="text-3xl  font-bold">GUIDE</div>
+
+            <div className="text-2xl">email: guidedai@gmail.com</div>
+            <div className="text-2xl">password: guide</div>
+          </div>
+
+          <div>
+            <div className="text-3xl  font-bold">TOURIST</div>
+
+            <div className="text-2xl">email: customer@.com</div>
+            <div className="text-2xl">password: customer</div>
+          </div>
+        </div>
+      </dialog>
     </>
   );
 };

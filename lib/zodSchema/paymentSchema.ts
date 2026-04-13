@@ -25,5 +25,3 @@ export const paymentSchema = z
       path: ["meetup_location"],
     },
   );
-
-//9806754495

@@ -262,15 +262,3 @@ const UpperPart = ({
 };
 
 export default UpperPart;
-
-// evalutaion letter
-
-// about company : guys has writeen (authrized capital of Rs. 20 Million and an issued capital of Rs. 12 Million.),
-//   working structured, people involved, hierachy, .
-//   in infosys webiste, testo ramri chaina CEO and CTo ko kasko under ma testo chiina, just dev, businerss head yini harucha
-
-//   ani core product ma k rakhda hola ? kasto type ko product vanera?
-
-//   ani mailey euta MERN ma tourist ra guide lai conenct garni website (like pathao but for guide and tourist)
-//    BanknoteArrowDown, ame guideBudyy,
-//   tesko barema vanda thik hola hai Sir, i could say it is still in dev vanera ?

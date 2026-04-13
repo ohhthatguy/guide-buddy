@@ -2,7 +2,6 @@
 
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-// import Button from "../../component/Button/page";
 import type { AccountType } from "../type/type";
 import Button from "../../../component/Button/page";
 
